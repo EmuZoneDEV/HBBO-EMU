@@ -3,10 +3,10 @@
     class ReceiveBadgeComposer : ServerPacket
     {
         public ReceiveBadgeComposer(string BadgeCode)
-            : base(ServerPacketHeader.ReceiveBadgeMessageComposer)
+            : base(ServerPacketHeader.AddUserBadgeComposer)
         {
-            base.WriteInteger(1);
-            base.WriteString(BadgeCode);
+            WriteInteger(1);
+            WriteString(BadgeCode);
         }
     }
 }

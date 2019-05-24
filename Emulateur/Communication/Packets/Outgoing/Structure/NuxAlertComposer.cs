@@ -5,7 +5,7 @@
         public NuxAlertComposer(string Message)
             : base(ServerPacketHeader.NuxAlertMessageComposer)
         {
-            base.WriteString(Message);
+            WriteString(Message);
         }
 
     }

@@ -8,16 +8,16 @@
             int DisplayMonths = 0;
             int DisplayDays = 0;
 
-            base.WriteString("habbo_club");
-            base.WriteInteger(DisplayDays);
-            base.WriteInteger(2);
-            base.WriteInteger(DisplayMonths);
-            base.WriteInteger(1);
-            base.WriteBoolean(true); // hc
-            base.WriteBoolean(true); // vip
-            base.WriteInteger(0);
-            base.WriteInteger(0);
-            base.WriteInteger(495);
+            WriteString("habbo_club");
+            WriteInteger(DisplayDays);
+            WriteInteger(2);
+            WriteInteger(DisplayMonths);
+            WriteInteger(1);
+            WriteBoolean(true); // hc
+            WriteBoolean(true); // vip
+            WriteInteger(0);
+            WriteInteger(0);
+            WriteInteger(495);
         }
     }
 }

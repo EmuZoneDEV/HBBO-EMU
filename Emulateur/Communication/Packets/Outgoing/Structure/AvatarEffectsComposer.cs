@@ -7,16 +7,16 @@ namespace Butterfly.Communication.Packets.Outgoing.Structure
         public AvatarEffectsComposer(List<int> Enable)
             : base(ServerPacketHeader.AvatarEffectsMessageComposer)
         {
-            base.WriteInteger(Enable.Count);
+            WriteInteger(Enable.Count);
 
             foreach (int EffectId in Enable)
             {
-                base.WriteInteger(EffectId);//Effect Id
-                base.WriteInteger(1);//Type, 0 = Hand, 1 = Full
-                base.WriteInteger(0);
-                base.WriteInteger(1);
-                base.WriteInteger(-1);
-                base.WriteBoolean(true);//Permanent
+                WriteInteger(EffectId);//Effect Id
+                WriteInteger(1);//Type, 0 = Hand, 1 = Full
+                WriteInteger(0);
+                WriteInteger(1);
+                WriteInteger(-1);
+                WriteBoolean(true);//Permanent
             }
         }
     }

@@ -3,7 +3,7 @@ namespace Butterfly.Communication.Packets.Outgoing.Structure
     class UpdateFreezeLives : ServerPacket
     {
         public UpdateFreezeLives()
-            : base(ServerPacketHeader.UpdateFreezeLives)
+            : base(ServerPacketHeader.FreezeLivesComposer)
         {
 			
         }

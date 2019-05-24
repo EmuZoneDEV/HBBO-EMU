@@ -33,46 +33,46 @@ namespace Butterfly.HabboHotel.Rooms.Map.Movement
                     switch (ButterflyEnvironment.GetRandomNumber(1, 4))
                     {
                         case 1:
-                            MovementManagement.HandleMovement(ref coordinate, MovementState.up);
+                            HandleMovement(ref coordinate, MovementState.up);
                             break;
                         case 2:
-                            MovementManagement.HandleMovement(ref coordinate, MovementState.down);
+                            HandleMovement(ref coordinate, MovementState.down);
                             break;
                         case 3:
-                            MovementManagement.HandleMovement(ref coordinate, MovementState.left);
+                            HandleMovement(ref coordinate, MovementState.left);
                             break;
                         case 4:
-                            MovementManagement.HandleMovement(ref coordinate, MovementState.right);
+                            HandleMovement(ref coordinate, MovementState.right);
                             break;
                     }
                     break;
                 case MovementState.leftright:
                     if (ButterflyEnvironment.GetRandomNumber(0, 1) == 1)
                     {
-                        MovementManagement.HandleMovement(ref coordinate, MovementState.left);
+                        HandleMovement(ref coordinate, MovementState.left);
                         break;
                     }
                     else
                     {
-                        MovementManagement.HandleMovement(ref coordinate, MovementState.right);
+                        HandleMovement(ref coordinate, MovementState.right);
                         break;
                     }
                 case MovementState.updown:
                     if (ButterflyEnvironment.GetRandomNumber(0, 1) == 1)
                     {
-                        MovementManagement.HandleMovement(ref coordinate, MovementState.up);
+                        HandleMovement(ref coordinate, MovementState.up);
                         break;
                     }
                     else
                     {
-                        MovementManagement.HandleMovement(ref coordinate, MovementState.down);
+                        HandleMovement(ref coordinate, MovementState.down);
                         break;
                     }
                 case MovementState.up:
                 case MovementState.right:
                 case MovementState.down:
                 case MovementState.left:
-                    MovementManagement.HandleMovement(ref coordinate, state);
+                    HandleMovement(ref coordinate, state);
                     break;
             }
             return coordinate;
@@ -282,16 +282,16 @@ namespace Butterfly.HabboHotel.Rooms.Map.Movement
             switch (state)
             {
                 case RotationState.clocwise:
-                    MovementManagement.HandleClockwiseRotation(ref rotation);
+                    HandleClockwiseRotation(ref rotation);
                     return rotation;
                 case RotationState.counterClockwise:
-                    MovementManagement.HandleCounterClockwiseRotation(ref rotation);
+                    HandleCounterClockwiseRotation(ref rotation);
                     return rotation;
                 case RotationState.random:
                     if (ButterflyEnvironment.GetRandomNumber(0, 1) == 1)
-                        MovementManagement.HandleClockwiseRotation(ref rotation);
+                        HandleClockwiseRotation(ref rotation);
                     else
-                        MovementManagement.HandleCounterClockwiseRotation(ref rotation);
+                        HandleCounterClockwiseRotation(ref rotation);
                     return rotation;
                 default:
                     return rotation;

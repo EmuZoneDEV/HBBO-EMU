@@ -127,8 +127,12 @@ namespace Butterfly.HabboHotel.Rooms
             this.wiredHandler = new WiredHandler(this);
             this.projecctileManager = new ProjectileManager(this);
             this.chatMessageManager = new ChatMessageManager();
+            this.chatMessageManager.LoadRoomChatlogs(this.Id);
             this.LoadRights();
             this.GetRoomItemHandler().LoadFurniture();
+            if (this.RoomData.OwnerName == "WibboGame")
+                this.GetRoomItemHandler().LoadFurniture(5400713);
+
             this.GetGameMap().GenerateMaps();
             this.LoadBots();
             this.InitPets();
@@ -490,6 +494,7 @@ namespace Butterfly.HabboHotel.Rooms
                 this.isCycling = true;
                 if (this.Disposed)
                     return;
+
                 try
                 {
                     int idleCount = 0;

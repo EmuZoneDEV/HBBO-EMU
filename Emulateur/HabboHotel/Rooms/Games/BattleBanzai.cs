@@ -318,7 +318,7 @@ namespace Butterfly.HabboHotel.Rooms.Games
             if (roomItem.value != 3)
                 this.TilesUsed++;
 
-            BattleBanzai.SetMaxForTile(roomItem, team);
+            SetMaxForTile(roomItem, team);
             this.room.GetGameManager().AddPointToTeam(team, user);
             this.room.GetGameManager().AddPointToTeam(oldteam, -1, user);
             roomItem.UpdateState(false, true);

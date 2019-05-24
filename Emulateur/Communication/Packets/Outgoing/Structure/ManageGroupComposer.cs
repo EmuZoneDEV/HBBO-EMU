@@ -7,20 +7,20 @@ namespace Butterfly.Communication.Packets.Outgoing.Structure
         public ManageGroupComposer(Group Group, string[] BadgeParts)
             : base(ServerPacketHeader.ManageGroupMessageComposer)
         {
-            base.WriteInteger(0);
-            base.WriteBoolean(true);
-            base.WriteInteger(Group.Id);
-            base.WriteString(Group.Name);
-            base.WriteString(Group.Description);
-            base.WriteInteger(1);
-            base.WriteInteger(Group.Colour1);
-            base.WriteInteger(Group.Colour2);
-            base.WriteInteger(Group.GroupType == GroupType.OPEN ? 0 : Group.GroupType == GroupType.LOCKED ? 1 : 2);
-            base.WriteInteger(Group.AdminOnlyDeco);
-            base.WriteBoolean(false);
-            base.WriteString("");
+            WriteInteger(0);
+            WriteBoolean(true);
+            WriteInteger(Group.Id);
+            WriteString(Group.Name);
+            WriteString(Group.Description);
+            WriteInteger(1);
+            WriteInteger(Group.Colour1);
+            WriteInteger(Group.Colour2);
+            WriteInteger(Group.GroupType == GroupType.OPEN ? 0 : Group.GroupType == GroupType.LOCKED ? 1 : 2);
+            WriteInteger(Group.AdminOnlyDeco);
+            WriteBoolean(false);
+            WriteString("");
 
-            base.WriteInteger(5);
+            WriteInteger(5);
 
             for (int x = 0; x < BadgeParts.Length; x++)
             {
@@ -35,14 +35,14 @@ namespace Butterfly.Communication.Packets.Outgoing.Structure
             int i = 0;
             while (i < (5 - BadgeParts.Length))
             {
-                base.WriteInteger(0);
-                base.WriteInteger(0);
-                base.WriteInteger(0);
+                WriteInteger(0);
+                WriteInteger(0);
+                WriteInteger(0);
                 i++;
             }
 
-            base.WriteString(Group.Badge);
-            base.WriteInteger(Group.MemberCount);
+            WriteString(Group.Badge);
+            WriteInteger(Group.MemberCount);
         }
     }
 }

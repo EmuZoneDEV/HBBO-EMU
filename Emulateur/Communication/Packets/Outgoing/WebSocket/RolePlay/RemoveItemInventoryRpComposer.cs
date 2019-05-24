@@ -5,8 +5,8 @@
         public RemoveItemInventoryRpComposer(int ItemId, int Count)
           : base(11)
         {
-            base.WriteInteger(ItemId);
-            base.WriteInteger(Count);
+            WriteInteger(ItemId);
+            WriteInteger(Count);
         }
     }
 }

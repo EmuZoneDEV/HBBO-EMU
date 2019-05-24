@@ -8,9 +8,8 @@ namespace Butterfly.HabboHotel.Rooms.Chat.Commands.Cmd
         {
             if (Params.Length != 2)
                 return;
-            int EnableNum = 0;
 
-            int.TryParse(Params[1], out EnableNum);
+            int.TryParse(Params[1], out int EnableNum);
 
             if (!ButterflyEnvironment.GetGame().GetEffectsInventoryManager().EffectExist(EnableNum, Session.GetHabbo().HasFuse("fuse_mod")))
                 return;

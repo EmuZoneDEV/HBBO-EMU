@@ -11,6 +11,10 @@
                     return VoucherType.CREDIT;
                 case "ducket":
                     return VoucherType.DUCKET;
+                case "badge":
+                    return VoucherType.BADGE;
+                case "winwin":
+                    return VoucherType.WINWIN;
             }
         }
 
@@ -23,6 +27,10 @@
                     return "credit";
                 case VoucherType.DUCKET:
                     return "ducket";
+                case VoucherType.BADGE:
+                    return "badge";
+                case VoucherType.WINWIN:
+                    return "winwin";
             }
         }
     }

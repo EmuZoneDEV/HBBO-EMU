@@ -26,11 +26,11 @@
 
         public static int Calculate(int X1, int Y1, int X2, int Y2, bool moonwalk)
         {
-            int rot = Rotation.Calculate(X1, Y1, X2, Y2);
+            int rot = Calculate(X1, Y1, X2, Y2);
             if (!moonwalk)
                 return rot;
             else
-                return Rotation.RotationIverse(rot);
+                return RotationIverse(rot);
         }
 
         public static int RotationIverse(int rot)

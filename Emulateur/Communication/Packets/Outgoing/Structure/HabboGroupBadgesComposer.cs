@@ -8,21 +8,21 @@ namespace Butterfly.Communication.Packets.Outgoing.Structure
         public HabboGroupBadgesComposer(Dictionary<int, string> Badges)
             : base(ServerPacketHeader.HabboGroupBadgesMessageComposer)
         {
-            base.WriteInteger(Badges.Count);
+            WriteInteger(Badges.Count);
             foreach (KeyValuePair<int, string> Badge in Badges)
             {
-                base.WriteInteger(Badge.Key);
-                base.WriteString(Badge.Value);
+                WriteInteger(Badge.Key);
+                WriteString(Badge.Value);
             }
         }
 
         public HabboGroupBadgesComposer(Group Group)
             : base(ServerPacketHeader.HabboGroupBadgesMessageComposer)
         {
-            base.WriteInteger(1);//count
+            WriteInteger(1);//count
             {
-                base.WriteInteger(Group.Id);
-                base.WriteString(Group.Badge);
+                WriteInteger(Group.Id);
+                WriteString(Group.Badge);
             }
         }
     }

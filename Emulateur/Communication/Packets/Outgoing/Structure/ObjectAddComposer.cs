@@ -7,74 +7,74 @@ namespace Butterfly.Communication.Packets.Outgoing.Structure
         public ObjectAddComposer(Item Item, string Username, int UserId)
             : base(ServerPacketHeader.ObjectAddMessageComposer)
         {
-            base.WriteInteger(Item.Id);
-            base.WriteInteger(Item.GetBaseItem().SpriteId);
-            base.WriteInteger(Item.GetX);
-            base.WriteInteger(Item.GetY);
-            base.WriteInteger(Item.Rotation);
-            base.WriteString(string.Format("{0:0.00}", TextHandling.GetString(Item.GetZ)));
-            base.WriteString(string.Empty);
+            WriteInteger(Item.Id);
+            WriteInteger(Item.GetBaseItem().SpriteId);
+            WriteInteger(Item.GetX);
+            WriteInteger(Item.GetY);
+            WriteInteger(Item.Rotation);
+            WriteString(string.Format("{0:0.00}", TextHandling.GetString(Item.GetZ)));
+            WriteString(string.Empty);
 
             if (Item.LimitedNo > 0)
             {
-                base.WriteInteger(1);
-                base.WriteInteger(256);
-                base.WriteString(Item.ExtraData);
-                base.WriteInteger(Item.LimitedNo);
-                base.WriteInteger(Item.LimitedTot);
+                WriteInteger(1);
+                WriteInteger(256);
+                WriteString(Item.ExtraData);
+                WriteInteger(Item.LimitedNo);
+                WriteInteger(Item.LimitedTot);
             }
             else
             {
                 ItemBehaviourUtility.GenerateExtradata(Item, this);
             }
 
-            base.WriteInteger(-1); // to-do: check
-            base.WriteInteger(1);
-            base.WriteInteger(UserId);
-            base.WriteString(Username);
+            WriteInteger(-1); // to-do: check
+            WriteInteger(1);
+            WriteInteger(UserId);
+            WriteString(Username);
         }
 
         public ObjectAddComposer(ItemTemp Item)
             : base(ServerPacketHeader.ObjectAddMessageComposer)
         {
-            base.WriteInteger(Item.Id);
-            base.WriteInteger(Item.SpriteId); //ScriptId
-            base.WriteInteger(Item.X);
-            base.WriteInteger(Item.Y);
-            base.WriteInteger(2);
-            base.WriteString(string.Format("{0:0.00}", TextHandling.GetString(Item.Z)));
-            base.WriteString("");
+            WriteInteger(Item.Id);
+            WriteInteger(Item.SpriteId); //ScriptId
+            WriteInteger(Item.X);
+            WriteInteger(Item.Y);
+            WriteInteger(2);
+            WriteString(string.Format("{0:0.00}", TextHandling.GetString(Item.Z)));
+            WriteString("");
 
             if (Item.InteractionType == InteractionTypeTemp.RPITEM)
             {
-                base.WriteInteger(0);
-                base.WriteInteger(1);
+                WriteInteger(0);
+                WriteInteger(1);
 
-                base.WriteInteger(5);
+                WriteInteger(5);
 
-                base.WriteString("state");
-                base.WriteString("0");
-                base.WriteString("imageUrl");
-                base.WriteString("https://swf.wibbo.me/items/" + Item.ExtraData + ".png");
-                base.WriteString("offsetX");
-                base.WriteString("-20");
-                base.WriteString("offsetY");
-                base.WriteString("10");
-                base.WriteString("offsetZ");
-                base.WriteString("10002");
+                WriteString("state");
+                WriteString("0");
+                WriteString("imageUrl");
+                WriteString("https://swf.wibbo.me/items/" + Item.ExtraData + ".png");
+                WriteString("offsetX");
+                WriteString("-20");
+                WriteString("offsetY");
+                WriteString("10");
+                WriteString("offsetZ");
+                WriteString("10002");
             }
             else
             {
-                base.WriteInteger(1);
-                base.WriteInteger(0);
-                base.WriteString(Item.ExtraData); //ExtraData
+                WriteInteger(1);
+                WriteInteger(0);
+                WriteString(Item.ExtraData); //ExtraData
             }
 
 
-            base.WriteInteger(-1); // to-do: check
-            base.WriteInteger(1);
-            base.WriteInteger(Item.VirtualUserId);
-            base.WriteString("");
+            WriteInteger(-1); // to-do: check
+            WriteInteger(1);
+            WriteInteger(Item.VirtualUserId);
+            WriteString("");
         }
     }
 }

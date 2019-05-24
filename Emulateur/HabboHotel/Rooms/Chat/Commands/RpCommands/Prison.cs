@@ -26,7 +26,7 @@ namespace Butterfly.HabboHotel.Rooms.Chat.Commands.Cmd
             }            if (!((Math.Abs((TargetRoomUser.X - UserRoom.X)) >= 2) || (Math.Abs((TargetRoomUser.Y - UserRoom.Y)) >= 2)))            {                UserRoom.OnChat("*Arrête et envoie en prison "+ TargetRoomUser.GetUsername() +"*");                TargetRoomUser.ApplyEffect(729, true);                TargetRoomUser.RotBody = 2;                TargetRoomUser.RotHead = 2;                TargetRoomUser.SetStatus("sit", "0.5");
                 TargetRoomUser.Freeze = true;
                 TargetRoomUser.FreezeEndCounter = 0;
-                TargetRoomUser.IsLay = true;
+                TargetRoomUser.IsSit = true;
                 TargetRoomUser.UpdateNeeded = true;                                RpTwo.SendPrison = true;                RpTwo.PrisonTimer = 10 * 2;            }
 
             //UserRoom.ApplyEffect(737, true);            //UserRoom.TimerResetEffect = 2;

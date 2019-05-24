@@ -5,6 +5,7 @@ using System.Text;
 using Butterfly.Database.Interfaces;
 using System.Data;
 using Butterfly.HabboHotel.Rooms.Chat.Commands.Cmd;
+using Butterfly.Core;
 
 namespace Butterfly.HabboHotel.Rooms.Chat.Commands
 {
@@ -43,37 +44,37 @@ namespace Butterfly.HabboHotel.Rooms.Chat.Commands
             if (Split.Length == 0)
                 return false;
 
-            ChatCommand CmdInfo;
-            if (!commandRegisterInvokeable.TryGetValue(Split[0].ToLower(), out CmdInfo))
+            if (!commandRegisterInvokeable.TryGetValue(Split[0].ToLower(), out ChatCommand CmdInfo))
                 return false;
 
-            IChatCommand Cmd = null;
-            if (_commands.TryGetValue(CmdInfo.commandID, out Cmd))
+            if (!_commands.TryGetValue(CmdInfo.commandID, out IChatCommand Cmd))
+                return false;
+
+            int AutorisationType = CmdInfo.UserGotAuthorization2(Session, Room.RoomData.Langue);
+            switch (AutorisationType)
             {
-                int AutorisationType = CmdInfo.UserGotAuthorization2(Session);
-                switch (AutorisationType)
-                {
-                    case 2:
-                        User.SendWhisperChat(ButterflyEnvironment.GetLanguageManager().TryGetValue("cmd.authorized.premium", Session.Langue));
-                        return true;
-                    case 3:
-                        User.SendWhisperChat(ButterflyEnvironment.GetLanguageManager().TryGetValue("cmd.authorized.accred", Session.Langue));
-                        return true;
-                    case 4:
-                        User.SendWhisperChat(ButterflyEnvironment.GetLanguageManager().TryGetValue("cmd.authorized.owner", Session.Langue));
-                        return true;
-                }
-                if (!CmdInfo.UserGotAuthorization(Session))
-                    return false;
-
-                if (CmdInfo.UserGotAuthorizationStaffLog(Session))
-                    ButterflyEnvironment.GetGame().GetModerationTool().LogStaffEntry(Session.GetHabbo().Id, Session.GetHabbo().Username, Session.GetHabbo().CurrentRoomId, string.Empty, Split[0].ToLower(), string.Format("Tchat commande: {0}", string.Join(" ", Split)));
-
-
-                Cmd.Execute(Session, Session.GetHabbo().CurrentRoom, User, Split);
-                return true;
+                case 2:
+                    User.SendWhisperChat(ButterflyEnvironment.GetLanguageManager().TryGetValue("cmd.authorized.premium", Session.Langue));
+                    return true;
+                case 3:
+                    User.SendWhisperChat(ButterflyEnvironment.GetLanguageManager().TryGetValue("cmd.authorized.accred", Session.Langue));
+                    return true;
+                case 4:
+                    User.SendWhisperChat(ButterflyEnvironment.GetLanguageManager().TryGetValue("cmd.authorized.owner", Session.Langue));
+                    return true;
+                case 5:
+                    User.SendWhisperChat(ButterflyEnvironment.GetLanguageManager().TryGetValue("cmd.authorized.langue", Session.Langue));
+                    return true;
             }
-            return false;
+            if (!CmdInfo.UserGotAuthorization(Session))
+                return false;
+
+            if (CmdInfo.UserGotAuthorizationStaffLog())
+                ButterflyEnvironment.GetGame().GetModerationTool().LogStaffEntry(Session.GetHabbo().Id, Session.GetHabbo().Username, Session.GetHabbo().CurrentRoomId, string.Empty, Split[0].ToLower(), string.Format("Tchat commande: {0}", string.Join(" ", Split)));
+
+
+            Cmd.Execute(Session, Session.GetHabbo().CurrentRoom, User, Split);
+            return true;
         }
 
         private void InitInvokeableRegister()
@@ -122,9 +123,9 @@ namespace Butterfly.HabboHotel.Rooms.Chat.Commands
             {
                 if (chatCommand.UserGotAuthorization(client) && !NotDoublons.Contains(chatCommand.input))
                 {
-                    if(client.Langue == Core.Language.ANGLAIS)
+                    if (client.Langue == Language.ANGLAIS)
                         stringBuilder.Append(":" + chatCommand.input + " - " + chatCommand.descriptionEn + "\r\r");
-                    else if (client.Langue == Core.Language.PORTUGAIS)
+                    else if (client.Langue == Language.PORTUGAIS)
                         stringBuilder.Append(":" + chatCommand.input + " - " + chatCommand.descriptionBr + "\r\r");
                     else
                         stringBuilder.Append(":" + chatCommand.input + " - " + chatCommand.descriptionFr + "\r\r");
@@ -167,7 +168,7 @@ namespace Butterfly.HabboHotel.Rooms.Chat.Commands
             this.Register(2, new setspeed());
             this.Register(3, new unload());
             this.Register(4, new disablediagonal());
-            this.Register(5, new setmax());
+            this.Register(5, new Setmax());
             this.Register(6, new overridee());
             this.Register(7, new teleport());
             this.Register(10, new roomalert());
@@ -287,6 +288,7 @@ namespace Butterfly.HabboHotel.Rooms.Chat.Commands
             this.Register(177, new PushNotif());
             this.Register(178, new Big());
             this.Register(179, new Little());
+            this.Register(180, new LoadRoomItems());
         }
     }
 }

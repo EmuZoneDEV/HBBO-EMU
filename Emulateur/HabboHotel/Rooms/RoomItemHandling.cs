@@ -20,8 +20,6 @@ namespace Butterfly.HabboHotel.Rooms
 {
     public class RoomItemHandling
     {
-        private Room room;
-
         private ConcurrentDictionary<int, Item> _floorItems;
         private ConcurrentDictionary<int, Item> _wallItems;
         private readonly ConcurrentDictionary<int, Item> _rollers;
@@ -34,22 +32,16 @@ namespace Butterfly.HabboHotel.Rooms
         private readonly List<int> rollerUsersMoved;
         private readonly List<ServerPacket> rollerMessages;
         
-        private int mRollerSpeed;
-        private int mRoolerCycle;
+        private int _rollerSpeed;
+        private int _rollerCycle;
         private readonly ConcurrentQueue<Item> _roomItemUpdateQueue;
         private int _itemTempoId;
 
-        public Room GetRoom
-        {
-            get
-            {
-                return this.room;
-            }
-        }
+        public Room GetRoom { get; }
 
         public RoomItemHandling(Room room)
         {
-            this.room = room;
+            this.GetRoom = room;
             this.mUpdateItems = new ConcurrentDictionary<int, Item>();
             this._rollers = new ConcurrentDictionary<int, Item>();
             this._wallItems = new ConcurrentDictionary<int, Item>();
@@ -57,8 +49,8 @@ namespace Butterfly.HabboHotel.Rooms
             this._itemsTemp = new ConcurrentDictionary<int, ItemTemp>();
             this._itemTempoId = 0;
             this._roomItemUpdateQueue = new ConcurrentQueue<Item>();
-            this.mRoolerCycle = 0;
-            this.mRollerSpeed = 4;
+            this._rollerCycle = 0;
+            this._rollerSpeed = 4;
             this.rollerItemsMoved = new List<int>();
             this.rollerUsersMoved = new List<int>();
             this.rollerMessages = new List<ServerPacket>();
@@ -88,11 +80,11 @@ namespace Butterfly.HabboHotel.Rooms
 
                 ServerPacket Message = new ServerPacket(ServerPacketHeader.ItemRemoveMessageComposer);
                 Message.WriteString(roomItem.Id + string.Empty);
-                Message.WriteInteger(this.room.RoomData.OwnerId);
+                Message.WriteInteger(this.GetRoom.RoomData.OwnerId);
                 ListMessage.Add(Message);
                 Items.Add(roomItem);
             }
-            this.room.SendMessage(ListMessage);
+            this.GetRoom.SendMessage(ListMessage);
 
             this._wallItems.Clear();
             this._floorItems.Clear();
@@ -100,29 +92,33 @@ namespace Butterfly.HabboHotel.Rooms
             this.mUpdateItems.Clear();
             this._rollers.Clear();
             using (IQueryAdapter queryreactor = ButterflyEnvironment.GetDatabaseManager().GetQueryReactor())
-                queryreactor.RunQuery("UPDATE items SET room_id = '0', user_id = '" + this.room.RoomData.OwnerId + "' WHERE room_id = " + this.room.Id);
+                queryreactor.RunQuery("UPDATE items SET room_id = '0', user_id = '" + this.GetRoom.RoomData.OwnerId + "' WHERE room_id = " + this.GetRoom.Id);
 
-            this.room.GetGameMap().GenerateMaps();
-            this.room.GetRoomUserManager().UpdateUserStatusses();
-            if (this.room.GotWired())
-                this.room.GetWiredHandler().OnPickall();
+            this.GetRoom.GetGameMap().GenerateMaps();
+            this.GetRoom.GetRoomUserManager().UpdateUserStatusses();
+            if (this.GetRoom.GotWired())
+                this.GetRoom.GetWiredHandler().OnPickall();
             return Items;
         }
 
         public void SetSpeed(int p)
         {
-            this.mRollerSpeed = p;
+            this._rollerSpeed = p;
         }
         
 
-        public void LoadFurniture()
+        public void LoadFurniture(int RoomId = 0)
         {
-            this._floorItems.Clear();
-            this._wallItems.Clear();
+            if (RoomId == 0)
+            {
+                this._floorItems.Clear();
+                this._wallItems.Clear();
+            }
+
             using (IQueryAdapter queryreactor = ButterflyEnvironment.GetDatabaseManager().GetQueryReactor())
             {
                 queryreactor.SetQuery("SELECT items.id, items.user_id, items.room_id, items.base_item, items.extra_data, items.x, items.y, items.z, items.rot, items.wall_pos, items_limited.limited_number, items_limited.limited_stack FROM items LEFT JOIN items_limited ON (items_limited.item_id = items.id) WHERE items.room_id = @roomid");
-                queryreactor.AddParameter("roomid", this.room.Id);
+                queryreactor.AddParameter("roomid", (RoomId == 0) ? this.GetRoom.Id : RoomId);
 
                 int itemID;
                 int UserId;
@@ -165,31 +161,33 @@ namespace Butterfly.HabboHotel.Rooms
                         else
                             wallCoord = wallposs;//WallPositionCheck(":" + wallposs.Split(':')[1]);
 
-                        Item roomItem = new Item(itemID, this.room.Id, baseID, ExtraData, Limited, LimitedTo, 0, 0, 0.0, 0, wallCoord, this.room);
+                        Item roomItem = new Item(itemID, this.GetRoom.Id, baseID, ExtraData, Limited, LimitedTo, 0, 0, 0.0, 0, wallCoord, this.GetRoom);
                         if (!this._wallItems.ContainsKey(itemID))
                             this._wallItems.TryAdd(itemID, roomItem);
 
                         if (roomItem.GetBaseItem().InteractionType == InteractionType.MOODLIGHT)
                         {
-                            if (this.room.MoodlightData == null)
-                                this.room.MoodlightData = new MoodlightData(roomItem.Id);
+                            if (this.GetRoom.MoodlightData == null)
+                                this.GetRoom.MoodlightData = new MoodlightData(roomItem.Id);
                         }
                     }
                     else //Is flooritem
                     {
-                        Item roomItem = new Item(itemID, this.room.Id, baseID, ExtraData, Limited, LimitedTo, x, y, (double)z, n, "",this.room);
+                        Item roomItem = new Item(itemID, this.GetRoom.Id, baseID, ExtraData, Limited, LimitedTo, x, y, (double)z, n, "",this.GetRoom);
 
                         if (!this._floorItems.ContainsKey(itemID))
                             this._floorItems.TryAdd(itemID, roomItem);
                     }
                 }
 
-                foreach (Item Item in _floorItems.Values)
+                if (RoomId == 0)
                 {
-                    if (WiredUtillity.TypeIsWired(Item.GetBaseItem().InteractionType))
+                    foreach (Item Item in _floorItems.Values)
                     {
-                        WiredLoader.LoadWiredItem(Item, this.room, queryreactor);
-                        //this.room.GetWiredHandler().AddWire(roomItem, roomItem.Coordinate, roomItem.Rot, roomItem.GetBaseItem().InteractionType);
+                        if (WiredUtillity.TypeIsWired(Item.GetBaseItem().InteractionType))
+                        {
+                            WiredLoader.LoadWiredItem(Item, this.GetRoom, queryreactor);
+                        }
                     }
                 }
             }
@@ -292,7 +290,7 @@ namespace Butterfly.HabboHotel.Rooms
                     roomItem.WiredHandler.DeleteFromDatabase(queryreactor);
                 }
                 roomItem.WiredHandler.Dispose();
-                this.room.GetWiredHandler().RemoveFurniture(roomItem);
+                this.GetRoom.GetWiredHandler().RemoveFurniture(roomItem);
                 roomItem.WiredHandler = null;
             }
             roomItem.Destroy();
@@ -304,7 +302,7 @@ namespace Butterfly.HabboHotel.Rooms
             if (Item == null)
                 return;
 
-            this.room.SendPacket(new ObjectRemoveMessageComposer(Item.Id, 0));
+            this.GetRoom.SendPacket(new ObjectRemoveMessageComposer(Item.Id, 0));
             this._itemsTemp.TryRemove(pId, out Item);
         }
 
@@ -314,12 +312,12 @@ namespace Butterfly.HabboHotel.Rooms
             {
                 ServerPacket Message = new ServerPacket(ServerPacketHeader.ItemRemoveMessageComposer);
                 Message.WriteString(Item.Id.ToString());
-                Message.WriteInteger(this.room.RoomData.OwnerId);
-                this.room.SendPacket(Message);
+                Message.WriteInteger(this.GetRoom.RoomData.OwnerId);
+                this.GetRoom.SendPacket(Message);
             }
             else if (Item.IsFloorItem)
             {
-                this.room.SendPacket(new ObjectRemoveMessageComposer(Item.Id, this.room.RoomData.OwnerId));
+                this.GetRoom.SendPacket(new ObjectRemoveMessageComposer(Item.Id, this.GetRoom.RoomData.OwnerId));
             }
 
 
@@ -330,7 +328,7 @@ namespace Butterfly.HabboHotel.Rooms
             else
             {
                 this._floorItems.TryRemove(Item.Id, out Item);
-                this.room.GetGameMap().RemoveFromMap(Item);
+                this.GetRoom.GetGameMap().RemoveFromMap(Item);
             }
 
             if (this.mUpdateItems.ContainsKey(Item.Id))
@@ -341,20 +339,20 @@ namespace Butterfly.HabboHotel.Rooms
 
             foreach (ThreeDCoord threeDcoord in Item.GetAffectedTiles.Values)
             {
-                List<RoomUser> userForSquare = this.room.GetGameMap().GetRoomUsers(new Point(threeDcoord.X, threeDcoord.Y));
+                List<RoomUser> userForSquare = this.GetRoom.GetGameMap().GetRoomUsers(new Point(threeDcoord.X, threeDcoord.Y));
                 if (userForSquare == null)
                     continue;
                 foreach (RoomUser User in userForSquare)
                 {
                     if (!User.IsWalking)
-                        this.room.GetRoomUserManager().UpdateUserStatus(User, false);
+                        this.GetRoom.GetRoomUserManager().UpdateUserStatus(User, false);
                 }
             }
         }
 
         private List<ServerPacket> CycleRollers()
         {
-            if (this.mRoolerCycle >= this.mRollerSpeed || this.mRollerSpeed == 0)
+            if (this._rollerCycle >= this._rollerSpeed || this._rollerSpeed == 0)
             {
                 this.rollerItemsMoved.Clear();
                 this.rollerUsersMoved.Clear();
@@ -363,8 +361,8 @@ namespace Butterfly.HabboHotel.Rooms
                 foreach (Item Roller in this._rollers.Values.ToList())
                 {
                     Point NextSquare = Roller.SquareInFront;
-                    List<Item> ItemsOnRoller = this.room.GetGameMap().GetRoomItemForSquare(Roller.GetX, Roller.GetY, Roller.GetZ);
-                    RoomUser userForSquare = this.room.GetRoomUserManager().GetUserForSquare(Roller.GetX, Roller.GetY);
+                    List<Item> ItemsOnRoller = this.GetRoom.GetGameMap().GetRoomItemForSquare(Roller.GetX, Roller.GetY, Roller.GetZ);
+                    RoomUser userForSquare = this.GetRoom.GetRoomUserManager().GetUserForSquare(Roller.GetX, Roller.GetY);
 
                     if (ItemsOnRoller.Count > 0 || userForSquare != null)
                     {
@@ -372,7 +370,7 @@ namespace Butterfly.HabboHotel.Rooms
                         if (ItemsOnRoller.Count > 10)
                             ItemsOnRoller = ItemsOnRoller.Take(10).ToList();
 
-                        List<Item> ItemsOnNext = this.room.GetGameMap().GetCoordinatedItems(NextSquare);
+                        List<Item> ItemsOnNext = this.GetRoom.GetGameMap().GetCoordinatedItems(NextSquare);
                         bool NextRoller = false;
                         double NextZ = 0.0;
                         bool NextRollerClear = true;
@@ -394,30 +392,30 @@ namespace Butterfly.HabboHotel.Rooms
                             }
                         }
                         else
-                            NextZ += this.room.GetGameMap().GetHeightForSquareFromData(NextSquare);
+                            NextZ += this.GetRoom.GetGameMap().GetHeightForSquareFromData(NextSquare);
 
                         foreach (Item pItem in ItemsOnRoller)
                         {
                             double RollerHeight = pItem.GetZ - Roller.TotalHeight;
-                            if (!this.rollerItemsMoved.Contains(pItem.Id) && this.room.GetGameMap().CanStackItem(NextSquare.X, NextSquare.Y) && (NextRollerClear && Roller.GetZ < pItem.GetZ))
+                            if (!this.rollerItemsMoved.Contains(pItem.Id) && this.GetRoom.GetGameMap().CanStackItem(NextSquare.X, NextSquare.Y) && (NextRollerClear && Roller.GetZ < pItem.GetZ))
                             {
                                 this.rollerMessages.Add(this.UpdateItemOnRoller(pItem, NextSquare, NextZ + RollerHeight));
                                 this.rollerItemsMoved.Add(pItem.Id);
                             }
                         }
 
-                        if (userForSquare != null && (!userForSquare.SetStep && (userForSquare.AllowMoveRoller || this.mRollerSpeed == 0) && (!userForSquare.IsWalking || userForSquare.Freeze)) && NextRollerClear && (this.room.GetGameMap().CanWalk(NextSquare.X, NextSquare.Y) && this.room.GetGameMap().SquareTakingOpen(NextSquare.X, NextSquare.Y) && !this.rollerUsersMoved.Contains(userForSquare.HabboId)))
+                        if (userForSquare != null && (!userForSquare.SetStep && (userForSquare.AllowMoveRoller || this._rollerSpeed == 0) && (!userForSquare.IsWalking || userForSquare.Freeze)) && NextRollerClear && (this.GetRoom.GetGameMap().CanWalk(NextSquare.X, NextSquare.Y) && this.GetRoom.GetGameMap().SquareTakingOpen(NextSquare.X, NextSquare.Y) && !this.rollerUsersMoved.Contains(userForSquare.HabboId)))
                         {
                             this.rollerMessages.Add(this.UpdateUserOnRoller(userForSquare, NextSquare, Roller.Id, NextZ));
                             this.rollerUsersMoved.Add(userForSquare.HabboId);
                         }
                     }
                 }
-                this.mRoolerCycle = 0;
+                this._rollerCycle = 0;
                 return this.rollerMessages;
             }
             else
-                ++this.mRoolerCycle;
+                ++this._rollerCycle;
             return new List<ServerPacket>();
         }
 
@@ -435,7 +433,7 @@ namespace Butterfly.HabboHotel.Rooms
             serverMessage.WriteString(TextHandling.GetString(z));
 
             serverMessage.WriteInteger(0);
-            this.room.SendPacket(serverMessage);
+            this.GetRoom.SendPacket(serverMessage);
 
             this.SetFloorItem(pItem, x, y, z);
         }
@@ -444,7 +442,7 @@ namespace Butterfly.HabboHotel.Rooms
         {
             pItem.Rotation = newRot;
             
-            room.SendPacket(new ObjectUpdateComposer(pItem, room.RoomData.OwnerId));
+            GetRoom.SendPacket(new ObjectUpdateComposer(pItem, GetRoom.RoomData.OwnerId));
         }
 
         private ServerPacket UpdateItemOnRoller(Item pItem, Point NextCoord, double NextZ)
@@ -506,7 +504,7 @@ namespace Butterfly.HabboHotel.Rooms
         {
             try
             {
-                if (this.mUpdateItems.Count <= 0 && this.room.GetRoomUserManager().BotCount <= 0)
+                if (this.mUpdateItems.Count <= 0 && this.GetRoom.GetRoomUserManager().BotCount <= 0)
                     return;
                 if (this.mUpdateItems.Count > 0)
                 {
@@ -541,15 +539,15 @@ namespace Butterfly.HabboHotel.Rooms
 
                     this.mUpdateItems.Clear();
                 }
-                this.room.GetRoomUserManager().AppendPetsUpdateString(dbClient);
-                this.room.GetRoomUserManager().SavePositionBots(dbClient);
+                this.GetRoom.GetRoomUserManager().AppendPetsUpdateString(dbClient);
+                this.GetRoom.GetRoomUserManager().SavePositionBots(dbClient);
             }
             catch (Exception ex)
             {
                 Logging.LogCriticalException(string.Concat(new object[4]
           {
              "Error during saving furniture for room ",
-             this.room.Id,
+             this.GetRoom.Id,
              ". Stack: ",
              ( ex).ToString()
           }));
@@ -564,7 +562,7 @@ namespace Butterfly.HabboHotel.Rooms
             if (!this._itemsTemp.ContainsKey(Item.Id))
                 this._itemsTemp.TryAdd(Item.Id, Item);
 
-            this.room.SendPacket(new ObjectAddComposer(Item));
+            this.GetRoom.SendPacket(new ObjectAddComposer(Item));
 
             return Item;
         }
@@ -573,30 +571,30 @@ namespace Butterfly.HabboHotel.Rooms
         {
             bool NeedsReAdd = false;
             if (!newItem)
-                NeedsReAdd = this.room.GetGameMap().RemoveFromMap(Item);
+                NeedsReAdd = this.GetRoom.GetGameMap().RemoveFromMap(Item);
 
             Dictionary<int, ThreeDCoord> affectedTiles = Gamemap.GetAffectedTiles(Item.GetBaseItem().Length, Item.GetBaseItem().Width, newX, newY, newRot);
             foreach (ThreeDCoord threeDcoord in affectedTiles.Values)
             {
-                if (!this.room.GetGameMap().ValidTile(threeDcoord.X, threeDcoord.Y) || this.room.GetGameMap().SquareHasUsers(threeDcoord.X, threeDcoord.Y) || this.room.GetGameMap().Model.SqState[threeDcoord.X, threeDcoord.Y] != SquareState.OPEN) // && !Item.GetBaseItem().IsSeat
+                if (!this.GetRoom.GetGameMap().ValidTile(threeDcoord.X, threeDcoord.Y) || (this.GetRoom.GetGameMap().SquareHasUsers(threeDcoord.X, threeDcoord.Y) && !Item.GetBaseItem().IsSeat && Item.GetBaseItem().InteractionType != InteractionType.bed) || this.GetRoom.GetGameMap().Model.SqState[threeDcoord.X, threeDcoord.Y] != SquareState.OPEN)
                 {
                     if (NeedsReAdd)
                     {
                         this.UpdateItem(Item);
-                        this.room.GetGameMap().AddToMap(Item);
+                        this.GetRoom.GetGameMap().AddToMap(Item);
                     }
                     return false;
                 }
             }
 
-            double pZ = (double)this.room.GetGameMap().Model.SqFloorHeight[newX, newY];
+            double pZ = (double)this.GetRoom.GetGameMap().Model.SqFloorHeight[newX, newY];
             
             List<Item> ItemsAffected = new List<Item>();
             List<Item> ItemsComplete = new List<Item>();
 
             foreach (ThreeDCoord threeDcoord in affectedTiles.Values)
             {
-                List<Item> Temp = this.room.GetGameMap().GetCoordinatedItems(new Point(threeDcoord.X, threeDcoord.Y));
+                List<Item> Temp = this.GetRoom.GetGameMap().GetCoordinatedItems(new Point(threeDcoord.X, threeDcoord.Y));
                 if (Temp != null)
                     ItemsAffected.AddRange(Temp);
             }
@@ -655,31 +653,22 @@ namespace Butterfly.HabboHotel.Rooms
                         if (NeedsReAdd)
                         {
                             this.UpdateItem(Item);
-                            this.room.GetGameMap().AddToMap(Item);
+                            this.GetRoom.GetGameMap().AddToMap(Item);
                         }
                         return false;
                     }
-                }
-            }
-
-            foreach (ThreeDCoord threeDcoord in Item.GetAffectedTiles.Values)
-            {
-                List<RoomUser> userForSquare = this.room.GetGameMap().GetRoomUsers(new Point(threeDcoord.X, threeDcoord.Y));
-                if (userForSquare == null)
-                    continue;
-                foreach (RoomUser User in userForSquare)
-                {
-                    if (!User.IsWalking)
-                        this.room.GetRoomUserManager().UpdateUserStatus(User, false);
                 }
             }
             
             if (newRot != 1 && newRot != 2 && newRot != 3 && newRot != 4 && newRot != 5 && newRot != 6 && newRot != 7 && newRot != 8)
                 newRot = 0;
 
+            List<RoomUser> userForSquare = new List<RoomUser>();
+
+            foreach (ThreeDCoord threeDcoord in Item.GetAffectedTiles.Values)
+                userForSquare.AddRange(this.GetRoom.GetGameMap().GetRoomUsers(new Point(threeDcoord.X, threeDcoord.Y)));
+
             Item.Rotation = newRot;
-            int getX = Item.GetX;
-            int getY = Item.GetY;
             Item.SetState(newX, newY, pZ, affectedTiles);
 
             if (!OnRoller && Session != null)
@@ -703,7 +692,7 @@ namespace Butterfly.HabboHotel.Rooms
                     this.UpdateItem(Item);
                     if (sendMessage)
                     {
-                        this.room.SendPacket(new ObjectAddComposer(Item, this.room.RoomData.OwnerName, this.room.RoomData.OwnerId));
+                        this.GetRoom.SendPacket(new ObjectAddComposer(Item, this.GetRoom.RoomData.OwnerName, this.GetRoom.RoomData.OwnerId));
                     }
                 }
             }
@@ -712,12 +701,27 @@ namespace Butterfly.HabboHotel.Rooms
                 this.UpdateItem(Item);
                 if (!OnRoller && sendMessage)
                 {
-                    room.SendPacket(new ObjectUpdateComposer(Item, room.RoomData.OwnerId));
+                    GetRoom.SendPacket(new ObjectUpdateComposer(Item, GetRoom.RoomData.OwnerId));
                 }
             }
 
-            this.room.GetGameMap().AddToMap(Item);
+            this.GetRoom.GetGameMap().AddToMap(Item);
 
+
+            foreach (ThreeDCoord threeDcoord in Item.GetAffectedTiles.Values)
+            {
+                userForSquare.AddRange(this.GetRoom.GetGameMap().GetRoomUsers(new Point(threeDcoord.X, threeDcoord.Y)));
+            }
+
+            foreach (RoomUser User in userForSquare)
+            {
+                if (User == null)
+                    continue;
+                if (User.IsWalking)
+                    continue;
+
+                this.GetRoom.GetRoomUserManager().UpdateUserStatus(User, false);
+            }
 
             return true;
         }
@@ -734,10 +738,10 @@ namespace Butterfly.HabboHotel.Rooms
 
         public bool SetFloorItem(Item Item, int newX, int newY, double newZ)
         {
-            this.room.GetGameMap().RemoveFromMap(Item);
+            this.GetRoom.GetGameMap().RemoveFromMap(Item);
             Item.SetState(newX, newY, newZ, Gamemap.GetAffectedTiles(Item.GetBaseItem().Length, Item.GetBaseItem().Width, newX, newY, Item.Rotation));
             this.UpdateItem(Item);
-            this.room.GetGameMap().AddItemToMap(Item);
+            this.GetRoom.GetGameMap().AddItemToMap(Item);
             return true;
         }
 
@@ -752,15 +756,15 @@ namespace Butterfly.HabboHotel.Rooms
             else
             {
                 Item.Interactor.OnPlace(Session, Item);
-                if (Item.GetBaseItem().InteractionType == InteractionType.MOODLIGHT && this.room.MoodlightData == null)
+                if (Item.GetBaseItem().InteractionType == InteractionType.MOODLIGHT && this.GetRoom.MoodlightData == null)
                 {
-                    this.room.MoodlightData = new MoodlightData(Item.Id);
-                    Item.ExtraData = this.room.MoodlightData.GenerateExtraData();
+                    this.GetRoom.MoodlightData = new MoodlightData(Item.Id);
+                    Item.ExtraData = this.GetRoom.MoodlightData.GenerateExtraData();
                 }
                 this._wallItems.TryAdd(Item.Id, Item);
                 this.UpdateItem(Item);
                 
-                this.room.SendPacket(new ItemAddComposer(Item, this.room.RoomData.OwnerName, this.room.RoomData.OwnerId));
+                this.GetRoom.SendPacket(new ItemAddComposer(Item, this.GetRoom.RoomData.OwnerName, this.GetRoom.RoomData.OwnerId));
 
                 return true;
             }
@@ -775,7 +779,7 @@ namespace Butterfly.HabboHotel.Rooms
 
         public void OnCycle()
         {
-            this.room.SendMessage(this.CycleRollers());
+            this.GetRoom.SendMessage(this.CycleRollers());
 
             if (this._roomItemUpdateQueue.Count > 0)
             {

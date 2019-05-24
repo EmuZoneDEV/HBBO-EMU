@@ -4,8 +4,6 @@ using System.Data;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Butterfly.Database.Interfaces;
-using System.Text;
-using System.Globalization;
 
 namespace Butterfly.HabboHotel.Rooms.Chat.Filter
 {
@@ -83,20 +81,48 @@ namespace Butterfly.HabboHotel.Rooms.Chat.Filter
             return Message;
         }
 
-        private void ClearMessage(ref string message, bool Jcp = false)
+        private string StringTranslate(ref string input, string frm, char to)
         {
-            // Ή
-            message = message.Replace("Î‰", "h");
-            message = message.ToLower();
+            for (int i = 0; i < frm.Length; i++)
+            {
+                input = input.Replace(frm[i], to);
+            }
+            return input;
+        }
 
-            message = RemoveDiacritics(message);
+        private void ClearMessage(ref string message, bool OnlyLetter = true)
+        {
+            message = message.Replace("()", "o").Replace("Æ", "ae");
 
-            message = message.Replace("Ή", "h").Replace("µ", "u").Replace("₱", "p").Replace("ø", "o").Replace("Ω", "o").Replace("ð", "d").Replace("ω", "w").
-                Replace("я", "r").Replace("ß", "b").Replace("0", "o").Replace("4", "a").Replace("3", "e").Replace("1", "i").Replace("@", "a").Replace("Ø", "o").
-                Replace("$", "s").Replace("Ð", "d").Replace("8", "b").Replace("β", "b");
-
-            if(!Jcp)
+            StringTranslate(ref message, "ĀāĂăĄąΑΔΆÀÁÂÃÄÅàáâãäå4@å", 'a');
+            StringTranslate(ref message, "ßΒþ", 'b');
+            StringTranslate(ref message, "¢©ĆćĈĉĊċČč€Çç", 'c');
+            StringTranslate(ref message, "ĎďĐđ", 'd');
+            StringTranslate(ref message, "ĒēĔĕĖėĘęĚěΈÈÉÊËèéêë3", 'e');
+            StringTranslate(ref message, "ĜĝĞğĠġĢģ", 'g');
+            StringTranslate(ref message, "ĤĥĦħΉ", 'h');
+            StringTranslate(ref message, "¡ĨĩĪīĬĭĮįİıΊΐìíîïÌÍÎÏ1!", 'i');
+            StringTranslate(ref message, "Ĵĵ", 'j');
+            StringTranslate(ref message, "Ķķĸ", 'k');
+            StringTranslate(ref message, "£¦ĹĺĻļĽľĿŀŁłℓ", 'l');
+            StringTranslate(ref message, "M", 'm');
+            StringTranslate(ref message, "ŃńŅņŇňŉŊŋπñÑ", 'n');
+            StringTranslate(ref message, "¤ŌōŎŏŐőΌoOòóôõöÒÓÔÕÖøΩð0", 'o');
+            StringTranslate(ref message, "Pp₱", 'p');
+            StringTranslate(ref message, "ŔŕŖŗŘřя®", 'r');
+            StringTranslate(ref message, "§ŚśŜŝŞşSŠš", 's');
+            StringTranslate(ref message, "ŢţŤťŦŧ", 't');
+            StringTranslate(ref message, "ųŨũŪūŬŭŮůŰűŲųùúûüÙÚÛÜ", 'u');
+            StringTranslate(ref message, "√", 'v');
+            StringTranslate(ref message, "Ŵŵω", 'w');
+            StringTranslate(ref message, "×", 'x');
+            StringTranslate(ref message, "ŶŷΎýÿÝÝ", 'y');
+            StringTranslate(ref message, "ŹźŻż", 'z');
+            
+            if (OnlyLetter)
                 message = new Regex(@"[^a-z]", RegexOptions.IgnoreCase).Replace(message, string.Empty);
+
+            message = message.ToLower();
         }
 
         public bool Ispub(string message)
@@ -117,7 +143,7 @@ namespace Butterfly.HabboHotel.Rooms.Chat.Filter
         {
             int OldLength = message.Replace(" ", "").Length;
 
-            this.ClearMessage(ref message, true);
+            this.ClearMessage(ref message, false);
 
             int LetterDelCount = OldLength - message.Length;
 
@@ -128,11 +154,17 @@ namespace Butterfly.HabboHotel.Rooms.Chat.Filter
                                                         ".org",
                                                         ".be",
                                                         ".eu",
+                                                        ".net",
+                                                        "mobi",
+                                                        "nouveau",
+                                                        "nouvo",
+                                                        "connect",
+                                                        "invite",
                                                         "recru",
                                                         "staff",
-                                                        "rejoignez",
+                                                        "ouvr",
+                                                        "rejoign",
                                                         "retro",
-                                                        "rétro",
                                                         "meilleur",
                                                         "direction",
                                                         "rejoin",
@@ -140,11 +172,15 @@ namespace Butterfly.HabboHotel.Rooms.Chat.Filter
                                                         "open",
                                                         "http",
                                                         "recrutement",
-                                                        "/",
-                                                        "É", //Etoile
+                                                        "animation",
                                                         "fps",
                                                         "new",
-                                                        "bbo", };
+                                                        "habb",
+                                                        "bbo",
+                                                        "sansle",
+                                                        "city",
+                                                        "alpha",
+                                                        };
 
             
             int CountDetect = 0;
@@ -155,28 +191,10 @@ namespace Butterfly.HabboHotel.Rooms.Chat.Filter
                     continue;
                 }
 
-            if (CountDetect >= 5 || (LetterDelCount > 10 && CountDetect >= 2))
+            if (CountDetect >= 4 || (LetterDelCount > 5 && CountDetect >= 2))
                 return true;
-
-
+            
             return false;
-        }
-
-        static string RemoveDiacritics(string stIn)
-        {
-            string stFormD = stIn.Normalize(NormalizationForm.FormD);
-            StringBuilder sb = new StringBuilder();
-
-            for (int ich = 0; ich < stFormD.Length; ich++)
-            {
-                UnicodeCategory uc = CharUnicodeInfo.GetUnicodeCategory(stFormD[ich]);
-                if (uc != UnicodeCategory.NonSpacingMark)
-                {
-                    sb.Append(stFormD[ich]);
-                }
-            }
-
-            return (sb.ToString().Normalize(NormalizationForm.FormC));
         }
     }
 }

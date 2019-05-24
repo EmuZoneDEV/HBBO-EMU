@@ -5,7 +5,7 @@
         public InRoomComposer(bool InRoom)
             : base(5)
         {
-            base.WriteBoolean(InRoom);
+            WriteBoolean(InRoom);
         }
     }
 }

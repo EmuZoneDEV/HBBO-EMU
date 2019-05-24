@@ -8,24 +8,24 @@ namespace Butterfly.Communication.Packets.Outgoing.Structure
         public PetTrainingPanelComposer(Pet petData)
             : base(ServerPacketHeader.PetTrainingPanelMessageComposer)
         {
-            base.WriteInteger(petData.PetId);
+            WriteInteger(petData.PetId);
 
             List<short> AvailableCommands = new List<short>();
 
-            base.WriteInteger(petData.PetCommands.Count);
+            WriteInteger(petData.PetCommands.Count);
             foreach (short Sh in petData.PetCommands.Keys)
             {
-                base.WriteInteger(Sh);
+                WriteInteger(Sh);
                 if (petData.PetCommands[Sh] == true)
                 {
                     AvailableCommands.Add(Sh);
                 }
             }
 
-            base.WriteInteger(AvailableCommands.Count);
+            WriteInteger(AvailableCommands.Count);
             foreach (short Sh in AvailableCommands)
             {
-                base.WriteInteger(Sh);
+                WriteInteger(Sh);
             }
         }
     }

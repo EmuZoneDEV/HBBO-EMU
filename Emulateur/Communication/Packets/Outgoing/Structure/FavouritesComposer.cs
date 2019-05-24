@@ -8,12 +8,12 @@ namespace Butterfly.Communication.Packets.Outgoing.Structure
         public FavouritesComposer(List<RoomData> favouriteIDs)
             : base(ServerPacketHeader.FavouritesMessageComposer)
         {
-            base.WriteInteger(30);
-            base.WriteInteger(favouriteIDs.Count);
+            WriteInteger(30);
+            WriteInteger(favouriteIDs.Count);
 
             foreach (RoomData Room in favouriteIDs)
             {
-                base.WriteInteger(Room.Id);
+                WriteInteger(Room.Id);
             }
         }
     }

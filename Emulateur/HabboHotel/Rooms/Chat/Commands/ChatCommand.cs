@@ -1,4 +1,5 @@
-﻿using Butterfly.HabboHotel.GameClients;
+﻿using Butterfly.Core;
+using Butterfly.HabboHotel.GameClients;
 
 namespace Butterfly.HabboHotel.Rooms.Chat
 {
@@ -43,7 +44,7 @@ namespace Butterfly.HabboHotel.Rooms.Chat
             return false;
         }
 
-        public bool UserGotAuthorizationStaffLog(GameClient session)
+        public bool UserGotAuthorizationStaffLog()
         {
             if (this.minrank > 4)
                 return true;
@@ -51,13 +52,17 @@ namespace Butterfly.HabboHotel.Rooms.Chat
             return false;
         }
 
-        public int UserGotAuthorization2(GameClient session)
+        public int UserGotAuthorization2(GameClient session, Language RoomLangue)
         {
             if (this.minrank == 0)
                 return 0;
+
+            if (this.minrank > 2 && session.GetHabbo().Rank < 13 && RoomLangue != session.Langue)
+                return 5;
+            
             if (this.minrank > 0)
             {
-                if ((long)this.minrank <= (long)session.GetHabbo().Rank)
+                if (this.minrank <= session.GetHabbo().Rank)
                     return 0;
                 else if (this.minrank == 2)
                     return 2;

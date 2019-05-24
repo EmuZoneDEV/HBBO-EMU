@@ -96,6 +96,7 @@
         actionflee,
         actionchase,
         collisioncase,
+        collisionteam,
         actiongivereward,
         actionmovetodir,
         conditionfurnishaveusers,
@@ -409,6 +410,8 @@
                     return InteractionType.actionchase;
                 case "wf_act_collisioncase":
                     return InteractionType.collisioncase;
+                case "wf_act_collisionteam":
+                    return InteractionType.collisionteam;
                 case "wf_act_move_to_dir":
                     return InteractionType.actionmovetodir;
                 case "conditionfurnishaveusers":

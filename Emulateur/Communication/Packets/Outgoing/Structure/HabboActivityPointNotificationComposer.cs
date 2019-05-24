@@ -5,9 +5,9 @@
         public HabboActivityPointNotificationComposer(int Balance, int Notif, int currencyType = 0)
             : base(ServerPacketHeader.HabboActivityPointNotificationMessageComposer)
         {
-            base.WriteInteger(Balance);
-            base.WriteInteger(Notif);
-            base.WriteInteger(currencyType);//Type
+            WriteInteger(Balance);
+            WriteInteger(Notif);
+            WriteInteger(currencyType);//Type
         }
     }
 }

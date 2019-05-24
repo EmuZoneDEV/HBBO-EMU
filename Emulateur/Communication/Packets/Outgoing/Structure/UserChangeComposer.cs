@@ -8,31 +8,31 @@ namespace Butterfly.Communication.Packets.Outgoing.Structure
         public UserChangeComposer(RoomUser User, bool Self)
             : base(ServerPacketHeader.UserChangeMessageComposer)
         {
-            base.WriteInteger((Self) ? -1 : User.VirtualId);
-            base.WriteString(User.GetClient().GetHabbo().Look);
-            base.WriteString(User.GetClient().GetHabbo().Gender);
-            base.WriteString(User.GetClient().GetHabbo().Motto);
-            base.WriteInteger(User.GetClient().GetHabbo().AchievementPoints);
+            WriteInteger((Self) ? -1 : User.VirtualId);
+            WriteString(User.GetClient().GetHabbo().Look);
+            WriteString(User.GetClient().GetHabbo().Gender);
+            WriteString(User.GetClient().GetHabbo().Motto);
+            WriteInteger(User.GetClient().GetHabbo().AchievementPoints);
         }
 
         public UserChangeComposer(RoomUser User) //Bot
             : base(ServerPacketHeader.UserChangeMessageComposer)
         {
-            base.WriteInteger(User.VirtualId);
-            base.WriteString(User.BotData.Look);
-            base.WriteString(User.BotData.Gender);
-            base.WriteString(User.BotData.Motto);
-            base.WriteInteger(0);
+            WriteInteger(User.VirtualId);
+            WriteString(User.BotData.Look);
+            WriteString(User.BotData.Gender);
+            WriteString(User.BotData.Motto);
+            WriteInteger(0);
         }
 
         public UserChangeComposer(GameClient Client)
             : base(ServerPacketHeader.UserChangeMessageComposer)
         {
-            base.WriteInteger(-1);
-            base.WriteString(Client.GetHabbo().Look);
-            base.WriteString(Client.GetHabbo().Gender);
-            base.WriteString(Client.GetHabbo().Motto);
-            base.WriteInteger(Client.GetHabbo().AchievementPoints);
+            WriteInteger(-1);
+            WriteString(Client.GetHabbo().Look);
+            WriteString(Client.GetHabbo().Gender);
+            WriteString(Client.GetHabbo().Motto);
+            WriteInteger(Client.GetHabbo().AchievementPoints);
         }
     }
 }

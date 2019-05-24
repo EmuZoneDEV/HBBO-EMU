@@ -102,7 +102,7 @@ namespace Butterfly.HabboHotel.Rooms.Games
 
             foreach (Item roomItem in this.GetFurniItems(team).Values)
             {
-                if (GameManager.IsScoreItem(roomItem.GetBaseItem().InteractionType))
+                if (IsScoreItem(roomItem.GetBaseItem().InteractionType))
                 {
                     roomItem.ExtraData = this.TeamPoints[(int)team].ToString();
                     roomItem.UpdateState();

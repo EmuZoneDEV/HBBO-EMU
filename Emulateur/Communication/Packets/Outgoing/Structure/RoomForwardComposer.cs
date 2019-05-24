@@ -5,7 +5,7 @@ namespace Butterfly.Communication.Packets.Outgoing.Structure
         public RoomForwardComposer(int RoomId)
             : base(ServerPacketHeader.RoomForwardMessageComposer)
         {
-            base.WriteInteger(RoomId);
+            WriteInteger(RoomId);
         }
     }
 }

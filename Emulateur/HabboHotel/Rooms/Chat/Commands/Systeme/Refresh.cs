@@ -95,6 +95,9 @@ namespace Butterfly.HabboHotel.Rooms.Chat.Commands.Cmd
                         ButterflyEnvironment.GetGame().GetItemManager().Init();
                         break;
                     }
+                case "model":
+                    ButterflyEnvironment.GetGame().GetRoomManager().LoadModels();
+                    break;
                 case "mutant":
                 case "figure":
                     {

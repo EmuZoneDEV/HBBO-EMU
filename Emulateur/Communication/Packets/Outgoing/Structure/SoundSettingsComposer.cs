@@ -10,15 +10,15 @@ namespace Butterfly.Communication.Packets.Outgoing.Structure
         {
             foreach (int VolumeValue in ClientVolumes)
             {
-                base.WriteInteger(VolumeValue);
+                WriteInteger(VolumeValue);
             }
 
-            base.WriteBoolean(ChatPreference);
-            base.WriteBoolean(InvitesStatus);
-            base.WriteBoolean(FocusPreference);
-            base.WriteInteger(FriendBarState);
-            base.WriteInteger(0);
-            base.WriteInteger(0);
+            WriteBoolean(ChatPreference);
+            WriteBoolean(InvitesStatus);
+            WriteBoolean(FocusPreference);
+            WriteInteger(FriendBarState);
+            WriteInteger(0);
+            WriteInteger(0);
         }
     }
 }

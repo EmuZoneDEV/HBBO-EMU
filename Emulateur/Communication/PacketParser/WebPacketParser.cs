@@ -91,8 +91,8 @@ namespace Butterfly.Net
 
             // key should now equal dGhlIHNhbXBsZSBub25jZQ==
             string longKey = key + "258EAFA5-E914-47DA-95CA-C5AB0DC85B11";
-            SHA1 sha1 = SHA1CryptoServiceProvider.Create();
-            byte[] hashBytes = sha1.ComputeHash(System.Text.Encoding.ASCII.GetBytes(longKey));
+            SHA1 sha1 = SHA1.Create();
+            byte[] hashBytes = sha1.ComputeHash(Encoding.ASCII.GetBytes(longKey));
             string test1 = Convert.ToBase64String(hashBytes);
 
             string newLine = "\r\n";

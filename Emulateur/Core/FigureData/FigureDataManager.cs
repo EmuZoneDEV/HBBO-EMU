@@ -66,7 +66,7 @@ namespace Butterfly.Core.FigureData
                         }
                         catch
                         {
-                            Console.WriteLine("Erreur 1 anti mutant Id: " + Child.Attributes["type"].Value);
+                            Console.WriteLine("Erreur 1 anti mutant Id: " + Sub.Attributes["id"].Value);
                         }
 
                         foreach (XmlNode Subb in Sub.ChildNodes)

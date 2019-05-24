@@ -9,18 +9,18 @@ namespace Butterfly.Communication.Packets.Outgoing.WebSocket
         public LoadInventoryRpComposer(ConcurrentDictionary<int, RolePlayInventoryItem> Items)
           : base(9)
         {
-            base.WriteInteger(Items.Count);
+            WriteInteger(Items.Count);
 
             foreach(RolePlayInventoryItem Item in Items.Values)
             {
                 RPItem RpItem = ButterflyEnvironment.GetGame().GetRoleplayManager().GetItemManager().GetItem(Item.ItemId);
 
-                base.WriteInteger(Item.ItemId);
-                base.WriteString(RpItem.Name);
-                base.WriteString(RpItem.Desc);
-                base.WriteInteger(Item.Count);
-                base.WriteInteger((int)RpItem.Category);
-                base.WriteInteger(RpItem.UseType);
+                WriteInteger(Item.ItemId);
+                WriteString(RpItem.Name);
+                WriteString(RpItem.Desc);
+                WriteInteger(Item.Count);
+                WriteInteger((int)RpItem.Category);
+                WriteInteger(RpItem.UseType);
             }
         }
     }

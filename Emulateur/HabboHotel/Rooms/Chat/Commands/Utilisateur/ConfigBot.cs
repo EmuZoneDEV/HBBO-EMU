@@ -23,7 +23,10 @@ namespace Butterfly.HabboHotel.Rooms.Chat.Commands.Cmd
 
                         int.TryParse(Params[3], out int IntValue);
 
-                        if(Bot.CurrentEffect != IntValue)
+                        if (!ButterflyEnvironment.GetGame().GetEffectsInventoryManager().EffectExist(IntValue, false))
+                            return;
+
+                        if (Bot.CurrentEffect != IntValue)
                             Bot.ApplyEffect(IntValue);
 
                         if (Bot.BotData.Enable != IntValue)

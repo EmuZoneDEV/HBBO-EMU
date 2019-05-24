@@ -5,7 +5,7 @@ namespace Butterfly.Communication.Packets.Outgoing.Structure
         public FloodControlComposer(int floodTime)
             : base(ServerPacketHeader.FloodControlMessageComposer)
         {
-            base.WriteInteger(floodTime);
+            WriteInteger(floodTime);
         }
     }
 }

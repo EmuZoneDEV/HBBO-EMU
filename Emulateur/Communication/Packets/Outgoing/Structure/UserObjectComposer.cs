@@ -7,20 +7,20 @@ namespace Butterfly.Communication.Packets.Outgoing.Structure
         public UserObjectComposer(Habbo Habbo)
             : base(ServerPacketHeader.UserObjectMessageComposer)
         {
-            base.WriteInteger(Habbo.Id);
-            base.WriteString(Habbo.Username);
-            base.WriteString(Habbo.Look);
-            base.WriteString(Habbo.Gender.ToUpper());
-            base.WriteString(Habbo.Motto);
-            base.WriteString("");
-            base.WriteBoolean(false);
-            base.WriteInteger(Habbo.Respect);
-            base.WriteInteger(Habbo.DailyRespectPoints);
-            base.WriteInteger(Habbo.DailyPetRespectPoints);
-            base.WriteBoolean(false); // Friends stream active
-            base.WriteString(Habbo.LastOnline.ToString()); // last online?
-            base.WriteBoolean(Habbo.Rank > 1 || Habbo.CanChangeName); // Can change name
-            base.WriteBoolean(false);
+            WriteInteger(Habbo.Id);
+            WriteString(Habbo.Username);
+            WriteString(Habbo.Look);
+            WriteString(Habbo.Gender.ToUpper());
+            WriteString(Habbo.Motto);
+            WriteString("");
+            WriteBoolean(false);
+            WriteInteger(Habbo.Respect);
+            WriteInteger(Habbo.DailyRespectPoints);
+            WriteInteger(Habbo.DailyPetRespectPoints);
+            WriteBoolean(false); // Friends stream active
+            WriteString(Habbo.LastOnline.ToString()); // last online?
+            WriteBoolean(Habbo.Rank > 1 || Habbo.CanChangeName); // Can change name
+            WriteBoolean(false);
         }
     }
 }

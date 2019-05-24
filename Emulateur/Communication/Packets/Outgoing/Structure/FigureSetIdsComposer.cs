@@ -5,9 +5,9 @@
         public FigureSetIdsComposer()
             : base(ServerPacketHeader.FigureSetIdsMessageComposer)
         {
-            base.WriteInteger(0);
+            WriteInteger(0);
 
-            base.WriteInteger(0);
+            WriteInteger(0);
         }
     }
 }

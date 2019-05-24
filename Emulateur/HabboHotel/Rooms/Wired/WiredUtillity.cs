@@ -52,6 +52,7 @@ namespace Butterfly.HabboHotel.Rooms.Wired
                 case InteractionType.actionflee:
                 case InteractionType.actionchase:
                 case InteractionType.collisioncase:
+                case InteractionType.collisionteam:
                 case InteractionType.actiongivereward:
                 case InteractionType.actionmovetodir:
                 case InteractionType.wf_act_bot_clothes:

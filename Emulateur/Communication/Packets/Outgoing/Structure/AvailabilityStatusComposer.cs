@@ -5,9 +5,9 @@ namespace Butterfly.Communication.Packets.Outgoing.Structure
         public AvailabilityStatusComposer()
             : base(ServerPacketHeader.AvailabilityStatusMessageComposer)
         {
-            base.WriteBoolean(true);
-            base.WriteBoolean(false);
-            base.WriteBoolean(true);
+            WriteBoolean(true);
+            WriteBoolean(false);
+            WriteBoolean(true);
         }
     }
 }

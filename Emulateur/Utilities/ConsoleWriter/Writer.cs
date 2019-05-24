@@ -13,43 +13,43 @@ namespace ConsoleWriter
     {
       get
       {
-        return Writer.mDisabled;
+        return mDisabled;
       }
       set
       {
-        Writer.mDisabled = value;
+                mDisabled = value;
       }
     }
 
     public static void WriteLine(string Line)
     {
-      if (Writer.mDisabled)
+      if (mDisabled)
         return;
       Console.WriteLine(Line);
     }
 
     public static void LogException(string logText)
     {
-      Writer.WriteToFile("Logs/exceptions.txt", logText + "\r\n\r\n");
-      Writer.WriteLine("Exception has been saved");
+            WriteToFile("Logs/exceptions.txt", logText + "\r\n\r\n");
+            WriteLine("Exception has been saved");
     }
 
     public static void LogDDOS(string logText)
     {
-      Writer.WriteToFile("Logs/ddos.txt", logText + "\r\n\r\n");
-      Writer.WriteLine("Exception has been saved");
+            WriteToFile("Logs/ddos.txt", logText + "\r\n\r\n");
+            WriteLine("Exception has been saved");
     }
 
     public static void LogCriticalException(string logText)
     {
-      Writer.WriteToFile("Logs/criticalexceptions.txt", logText + "\r\n\r\n");
-      Writer.WriteLine("CRITICAL ERROR LOGGED");
+            WriteToFile("Logs/criticalexceptions.txt", logText + "\r\n\r\n");
+            WriteLine("CRITICAL ERROR LOGGED");
     }
 
     public static void LogCacheError(string logText)
     {
-      Writer.WriteToFile("Logs/cacheerror.txt", logText + "\r\n\r\n");
-      Writer.WriteLine("Critical error saved");
+            WriteToFile("Logs/cacheerror.txt", logText + "\r\n\r\n");
+            WriteLine("Critical error saved");
     }
 
     public static void LogMessage(string logText)
@@ -59,26 +59,26 @@ namespace ConsoleWriter
 
     public static void LogDDOSS(string logText)
     {
-      Writer.WriteToFile("Logs/ddos.txt", logText + "\r\n\r\n");
-      Writer.WriteLine(logText);
+            WriteToFile("Logs/ddos.txt", logText + "\r\n\r\n");
+            WriteLine(logText);
     }
 
     public static void LogThreadException(string Exception, string Threadname)
     {
-      Writer.WriteToFile("Logs/threaderror.txt", "Error in thread " + Threadname + ": \r\n" + Exception + "\r\n\r\n");
-      Writer.WriteLine("Error in " + Threadname + " caught");
+            WriteToFile("Logs/threaderror.txt", "Error in thread " + Threadname + ": \r\n" + Exception + "\r\n\r\n");
+            WriteLine("Error in " + Threadname + " caught");
     }
 
     public static void LogQueryError(Exception Exception, string query)
     {
-      Writer.WriteToFile("Logs/MySQLerrors.txt", "Error in query: \r\n" + (object) query + "\r\n" + (string) Exception.ToString() + "\r\n\r\n");
-      Writer.WriteLine("Error in query caught");
+            WriteToFile("Logs/MySQLerrors.txt", "Error in query: \r\n" + (object) query + "\r\n" + (string) Exception.ToString() + "\r\n\r\n");
+            WriteLine("Error in query caught");
     }
 
     public static void LogPacketException(string Packet, string Exception)
     {
-      Writer.WriteToFile("Logs/packeterror.txt", "Error in packet " + Packet + ": \r\n" + Exception + "\r\n\r\n");
-      Writer.WriteLine("User disconnection logged: " + Exception);
+            WriteToFile("Logs/packeterror.txt", "Error in packet " + Packet + ": \r\n" + Exception + "\r\n\r\n");
+            WriteLine("User disconnection logged: " + Exception);
     }
 
     public static void HandleException(Exception pException, string pLocation)
@@ -125,12 +125,12 @@ namespace ConsoleWriter
       }
       stringBuilder.AppendLine();
       stringBuilder.AppendLine();
-      Writer.LogException(((object) stringBuilder).ToString());
+            LogException(((object) stringBuilder).ToString());
     }
 
     public static void DisablePrimaryWriting(bool ClearConsole)
     {
-      Writer.mDisabled = true;
+            mDisabled = true;
       if (!ClearConsole)
         return;
       Console.Clear();
@@ -138,7 +138,7 @@ namespace ConsoleWriter
 
     public static void LogShutdown(StringBuilder builder)
     {
-      Writer.WriteToFile("Logs/shutdownlog.txt", ((object) builder).ToString());
+            WriteToFile("Logs/shutdownlog.txt", ((object) builder).ToString());
     }
 
     private static void WriteToFile(string path, string content)
@@ -152,7 +152,7 @@ namespace ConsoleWriter
       }
       catch (Exception ex)
       {
-        Writer.WriteLine("Could not write to file: " + ((object) ex).ToString() + ":" + content);
+                WriteLine("Could not write to file: " + ((object) ex).ToString() + ":" + content);
       }
     }
   }

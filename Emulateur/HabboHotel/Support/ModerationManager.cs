@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using Butterfly.Communication.Packets.Outgoing.Structure;
+using Butterfly.HabboHotel.Users;
 
 namespace Butterfly.HabboHotel.Support
 {
@@ -245,7 +246,35 @@ namespace Butterfly.HabboHotel.Support
             }
             SupportTicket Ticket = new SupportTicket(Id, 1, Category, Session.GetHabbo().Id, ReportedUser, Message, roomid, roomname, (double)ButterflyEnvironment.GetUnixTimestamp());
             this.Tickets.Add(Ticket);
-            ModerationManager.SendTicketToModerators(Ticket);
+            SendTicketToModerators(Ticket);
+        }
+
+        public void ApplySanction(GameClient Session, int ReportedUser)
+        {
+            if (ReportedUser == 0)
+                return;
+
+            Habbo UserReport = ButterflyEnvironment.GetHabboById(ReportedUser);
+            if (UserReport == null)
+                return;
+
+            Session.GetHabbo().GetMessenger().DestroyFriendship(UserReport.Id);
+
+            ServerPacket Response = new ServerPacket(ServerPacketHeader.IgnoreStatusMessageComposer);
+            Response.WriteInteger(1);
+            Response.WriteString(UserReport.Username);
+            Session.SendPacket(Response);
+
+            Room room = ButterflyEnvironment.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId);
+            if (room == null || (room.RoomData.BanFuse != 1 || !room.CheckRights(Session)) && !room.CheckRights(Session, true))
+                return;
+
+            RoomUser roomUserByHabbo = room.GetRoomUserManager().GetRoomUserByHabboId(UserReport.Id);
+            if (roomUserByHabbo == null || roomUserByHabbo.IsBot || (room.CheckRights(roomUserByHabbo.GetClient(), true) || roomUserByHabbo.GetClient().GetHabbo().HasFuse("fuse_mod") || roomUserByHabbo.GetClient().GetHabbo().HasFuse("fuse_no_kick")))
+                return;
+
+            room.AddBan(UserReport.Id, 429496729);
+            room.GetRoomUserManager().RemoveUserFromRoom(roomUserByHabbo.GetClient(), true, true);
         }
 
         public SupportTicket GetTicket(int TicketId)
@@ -264,7 +293,7 @@ namespace Butterfly.HabboHotel.Support
             if (ticket == null || ticket.Status != TicketStatus.OPEN)
                 return;
             ticket.Pick(Session.GetHabbo().Id, true);
-            ModerationManager.SendTicketToModerators(ticket);
+            SendTicketToModerators(ticket);
         }
 
         public void ReleaseTicket(GameClient Session, int TicketId)
@@ -273,7 +302,7 @@ namespace Butterfly.HabboHotel.Support
             if (ticket == null || ticket.Status != TicketStatus.PICKED || ticket.ModeratorId != Session.GetHabbo().Id)
                 return;
             ticket.Release(true);
-            ModerationManager.SendTicketToModerators(ticket);
+            SendTicketToModerators(ticket);
         }
 
         public void CloseTicket(GameClient Session, int TicketId, int Result)
@@ -302,12 +331,12 @@ namespace Butterfly.HabboHotel.Support
             }
             if (clientByUserId != null)
             {
-                ServerPacket Message = new ServerPacket(ServerPacketHeader.ModResponse);
+                ServerPacket Message = new ServerPacket(ServerPacketHeader.ModToolIssueResponseAlertComposer);
                 Message.WriteString(MessageAlert);
                 clientByUserId.SendPacket(Message);
             }
             ticket.Close(NewStatus, true);
-            ModerationManager.SendTicketToModerators(ticket);
+            SendTicketToModerators(ticket);
         }
 
         public bool UsersHasPendingTicket(int Id)
@@ -327,7 +356,7 @@ namespace Butterfly.HabboHotel.Support
                 if (Ticket.SenderId == Id)
                 {
                     Ticket.Delete(true);
-                    ModerationManager.SendTicketToModerators(Ticket);
+                    SendTicketToModerators(Ticket);
                     break;
                 }
             }
@@ -549,7 +578,7 @@ namespace Butterfly.HabboHotel.Support
             }
             else
             {
-                List<ChatMessage> sortedMessages = clientByUserId.GetHabbo().GetChatMessageManager().GetSortedMessages(RoomId);
+                List<ChatMessage> sortedMessages = clientByUserId.GetHabbo().GetChatMessageManager().GetSortedMessages(0);
                 ServerPacket packet = new ServerPacket(ServerPacketHeader.ModeratorUserChatlogMessageComposer);
                 packet.WriteInteger(UserId);
                 packet.WriteString(clientByUserId.GetHabbo().Username);
@@ -562,7 +591,7 @@ namespace Butterfly.HabboHotel.Support
                 packet.WriteString("RoomName"); // room name
                 packet.WriteString("roomId");
                 packet.WriteByte(1);
-                packet.WriteInteger(0);
+                packet.WriteInteger(RoomId);
 
                 packet.WriteShort(sortedMessages.Count);
                 foreach (ChatMessage chatMessage2 in sortedMessages)

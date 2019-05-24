@@ -5,7 +5,7 @@
         public UserIsStaffComposer(bool IsStaff)
             : base(2)
         {
-            base.WriteBoolean(IsStaff);
+            WriteBoolean(IsStaff);
         }
     }
 }

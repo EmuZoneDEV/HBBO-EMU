@@ -5,8 +5,8 @@
         public RpTrocAccepteComposer(int UserId, bool Etat)
           : base(15)
         {
-            base.WriteInteger(UserId);
-            base.WriteBoolean(Etat);
+            WriteInteger(UserId);
+            WriteBoolean(Etat);
         }
     }
 }

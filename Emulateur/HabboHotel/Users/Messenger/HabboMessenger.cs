@@ -145,6 +145,9 @@ namespace Butterfly.HabboHotel.Users.Messenger
 
         public void DestroyFriendship(int friendID)
         {
+            if (!this.friends.ContainsKey(friendID))
+                return;
+
             using (IQueryAdapter queryreactor = ButterflyEnvironment.GetDatabaseManager().GetQueryReactor())
                 queryreactor.RunQuery("DELETE FROM messenger_friendships WHERE (user_one_id = " + this.UserId + " AND user_two_id = " + friendID + ") OR (user_two_id = " + this.UserId + " AND user_one_id = " + friendID + ")");
             this.OnDestroyFriendship(friendID);

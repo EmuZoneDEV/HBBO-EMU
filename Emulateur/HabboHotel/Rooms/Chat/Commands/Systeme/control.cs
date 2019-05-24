@@ -12,8 +12,14 @@ namespace Butterfly.HabboHotel.Rooms.Chat.Commands.Cmd
             string username = Params[1];
 
             RoomUser roomUserByHabbo = Session.GetHabbo().CurrentRoom.GetRoomUserManager().GetRoomUserByHabbo(username);
-            if (roomUserByHabbo == null)
+            if (roomUserByHabbo == null || roomUserByHabbo.GetClient() == null)
                 return;
+
+            if (Session.Langue != roomUserByHabbo.GetClient().Langue)
+            {
+                UserRoom.SendWhisperChat(ButterflyEnvironment.GetLanguageManager().TryGetValue(string.Format("cmd.authorized.langue.user", roomUserByHabbo.GetClient().Langue), Session.Langue));
+                return;
+            }
 
             Session.GetHabbo().ControlUserId = roomUserByHabbo.GetClient().GetHabbo().Id;
 

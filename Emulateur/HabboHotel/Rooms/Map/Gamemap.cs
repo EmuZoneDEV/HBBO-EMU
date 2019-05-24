@@ -15,7 +15,6 @@ namespace Butterfly.HabboHotel.Rooms
     public class Gamemap
     {
         private Room room;
-        private readonly ConcurrentDictionary<Point, List<Item>> mCoordinatedItems;
         private readonly ConcurrentDictionary<Point, List<RoomUser>> userMap;
         public bool DiagonalEnabled;
         public bool ObliqueDisable;
@@ -32,6 +31,7 @@ namespace Butterfly.HabboHotel.Rooms
         public byte[,] mUserOnMap { get; private set; }
 
         public byte[,] mSquareTaking { get; private set; }
+        public ConcurrentDictionary<Point, List<Item>> CoordinatedItems { get; private set; }
 
         public Gamemap(Room room)
         {
@@ -44,7 +44,7 @@ namespace Butterfly.HabboHotel.Rooms
 
             this.Model = new DynamicRoomModel(mStaticModel);
 
-            this.mCoordinatedItems = new ConcurrentDictionary<Point, List<Item>>();
+            this.CoordinatedItems = new ConcurrentDictionary<Point, List<Item>>();
             this.userMap = new ConcurrentDictionary<Point, List<RoomUser>>();
 
             this.GameMap = new byte[this.Model.MapSizeX, this.Model.MapSizeY];
@@ -68,24 +68,10 @@ namespace Butterfly.HabboHotel.Rooms
 
         public void TeleportToItem(RoomUser user, Item item)
         {
-            /*this.UpdateUserMovement(user.Coordinate, item.Coordinate, user);
-            user.X = item.GetX;
-            user.Y = item.GetY;
-            user.Z = item.GetZ;
-
-            user.SetX = item.GetX;
-            user.SetY = item.GetY;
-            user.SetZ = item.GetZ;
-
-            user.GoalX = user.X;
-            user.GoalY = user.Y;
-            user.SetStep = false;
-            user.IsWalking = false;
-            user.UpdateNeeded = true;*/
-            
-            
             if (user.mRoom != null)
                 user.mRoom.SendPacket(user.mRoom.GetRoomItemHandler().TeleportUser(user, item.Coordinate, 0, item.GetZ)); //user.mRoom.GetGameMap().SqAbsoluteHeight(item.GetX, item.GetY)
+
+            item.GetRoom().GetRoomUserManager().UpdateUserStatus(user, false);
         }
 
         public void UpdateUserMovement(Point oldCoord, Point newCoord, RoomUser user)
@@ -242,7 +228,7 @@ namespace Butterfly.HabboHotel.Rooms
                 Model.SetMapsize(MaxX + 1, MaxY + 1);
             }
 
-            this.mCoordinatedItems.Clear();
+            this.CoordinatedItems.Clear();
             this.GameMap = new byte[this.Model.MapSizeX, this.Model.MapSizeY];
             this.mUserOnMap = new byte[this.Model.MapSizeX, this.Model.MapSizeY];
             this.mSquareTaking = new byte[this.Model.MapSizeX, this.Model.MapSizeY];
@@ -357,25 +343,25 @@ namespace Butterfly.HabboHotel.Rooms
         public void AddCoordinatedItem(Item item, Point coord)
         {
             List<Item> list1 = new List<Item>();
-            if (!this.mCoordinatedItems.ContainsKey(coord))
+            if (!this.CoordinatedItems.ContainsKey(coord))
             {
-                this.mCoordinatedItems.TryAdd(coord, new List<Item>() { item });
+                this.CoordinatedItems.TryAdd(coord, new List<Item>() { item });
             }
             else
             {
-                List<Item> list2 = this.mCoordinatedItems[coord];
+                List<Item> list2 = this.CoordinatedItems[coord];
                 if (list2.Contains(item))
                     return;
                 list2.Add(item);
-                this.mCoordinatedItems[coord] = list2;
+                this.CoordinatedItems[coord] = list2;
             }
         }
 
         public List<Item> GetCoordinatedItems(Point coord)
         {
             Point point = new Point(coord.X, coord.Y);
-            if (this.mCoordinatedItems.ContainsKey(point))
-                return (List<Item>)this.mCoordinatedItems[point];
+            if (this.CoordinatedItems.ContainsKey(point))
+                return (List<Item>)this.CoordinatedItems[point];
             else
                 return new List<Item>();
         }
@@ -383,9 +369,9 @@ namespace Butterfly.HabboHotel.Rooms
         public bool RemoveCoordinatedItem(Item item, Point coord)
         {
             Point point = new Point(coord.X, coord.Y);
-            if (!this.mCoordinatedItems.ContainsKey(point) || !((List<Item>)this.mCoordinatedItems[point]).Contains(item))
+            if (!this.CoordinatedItems.ContainsKey(point) || !((List<Item>)this.CoordinatedItems[point]).Contains(item))
                 return false;
-            ((List<Item>)this.mCoordinatedItems[point]).Remove(item);
+            ((List<Item>)this.CoordinatedItems[point]).Remove(item);
             return true;
         }
 
@@ -504,9 +490,9 @@ namespace Butterfly.HabboHotel.Rooms
             foreach (Point Tile in item.GetCoords.ToList())
             {
                 Point point = new Point(Tile.X, Tile.Y);
-                if (this.mCoordinatedItems.ContainsKey(point))
+                if (this.CoordinatedItems.ContainsKey(point))
                 {
-                    List<Item> list = (List<Item>)this.mCoordinatedItems[point];
+                    List<Item> list = (List<Item>)this.CoordinatedItems[point];
                     if (!NoDoublons.ContainsKey(Tile))
                         NoDoublons.Add(Tile, list);
                 }
@@ -645,10 +631,10 @@ namespace Butterfly.HabboHotel.Rooms
         public double SqAbsoluteHeight(int X, int Y)
         {
             Point point = new Point(X, Y);
-            if (!this.mCoordinatedItems.ContainsKey(point))
+            if (!this.CoordinatedItems.ContainsKey(point))
                 return (double)this.GetHeightForSquareFromData(point);
 
-            List<Item> ItemsOnSquare = (List<Item>)this.mCoordinatedItems[point];
+            List<Item> ItemsOnSquare = (List<Item>)this.CoordinatedItems[point];
             return this.SqAbsoluteHeight(X, Y, ItemsOnSquare);
         }
 
@@ -741,9 +727,9 @@ namespace Butterfly.HabboHotel.Rooms
         {
             List<Item> list = new List<Item>();
             Point point = new Point(pX, pY);
-            if (this.mCoordinatedItems.ContainsKey(point))
+            if (this.CoordinatedItems.ContainsKey(point))
             {
-                foreach (Item roomItem in (List<Item>)this.mCoordinatedItems[point])
+                foreach (Item roomItem in (List<Item>)this.CoordinatedItems[point])
                 {
                     if (roomItem.GetZ > minZ && roomItem.GetX == pX && roomItem.GetY == pY)
                         list.Add(roomItem);
@@ -996,7 +982,7 @@ namespace Butterfly.HabboHotel.Rooms
         {
             this.userMap.Clear();
             this.Model.Destroy();
-            this.mCoordinatedItems.Clear();
+            this.CoordinatedItems.Clear();
             Array.Clear((Array)this.GameMap, 0, this.GameMap.Length);
             Array.Clear((Array)this.EffectMap, 0, this.EffectMap.Length);
             Array.Clear((Array)this.ItemHeightMap, 0, this.ItemHeightMap.Length);

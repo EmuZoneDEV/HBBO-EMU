@@ -108,7 +108,7 @@ namespace Butterfly.HabboHotel.Rooms.Games
                 {
                     user.Freezed = false;
                     user.FreezeCounter = 0;
-                    Freeze.ActivateShield(user);
+                    ActivateShield(user);
                 }
             }
             if (!user.shieldActive)
@@ -168,7 +168,7 @@ namespace Butterfly.HabboHotel.Rooms.Games
 
             this.room.GetGameManager().AddPointToTeam(roomUser.team, 40, (RoomUser)null);
 
-            ServerPacket Message = new ServerPacket(ServerPacketHeader.UpdateFreezeLives);
+            ServerPacket Message = new ServerPacket(ServerPacketHeader.FreezeLivesComposer);
             Message.WriteInteger(roomUser.VirtualId);
             Message.WriteInteger(roomUser.FreezeLives);
             roomUser.GetClient().SendPacket(Message);
@@ -323,7 +323,7 @@ namespace Butterfly.HabboHotel.Rooms.Games
                     user.banzaiPowerUp = item.freezePowerUp;
                     break;
                 case FreezePowerUp.Shield:
-                    Freeze.ActivateShield(user);
+                    ActivateShield(user);
                     break;
                 case FreezePowerUp.Heart:
                     if (user.FreezeLives < 3)
@@ -331,7 +331,7 @@ namespace Butterfly.HabboHotel.Rooms.Games
                         ++user.FreezeLives;
                         this.room.GetGameManager().AddPointToTeam(user.team, 10, user);
                     }
-                    ServerPacket Message = new ServerPacket(ServerPacketHeader.UpdateFreezeLives);
+                    ServerPacket Message = new ServerPacket(ServerPacketHeader.FreezeLivesComposer);
                     Message.WriteInteger(user.VirtualId);
                     Message.WriteInteger(user.FreezeLives);
                     user.GetClient().SendPacket(Message);
@@ -382,7 +382,7 @@ namespace Butterfly.HabboHotel.Rooms.Games
                 --user.FreezeLives;
                 if (user.FreezeLives <= 0)
                 {
-                    ServerPacket Message = new ServerPacket(ServerPacketHeader.UpdateFreezeLives);
+                    ServerPacket Message = new ServerPacket(ServerPacketHeader.FreezeLivesComposer);
                     Message.WriteInteger(user.VirtualId);
                     Message.WriteInteger(user.FreezeLives);
                     user.GetClient().SendPacket(Message);
@@ -423,7 +423,7 @@ namespace Butterfly.HabboHotel.Rooms.Games
                     this.room.GetGameManager().AddPointToTeam(user.team, -10, user);
                     user.ApplyEffect(12);
 
-                    ServerPacket Message = new ServerPacket(ServerPacketHeader.UpdateFreezeLives);
+                    ServerPacket Message = new ServerPacket(ServerPacketHeader.FreezeLivesComposer);
                     Message.WriteInteger(user.VirtualId);
                     Message.WriteInteger(user.FreezeLives);
                     user.GetClient().SendPacket(Message);
@@ -438,11 +438,11 @@ namespace Butterfly.HabboHotel.Rooms.Games
             {
                 Point point = new Point(x + index, y);
                 List<Item> itemsForSquare = this.GetItemsForSquare(point);
-                if (Freeze.SquareGotFreezeTile(itemsForSquare))
+                if (SquareGotFreezeTile(itemsForSquare))
                 {
                     this.HandleUserFreeze(point);
                     list.AddRange((IEnumerable<Item>)itemsForSquare);
-                    if (Freeze.SquareGotFreezeBlock(itemsForSquare))
+                    if (SquareGotFreezeBlock(itemsForSquare))
                         break;
                 }
                 else
@@ -452,11 +452,11 @@ namespace Butterfly.HabboHotel.Rooms.Games
             {
                 Point point = new Point(x, y + index);
                 List<Item> itemsForSquare = this.GetItemsForSquare(point);
-                if (Freeze.SquareGotFreezeTile(itemsForSquare))
+                if (SquareGotFreezeTile(itemsForSquare))
                 {
                     this.HandleUserFreeze(point);
                     list.AddRange((IEnumerable<Item>)itemsForSquare);
-                    if (Freeze.SquareGotFreezeBlock(itemsForSquare))
+                    if (SquareGotFreezeBlock(itemsForSquare))
                         break;
                 }
                 else
@@ -466,11 +466,11 @@ namespace Butterfly.HabboHotel.Rooms.Games
             {
                 Point point = new Point(x - index, y);
                 List<Item> itemsForSquare = this.GetItemsForSquare(point);
-                if (Freeze.SquareGotFreezeTile(itemsForSquare))
+                if (SquareGotFreezeTile(itemsForSquare))
                 {
                     this.HandleUserFreeze(point);
                     list.AddRange((IEnumerable<Item>)itemsForSquare);
-                    if (Freeze.SquareGotFreezeBlock(itemsForSquare))
+                    if (SquareGotFreezeBlock(itemsForSquare))
                         break;
                 }
                 else
@@ -480,11 +480,11 @@ namespace Butterfly.HabboHotel.Rooms.Games
             {
                 Point point = new Point(x, y - index);
                 List<Item> itemsForSquare = this.GetItemsForSquare(point);
-                if (Freeze.SquareGotFreezeTile(itemsForSquare))
+                if (SquareGotFreezeTile(itemsForSquare))
                 {
                     this.HandleUserFreeze(point);
                     list.AddRange((IEnumerable<Item>)itemsForSquare);
-                    if (Freeze.SquareGotFreezeBlock(itemsForSquare))
+                    if (SquareGotFreezeBlock(itemsForSquare))
                         break;
                 }
                 else
@@ -500,11 +500,11 @@ namespace Butterfly.HabboHotel.Rooms.Games
             {
                 Point point = new Point(x + index, y + index);
                 List<Item> itemsForSquare = this.GetItemsForSquare(point);
-                if (Freeze.SquareGotFreezeTile(itemsForSquare))
+                if (SquareGotFreezeTile(itemsForSquare))
                 {
                     this.HandleUserFreeze(point);
                     list.AddRange((IEnumerable<Item>)itemsForSquare);
-                    if (Freeze.SquareGotFreezeBlock(itemsForSquare))
+                    if (SquareGotFreezeBlock(itemsForSquare))
                         break;
                 }
                 else
@@ -514,11 +514,11 @@ namespace Butterfly.HabboHotel.Rooms.Games
             {
                 Point point = new Point(x - index, y - index);
                 List<Item> itemsForSquare = this.GetItemsForSquare(point);
-                if (Freeze.SquareGotFreezeTile(itemsForSquare))
+                if (SquareGotFreezeTile(itemsForSquare))
                 {
                     this.HandleUserFreeze(point);
                     list.AddRange((IEnumerable<Item>)itemsForSquare);
-                    if (Freeze.SquareGotFreezeBlock(itemsForSquare))
+                    if (SquareGotFreezeBlock(itemsForSquare))
                         break;
                 }
                 else
@@ -528,11 +528,11 @@ namespace Butterfly.HabboHotel.Rooms.Games
             {
                 Point point = new Point(x - index, y + index);
                 List<Item> itemsForSquare = this.GetItemsForSquare(point);
-                if (Freeze.SquareGotFreezeTile(itemsForSquare))
+                if (SquareGotFreezeTile(itemsForSquare))
                 {
                     this.HandleUserFreeze(point);
                     list.AddRange((IEnumerable<Item>)itemsForSquare);
-                    if (Freeze.SquareGotFreezeBlock(itemsForSquare))
+                    if (SquareGotFreezeBlock(itemsForSquare))
                         break;
                 }
                 else
@@ -542,11 +542,11 @@ namespace Butterfly.HabboHotel.Rooms.Games
             {
                 Point point = new Point(x + index, y - index);
                 List<Item> itemsForSquare = this.GetItemsForSquare(point);
-                if (Freeze.SquareGotFreezeTile(itemsForSquare))
+                if (SquareGotFreezeTile(itemsForSquare))
                 {
                     this.HandleUserFreeze(point);
                     list.AddRange((IEnumerable<Item>)itemsForSquare);
-                    if (Freeze.SquareGotFreezeBlock(itemsForSquare))
+                    if (SquareGotFreezeBlock(itemsForSquare))
                         break;
                 }
                 else

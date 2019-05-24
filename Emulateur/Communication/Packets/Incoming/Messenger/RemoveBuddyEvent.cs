@@ -9,9 +9,10 @@ namespace Butterfly.Communication.Packets.Incoming.Structure
             if (Session.GetHabbo().GetMessenger() == null)
                 return;
             int num = Packet.PopInt();
-            for (int index = 0; index < num; ++index)
+            if (num > 200)
+                num = 200;
+            for (int index = 0; index < num; index++)
                 Session.GetHabbo().GetMessenger().DestroyFriendship(Packet.PopInt());
-
         }
     }
 }

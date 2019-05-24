@@ -6,6 +6,7 @@ using Butterfly.HabboHotel.Rooms;
 using Butterfly.HabboHotel.Rooms.Chat.Styles;
 using Butterfly.Utilities;
 using System;
+using System.Text;
 
 namespace Butterfly.Communication.Packets.Incoming.Structure
 {
@@ -32,6 +33,7 @@ namespace Butterfly.Communication.Packets.Incoming.Structure
             }
 
             string Message = StringCharFilter.Escape(Packet.PopString());
+
             if (Message.Length > 100)
                 Message = Message.Substring(0, 100);
 
@@ -135,7 +137,7 @@ namespace Butterfly.Communication.Packets.Incoming.Structure
 
                 if (Session != null && !User.IsBot)
                 {
-                    if (Session.Antipub(Message, "<TCHAT>"))
+                    if (Session.Antipub(Message, "<TCHAT>", Room.Id))
                         return;
 
                     ButterflyEnvironment.GetGame().GetQuestManager().ProgressUserQuest(Session, QuestType.SOCIAL_CHAT, 0);

@@ -8,17 +8,17 @@ namespace Butterfly.Communication.Packets.Outgoing.WebSocket.Troc
         public RpTrocUpdateItemsComposer(int UserId, Dictionary<int, int> Items)
           : base(17)
         {
-            base.WriteInteger(UserId);
-            base.WriteInteger(Items.Count);
+            WriteInteger(UserId);
+            WriteInteger(Items.Count);
 
             foreach(KeyValuePair<int, int> Item in Items)
             {
                 RPItem RpItem = ButterflyEnvironment.GetGame().GetRoleplayManager().GetItemManager().GetItem(Item.Key);
 
-                base.WriteInteger(Item.Key);
-                base.WriteString((RpItem == null) ? "" : RpItem.Name);
-                base.WriteString((RpItem == null) ? "" : RpItem.Desc);
-                base.WriteInteger(Item.Value);
+                WriteInteger(Item.Key);
+                WriteString((RpItem == null) ? "" : RpItem.Name);
+                WriteString((RpItem == null) ? "" : RpItem.Desc);
+                WriteInteger(Item.Value);
             }
         }
     }

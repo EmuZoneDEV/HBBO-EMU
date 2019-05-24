@@ -5,8 +5,8 @@ namespace Butterfly.Communication.Packets.Outgoing.Structure
         public NavigatorSettingsComposer(int Homeroom)
             : base(ServerPacketHeader.NavigatorSettingsMessageComposer)
         {
-            base.WriteInteger(Homeroom);
-            base.WriteInteger(Homeroom);
+            WriteInteger(Homeroom);
+            WriteInteger(Homeroom);
         }
     }
 }

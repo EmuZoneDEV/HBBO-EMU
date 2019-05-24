@@ -35,13 +35,18 @@ namespace Butterfly.HabboHotel.Rooms.Chat.Commands.Cmd{    class userinfo : IC
                 stringBuilder.Append("\r - Autre information - \r");
                 stringBuilder.Append("MachineId: " + clientByUsername.MachineId + "\r");
                 stringBuilder.Append("IP Web: " + clientByUsername.GetHabbo().IP + "\r");
-                stringBuilder.Append("IP Emulateur: " + clientByUsername.GetConnection().getIp() + "\r");
+                stringBuilder.Append("IP Emu: " + clientByUsername.GetConnection().getIp() + "\r");
+                stringBuilder.Append("Langue: " + clientByUsername.Langue.ToString() + "\r");
 
                 WebClient ClientWeb = ButterflyEnvironment.GetGame().GetClientWebManager().GetClientByUserID(Habbo.Id);
                 if (ClientWeb != null)
                 {
                     stringBuilder.Append("WebSocket: En ligne" + "\r");
-                    if (Session.GetHabbo().Rank > 12) stringBuilder.Append("WebSocket Ip: " + ClientWeb.GetConnection().getIp() + "\r");
+                    if (Session.GetHabbo().Rank > 12)
+                    {
+                        stringBuilder.Append("WebSocket Ip: " + ClientWeb.GetConnection().getIp() + "\r");
+                        stringBuilder.Append("Langue Web: " + ClientWeb.Langue.ToString() + "\r");
+                    }
                 }
                 else
                 {

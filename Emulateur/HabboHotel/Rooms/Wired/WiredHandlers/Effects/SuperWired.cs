@@ -873,6 +873,9 @@ namespace Butterfly.HabboHotel.Rooms.Wired.WiredHandlers.Effects
 
                                     int.TryParse(Params[2], out int IntValue);
 
+                                    if (!ButterflyEnvironment.GetGame().GetEffectsInventoryManager().EffectExist(IntValue, false))
+                                        return;
+
                                     if (Bot.CurrentEffect != IntValue)
                                         Bot.ApplyEffect(IntValue);
 
@@ -1021,7 +1024,7 @@ namespace Butterfly.HabboHotel.Rooms.Wired.WiredHandlers.Effects
                                 {
                                     if (Bot.BotData.Name == "Jack")
                                     {
-                                        Phrases.Add("Fichtre... #username# à gagné !");
+                                        Phrases.Add("Fichtre... #username# a gagné !");
                                         Phrases.Add("Et c'est ce moussaillon de #username# qui repart avec le trésor !");
                                         Phrases.Add("#username# vient de décrocher une très belle surprise !");
                                     }
@@ -1029,7 +1032,7 @@ namespace Butterfly.HabboHotel.Rooms.Wired.WiredHandlers.Effects
                                     {
                                         Phrases.Add("Félicitations à #username# qui remporte la partie !");
                                         Phrases.Add("Félicitons #username# qui remporte la partie !");
-                                        Phrases.Add("La chance était du côté de #username# cette fois-ci !");
+                                        Phrases.Add("La chance était du côté de #username# aujourd'hui");
                                     }
                                     break;
                                 }
@@ -1037,23 +1040,23 @@ namespace Butterfly.HabboHotel.Rooms.Wired.WiredHandlers.Effects
                                 {
                                     if (Bot.BotData.Name == "Jack")
                                     {
-                                        Phrases.Add("Oulà ! #username# viens de se faire botter le derrière !");
-                                        Phrases.Add("Et #username# qui rejoint les nuls!");
+                                        Phrases.Add("Oulà ! #username# viens de se faire botter l'arrière train' !");
+                                        Phrases.Add("Et #username# qui rejoint l'équipe des loosers");
                                         Phrases.Add("Une défaite en bonne et due forme de #username# !");
                                     }
                                     else
                                     {
-                                        Phrases.Add("La prochaine fois tu y arriveras #username#, j'en suis sûre et certaine !");
+                                        Phrases.Add("La prochaine fois tu y arriveras #username#, j'en suis sûre et certain !");
                                         Phrases.Add("Courage #username#, tu y arriveras la prochaine fois !");
-                                        Phrases.Add("Ne soit pas triste #username#, d'autres occasions se présenteront !");
+                                        Phrases.Add("Ne soit pas triste #username#, d'autres occasions se présenteront à toi !");
                                     }
                                     break;
                                 }
                             case "startgame":
                                 {
-                                    Phrases.Add("Go go go go !");
+                                    Phrases.Add("Allons y, lets go !");
                                     Phrases.Add("C'est parti !");
-                                    Phrases.Add("Allez c'est parti !");
+                                    Phrases.Add("A vos marques, prêts ? Partez !");
                                     Phrases.Add("Let's go!");
                                     Phrases.Add("Ne perdons pas plus de temps, c'est parti !");
                                     Phrases.Add("Que la partie commence !");
@@ -1062,14 +1065,14 @@ namespace Butterfly.HabboHotel.Rooms.Wired.WiredHandlers.Effects
                             case "endgame":
                                 {
                                     Phrases.Add("L'animation est terminé, bravo à tout les gagnant(e)s !");
-                                    Phrases.Add("L'animation est finalement terminé, reviens nous voir !");
+                                    Phrases.Add("L'animation est enfin terminé ! reviens nous voir à la prochaine animation !");
                                     break;
                                 }
                             case "fungame":
                                 {
                                     if (Bot.BotData.Name == "Jack")
                                     {
-                                        Phrases.Add("Mhhhh, les joueurs sont vraiment mauvais !");
+                                        Phrases.Add("Mhhhh, les joueurs sont vraiment mauvais à ce point ?");
                                         Phrases.Add("On sait déjà tous qui sera le grand vaiqueur...");
                                         Phrases.Add("Qui ne tente rien n'a rien");
                                     }
@@ -1077,7 +1080,7 @@ namespace Butterfly.HabboHotel.Rooms.Wired.WiredHandlers.Effects
                                     {
                                         Phrases.Add("La victoire approche tenez le coup !");
                                         Phrases.Add("C'est pour ça qu'il faut toujours avoir un trèfle à 4 feuilles");
-                                        Phrases.Add("La chance est une compétence qui se travaille");
+                                        Phrases.Add("En essayant continuellement, on finit par réussir, plus ça rate, plus on a des chances que ça marque ;)");
                                     }
                                     break;
                                 }

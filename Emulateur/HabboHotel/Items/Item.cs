@@ -274,6 +274,7 @@ namespace Butterfly.HabboHotel.Items
                     case InteractionType.actionflee:
                     case InteractionType.actionchase:
                     case InteractionType.collisioncase:
+                    case InteractionType.collisionteam:
                     case InteractionType.actionmovetodir:
                     case InteractionType.conditionfurnishaveusers:
                     case InteractionType.conditionfurnishavenousers:
@@ -645,7 +646,7 @@ namespace Butterfly.HabboHotel.Items
 
                     Point NewPoint = this.GetMoveCoord(OldX, OldY, 1);
                     
-                    if (this.interactionCountHelper > 3)
+                    if ((!this.mRoom.OldFoot && this.interactionCountHelper > 3) || (this.mRoom.OldFoot && this.interactionCountHelper > 4))
                     {
                         Length = 3;
 

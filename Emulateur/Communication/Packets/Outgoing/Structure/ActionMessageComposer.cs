@@ -5,8 +5,8 @@ namespace Butterfly.Communication.Packets.Outgoing.Structure
         public ActionMessageComposer(int VirtualId, int ActionId)
             : base(ServerPacketHeader.ActionMessageComposer)
         {
-            base.WriteInteger(VirtualId);
-            base.WriteInteger(ActionId);
+            WriteInteger(VirtualId);
+            WriteInteger(ActionId);
         }
     }
 }

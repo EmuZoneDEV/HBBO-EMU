@@ -48,9 +48,9 @@ namespace Butterfly.Communication.Packets.Incoming.Structure
             if(!ThisUser.IsSpectator)
                 Room.GetRoomUserManager().UserEnter(ThisUser);
 
-            if (Session.GetHabbo()._nuxenable)
+            if (Session.GetHabbo().Nuxenable)
             {
-                ServerPacket nuxStatus = new ServerPacket(ServerPacketHeader.NuxUserStatusMessageComposer);
+                ServerPacket nuxStatus = new ServerPacket(ServerPacketHeader.NuxAlertComposer);
                 nuxStatus.WriteInteger(2);
                 Session.SendPacket(nuxStatus);
 

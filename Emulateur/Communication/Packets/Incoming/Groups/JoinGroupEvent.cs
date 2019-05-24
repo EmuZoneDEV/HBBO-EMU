@@ -7,7 +7,8 @@ namespace Butterfly.Communication.Packets.Incoming.Structure
     class JoinGroupEvent : IPacketEvent
     {
         public void Parse(GameClient Session, ClientPacket Packet)
-        {            if (Session == null || Session.GetHabbo() == null)
+        {
+            if (Session == null || Session.GetHabbo() == null)
                 return;
 
             Group Group = null;
@@ -45,7 +46,8 @@ namespace Butterfly.Communication.Packets.Incoming.Structure
                     Session.GetHabbo().CurrentRoom.SendPacket(new RefreshFavouriteGroupComposer(Session.GetHabbo().Id));
                 else
                     Session.SendPacket(new RefreshFavouriteGroupComposer(Session.GetHabbo().Id));
-            }
+            }
+
         }
     }
 }

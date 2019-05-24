@@ -38,46 +38,6 @@ namespace Butterfly.HabboHotel.GameClients
             this._usernameRegister = new ConcurrentDictionary<string, int>();
             this._userIDRegister = new ConcurrentDictionary<int, int>();
             this._userStaff = new List<int>();
-
-            this.ClientCycleStopwatch = new Stopwatch();
-            this.ClientCycleStopwatch.Start();
-        }
-
-        public void OnCycle(Stopwatch moduleWatch)
-        {
-            this.ClientCycleTask();
-            HandleFunctionReset(moduleWatch, "ClientCycleTask");
-        }
-
-        private void HandleFunctionReset(Stopwatch watch, string methodName)
-        {
-            if (watch.ElapsedMilliseconds > 500)
-                Console.WriteLine("High latency in {0}: {1}ms", methodName, watch.ElapsedMilliseconds);
-            watch.Restart();
-        }
-
-        private Stopwatch ClientCycleStopwatch;
-        public void ClientCycleTask()
-        {
-            if (ClientCycleStopwatch.ElapsedMilliseconds >= 500)
-            {
-                ClientCycleStopwatch.Restart();
-                /*foreach (GameClient Client in this._clients.Values.ToList())
-                {
-
-                }*/
-            }
-        }
-
-        public GameClient GetRandomClient()
-        {
-            int userID = this._userIDRegister.Keys.ElementAt(ButterflyEnvironment.GetRandomNumber(0, this._userIDRegister.Count - 1));
-
-            GameClient Client = null;
-            if (!TryGetClient(this._userIDRegister[userID], out Client))
-                return null;
-
-            return Client;
         }
 
         public List<GameClient> GetStaffUsers()

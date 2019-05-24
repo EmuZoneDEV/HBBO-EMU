@@ -39,47 +39,47 @@ namespace Butterfly.Communication.Packets.Outgoing.Structure
                 }
             }
 
-            base.WriteBoolean(false);
-            base.WriteString("NORMAL");
+            WriteBoolean(false);
+            WriteString("NORMAL");
         }
 
         public void WriteRootIndex(GameClient session, ICollection<CatalogPage> pages)
         {
-            base.WriteBoolean(true);
-            base.WriteInteger(0);
-            base.WriteInteger(-1);
-            base.WriteString("root");
-            base.WriteString(string.Empty);
-            base.WriteInteger(0);
-            base.WriteInteger(CalcTreeSize(session, pages, -1));
+            WriteBoolean(true);
+            WriteInteger(0);
+            WriteInteger(-1);
+            WriteString("root");
+            WriteString(string.Empty);
+            WriteInteger(0);
+            WriteInteger(CalcTreeSize(session, pages, -1));
         }
 
         public void WriteNodeIndex(CatalogPage page, int treeSize, Language Langue)
         {
-            base.WriteBoolean(true); // Visible
-            base.WriteInteger(page.Icon);
-            base.WriteInteger(-1);
-            base.WriteString(page.PageLink);
-            base.WriteString(page.GetCaptionByLangue(Langue));
-            base.WriteInteger(0);
-            base.WriteInteger(treeSize);
+            WriteBoolean(true); // Visible
+            WriteInteger(page.Icon);
+            WriteInteger(-1);
+            WriteString(page.PageLink);
+            WriteString(page.GetCaptionByLangue(Langue));
+            WriteInteger(0);
+            WriteInteger(treeSize);
         }
 
         public void WritePage(CatalogPage page, int treeSize, Language Langue)
         {
-            base.WriteBoolean(true);
-            base.WriteInteger(page.Icon);
-            base.WriteInteger(page.Id);
-            base.WriteString(page.PageLink);
-            base.WriteString(page.GetCaptionByLangue(Langue));
+            WriteBoolean(true);
+            WriteInteger(page.Icon);
+            WriteInteger(page.Id);
+            WriteString(page.PageLink);
+            WriteString(page.GetCaptionByLangue(Langue));
 
-            base.WriteInteger(page.ItemOffers.Count);
+            WriteInteger(page.ItemOffers.Count);
             foreach (int i in page.ItemOffers.Keys)
             {
-                base.WriteInteger(i);
+                WriteInteger(i);
             }
 
-            base.WriteInteger(treeSize);
+            WriteInteger(treeSize);
         }
 
         public int CalcTreeSize(GameClient Session, ICollection<CatalogPage> Pages, int ParentId)

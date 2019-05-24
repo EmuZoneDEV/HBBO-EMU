@@ -8,14 +8,14 @@ namespace Butterfly.Communication.Packets.Outgoing.WebSocket
         public BuyItemsListComposer(List<RPItem> ItemsBuy)
           : base(8)
         {
-            base.WriteInteger(ItemsBuy.Count);
+            WriteInteger(ItemsBuy.Count);
 
             foreach (RPItem Item in ItemsBuy)
             {
-                base.WriteInteger(Item.Id);
-                base.WriteString(Item.Name);
-                base.WriteString(Item.Desc);
-                base.WriteInteger(Item.Price);
+                WriteInteger(Item.Id);
+                WriteString(Item.Name);
+                WriteString(Item.Desc);
+                WriteInteger(Item.Price);
             }
         }
     }

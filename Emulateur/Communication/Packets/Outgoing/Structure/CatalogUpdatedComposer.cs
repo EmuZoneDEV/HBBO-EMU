@@ -5,7 +5,7 @@ namespace Butterfly.Communication.Packets.Outgoing.Structure
         public CatalogUpdatedComposer()
             : base(ServerPacketHeader.CatalogUpdatedMessageComposer)
         {
-            base.WriteBoolean(false);
+            WriteBoolean(false);
         }
     }
 }

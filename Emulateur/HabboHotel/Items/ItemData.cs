@@ -67,15 +67,22 @@ namespace Butterfly.HabboHotel.Items
                 this.VendingIds.Add(int.Parse(VendingIds));
 
             this.AdjustableHeights = new List<double>();
-            if (AdjustableHeights.Contains(","))
+
+            try
             {
-                foreach (string H in AdjustableHeights.Split(','))
+                if (AdjustableHeights.Contains(","))
                 {
-                    this.AdjustableHeights.Add(double.Parse(H));
+                    foreach (string H in AdjustableHeights.Split(','))
+                    {
+                        this.AdjustableHeights.Add(double.Parse(H));
+                    }
                 }
+                else if (!String.IsNullOrEmpty(AdjustableHeights) && (double.Parse(AdjustableHeights)) > 0)
+                    this.AdjustableHeights.Add(double.Parse(AdjustableHeights));
+            } catch(Exception e)
+            {
+                Console.WriteLine("Erreur ID ( " + this.Id + " ) : " + e);
             }
-            else if (!String.IsNullOrEmpty(AdjustableHeights) && (double.Parse(AdjustableHeights)) > 0)
-                this.AdjustableHeights.Add(double.Parse(AdjustableHeights));
 
             this.EffectId = EffectId;
 

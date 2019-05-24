@@ -52,8 +52,6 @@ namespace Butterfly.HabboHotel.Users.UserData
                         return (UserData)null;
                     }
 
-                    //SELECT expire FROM bans WHERE(bantype = 'user' AND value = 'username') OR(bantype = 'ip' AND value = 'IP1') OR(bantype = 'ip' AND value = 'IP2') OR(bantype = 'machine' AND value = 'machineid')
-
                     userId = Convert.ToInt32(dUserInfo["id"]);
                     string username = (string)dUserInfo["username"];
                     if (ButterflyEnvironment.GetGame().GetClientManager().GetClientByUserID(userId) != null)
@@ -76,41 +74,41 @@ namespace Butterfly.HabboHotel.Users.UserData
                         ChangeName = true;
                     }
 
-                    queryreactor.SetQuery("SELECT * FROM user_stats WHERE id = " + userId);
+                    queryreactor.SetQuery("SELECT * FROM user_stats WHERE id = '" + userId + "';");
                     row2 = queryreactor.GetRow();
 
                     if (row2 == null)
                     {
                         queryreactor.RunQuery("INSERT INTO user_stats (id) VALUES ('" + userId + "')");
-                        queryreactor.SetQuery("SELECT * FROM user_stats WHERE id =  " + userId);
+                        queryreactor.SetQuery("SELECT * FROM user_stats WHERE id =  '" + userId + "';");
                         row2 = queryreactor.GetRow();
                     }
 
-                    queryreactor.SetQuery("SELECT * FROM user_achievement WHERE userid = " + userId);
+                    queryreactor.SetQuery("SELECT * FROM user_achievement WHERE userid = '" + userId + "';");
                     Achievement = queryreactor.GetTable();
 
-                    queryreactor.SetQuery("SELECT room_id FROM user_favorites WHERE user_id = " + userId);
+                    queryreactor.SetQuery("SELECT room_id FROM user_favorites WHERE user_id = '" + userId + "';");
                     Favorites = queryreactor.GetTable();
 
-                    queryreactor.SetQuery("SELECT room_id FROM room_rights WHERE user_id = " + userId);
+                    queryreactor.SetQuery("SELECT room_id FROM room_rights WHERE user_id = '" + userId + "';");
                     RoomRights = queryreactor.GetTable();
 
-                    queryreactor.SetQuery("SELECT * FROM user_badges WHERE user_id = " + userId);
+                    queryreactor.SetQuery("SELECT * FROM user_badges WHERE user_id = '" + userId + "';");
                     Badges = queryreactor.GetTable();
 
                     queryreactor.SetQuery("SELECT users.id,users.username,messenger_friendships.relation FROM users JOIN messenger_friendships ON users.id = messenger_friendships.user_two_id WHERE messenger_friendships.user_one_id = '" + userId + "'");
                     FrienShips = queryreactor.GetTable();
 
-                    queryreactor.SetQuery("SELECT messenger_requests.from_id,messenger_requests.to_id,users.username FROM users JOIN messenger_requests ON users.id = messenger_requests.from_id WHERE messenger_requests.to_id = " + userId + "");
+                    queryreactor.SetQuery("SELECT messenger_requests.from_id,messenger_requests.to_id,users.username FROM users JOIN messenger_requests ON users.id = messenger_requests.from_id WHERE messenger_requests.to_id = '" + userId + "'");
                     Requests = queryreactor.GetTable();
 
-                    queryreactor.SetQuery("SELECT * FROM user_quests WHERE user_id = " + userId);
+                    queryreactor.SetQuery("SELECT * FROM user_quests WHERE user_id = '" + userId + "';");
                     Quests = queryreactor.GetTable();
 
-                    queryreactor.SetQuery("SELECT group_id FROM group_memberships WHERE user_id = " + userId + ";");
+                    queryreactor.SetQuery("SELECT group_id FROM group_memberships WHERE user_id = '" + userId + "';");
                     GroupMemberships = queryreactor.GetTable();
 
-                    queryreactor.RunQuery("UPDATE users SET online = '1', auth_ticket = '' WHERE id = " + userId);
+                    queryreactor.RunQuery("UPDATE users SET online = '1', auth_ticket = '' WHERE id = '" + userId + "';");
                 }
 
                 Dictionary<string, UserAchievement> achievements = new Dictionary<string, UserAchievement>();
@@ -283,8 +281,9 @@ namespace Butterfly.HabboHotel.Users.UserData
             bool NuxEnable = ButterflyEnvironment.EnumToBool(dRow["nux_enable"].ToString());
             string MachineId = (string)dRow["machine_id"];
             Language Langue = LanguageManager.ParseLanguage((string)dRow["langue"]);
+            bool IgnoreAll = ButterflyEnvironment.EnumToBool(dRow["ignoreall"].ToString());
 
-            return new Habbo(Id, Username, Rank, Motto, Look, Gender, Credits, Diamonds, ActivityPoints, LastActivityPointsUpdate, HomeRoom, Respect, DailyRespectPoints, DailyPetRespectPoints, HasFriendRequestsDisabled, currentQuestID, achievementPoints, LastOnline, FavoriteGroup, accountCreated, AcceptTrading, Ip, HideInroom, HideOnline, MazoHighScore, Mazo, clientVolume, NuxEnable, MachineId, ChangeName, Langue);
+            return new Habbo(Id, Username, Rank, Motto, Look, Gender, Credits, Diamonds, ActivityPoints, LastActivityPointsUpdate, HomeRoom, Respect, DailyRespectPoints, DailyPetRespectPoints, HasFriendRequestsDisabled, currentQuestID, achievementPoints, LastOnline, FavoriteGroup, accountCreated, AcceptTrading, Ip, HideInroom, HideOnline, MazoHighScore, Mazo, clientVolume, NuxEnable, MachineId, ChangeName, Langue, IgnoreAll);
         }
     }
 }

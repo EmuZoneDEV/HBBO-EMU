@@ -13,6 +13,13 @@ namespace Butterfly.HabboHotel.Rooms.Chat.Commands.Cmd
             GameClient clientByUsername = ButterflyEnvironment.GetGame().GetClientManager().GetClientByUsername(Params[1]);            if (clientByUsername == null || clientByUsername.GetHabbo() == null)
                 return;
 
+            if(Session.Langue != clientByUsername.Langue)
+            {
+                UserRoom.SendWhisperChat(ButterflyEnvironment.GetLanguageManager().TryGetValue(string.Format("cmd.authorized.langue.user", clientByUsername.Langue), Session.Langue));
+                return;
+            }
+
+
             clientByUsername.GetHabbo().CanChangeName = true;
             clientByUsername.SendPacket(new UserObjectComposer(clientByUsername.GetHabbo()));
         }

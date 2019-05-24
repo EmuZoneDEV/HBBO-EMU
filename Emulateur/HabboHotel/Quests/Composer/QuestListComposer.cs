@@ -46,12 +46,12 @@ namespace Butterfly.HabboHotel.Quests.Composer
       foreach (KeyValuePair<string, Quest> keyValuePair in dictionary2)
       {
         if (keyValuePair.Value != null)
-          QuestListComposer.SerializeQuest(Message, Session, keyValuePair.Value, keyValuePair.Key);
+                    SerializeQuest(Message, Session, keyValuePair.Value, keyValuePair.Key);
       }
       foreach (KeyValuePair<string, Quest> keyValuePair in dictionary2)
       {
         if (keyValuePair.Value == null)
-          QuestListComposer.SerializeQuest(Message, Session, keyValuePair.Value, keyValuePair.Key);
+                    SerializeQuest(Message, Session, keyValuePair.Value, keyValuePair.Key);
       }
       Message.WriteBoolean(Send);
       return Message;
@@ -76,7 +76,7 @@ namespace Butterfly.HabboHotel.Quests.Composer
       Message.WriteString(Quest == null ? string.Empty : Quest.Name);
       Message.WriteInteger(num);
       Message.WriteInteger(Quest == null ? 0 : Quest.GoalData);
-      Message.WriteInteger(QuestListComposer.GetIntValue(Category));
+      Message.WriteInteger(GetIntValue(Category));
       Message.WriteString("set_kuurna");
       Message.WriteString("MAIN_CHAIN");
       Message.WriteBoolean(true);

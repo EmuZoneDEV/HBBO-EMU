@@ -12,13 +12,12 @@ using Buttefly.Communication.Encryption.Crypto.Prng;
 using Butterfly.Communication.Packets.Outgoing.Structure;
 using Butterfly.Communication.Packets.Outgoing.WebSocket;
 using Buttefly.Utilities;
+using System.Text;
 
 namespace Butterfly.HabboHotel.GameClients
 {
     public class GameClient
     {
-        private readonly int Id;
-
         private ConnectionInformation Connection;
         private GamePacketParser packetParser;
         private Habbo Habbo;
@@ -28,17 +27,11 @@ namespace Butterfly.HabboHotel.GameClients
 
         public ARC4 RC4Client = null;
 
-        public int ConnectionID
-        {
-            get
-            {
-                return this.Id;
-            }
-        }
+        public int ConnectionID { get; }
 
         public GameClient(int ClientId, ConnectionInformation pConnection)
         {
-            this.Id = ClientId;
+            this.ConnectionID = ClientId;
             this.Langue = Language.FRANCAIS;
             this.Connection = pConnection;
             this.packetParser = new GamePacketParser(this);
@@ -94,6 +87,8 @@ namespace Butterfly.HabboHotel.GameClients
                     this.Habbo.Init(this, userData);
                     this.Habbo.LoadData(userData);
 
+                    this.IsNewUser();
+
                     this.SendPacket(new AuthenticationOKComposer());
                     this.SendPacket(new NavigatorSettingsComposer(this.Habbo.HomeRoom));
                     this.SendPacket(new FavouritesComposer(this.Habbo.FavoriteRooms));
@@ -106,15 +101,6 @@ namespace Butterfly.HabboHotel.GameClients
                     this.SendPacket(new CfhTopicsInitComposer(ButterflyEnvironment.GetGame().GetModerationTool().UserActionPresets));
                     this.SendPacket(new SoundSettingsComposer(this.Habbo._clientVolume, false, false, false, 1));
                     this.SendPacket(new AvatarEffectsComposer(ButterflyEnvironment.GetGame().GetEffectsInventoryManager().GetEffects()));
-
-                    if (GetHabbo()._nuxenable)
-                    {
-                        ServerPacket nuxStatus = new ServerPacket(ServerPacketHeader.NuxUserStatusMessageComposer);
-                        nuxStatus.WriteInteger(2);
-                        this.SendPacket(nuxStatus);
-
-                        this.SendPacket(new NuxAlertComposer("nux/lobbyoffer/hide"));
-                    }
 
                     this.Habbo.UpdateActivityPointsBalance();
                     this.Habbo.UpdateCreditsBalance();
@@ -132,6 +118,39 @@ namespace Butterfly.HabboHotel.GameClients
             catch (Exception ex)
             {
                 Logging.LogException("Invalid Dario bug duing user login: " + (ex).ToString());
+            }
+        }
+
+        private void IsNewUser()
+        {
+            if (GetHabbo().NewUser)
+            {
+                GetHabbo().NewUser = false;
+
+                int RoomId = 0;
+                using (IQueryAdapter dbClient = ButterflyEnvironment.GetDatabaseManager().GetQueryReactor())
+                {
+                    dbClient.SetQuery("INSERT INTO rooms (caption,description,owner,model_name,category,state, icon_bg, icon_fg, icon_items, wallpaper, floor, landscape, allow_hidewall, wallthick, floorthick) SELECT @caption, @desc, @username, @model, category, state, icon_bg, icon_fg, icon_items, wallpaper, floor, landscape, allow_hidewall, wallthick, floorthick FROM rooms WHERE id = '5328079'");
+                    dbClient.AddParameter("caption", this.GetHabbo().Username);
+                    dbClient.AddParameter("desc", ButterflyEnvironment.GetLanguageManager().TryGetValue("room.welcome.desc", this.Langue));
+                    dbClient.AddParameter("username", this.GetHabbo().Username);
+                    dbClient.AddParameter("model", "model_welcome");
+                    RoomId = (int)dbClient.InsertQuery();
+                    if (RoomId == 0)
+                        return;
+
+                    dbClient.RunQuery("INSERT INTO items (user_id, room_id, base_item, extra_data, x, y, z, rot) SELECT '" + this.GetHabbo().Id + "', '" + RoomId + "', base_item, extra_data, x, y, z, rot FROM items WHERE room_id = '5328079'");
+
+                    dbClient.RunQuery("UPDATE users SET nux_enable = '0', home_room = '" + RoomId + "' WHERE id = " + this.GetHabbo().Id);
+                }
+                this.GetHabbo().UsersRooms.Add(ButterflyEnvironment.GetGame().GetRoomManager().GenerateRoomData(RoomId));
+                this.GetHabbo().HomeRoom = RoomId;
+
+                ServerPacket nuxStatus = new ServerPacket(ServerPacketHeader.NuxAlertComposer);
+                nuxStatus.WriteInteger(2);
+                this.SendPacket(nuxStatus);
+
+                this.SendPacket(new NuxAlertComposer("nux/lobbyoffer/hide"));
             }
         }
 
@@ -167,10 +186,27 @@ namespace Butterfly.HabboHotel.GameClients
             this.Connection.startPacketProcessing();
         }
 
-        public bool Antipub(string Message, string type)
+        public bool Antipub(string Message, string type, int RoomId = 0)
         {
+            if (this.GetHabbo() == null)
+                return false;
+
             if (this.GetHabbo().HasFuse("fuse_sysadmin"))
                 return false;
+
+            if (Message.Length <= 3)
+                return false;
+
+            Message = Encoding.GetEncoding("UTF-8").GetString(Encoding.GetEncoding("Windows-1252").GetBytes(Message));
+
+            using (IQueryAdapter queryreactor = ButterflyEnvironment.GetDatabaseManager().GetQueryReactor())
+            {
+                queryreactor.SetQuery("INSERT INTO chatlogs (user_id,room_id,user_name,timestamp,message, type) VALUES ('" + this.GetHabbo().Id + "','" + RoomId + "',@pseudo,UNIX_TIMESTAMP(),@message,@type)");
+                queryreactor.AddParameter("message", Message);
+                queryreactor.AddParameter("type", type);
+                queryreactor.AddParameter("pseudo", this.GetHabbo().Username);
+                queryreactor.RunQuery();
+            }
 
             if (!ButterflyEnvironment.GetGame().GetChatManager().GetFilter().Ispub(Message))
             {

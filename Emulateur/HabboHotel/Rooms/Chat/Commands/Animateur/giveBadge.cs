@@ -7,10 +7,15 @@ namespace Butterfly.HabboHotel.Rooms.Chat.Commands.Cmd
     {
         public void Execute(GameClient Session, Room Room, RoomUser UserRoom, string[] Params)
         {
-            Room currentRoom = Session.GetHabbo().CurrentRoom;
             GameClient clientByUsername = ButterflyEnvironment.GetGame().GetClientManager().GetClientByUsername(Params[1]);
             if (clientByUsername != null)
             {
+                if (Session.Langue != clientByUsername.Langue)
+                {
+                    UserRoom.SendWhisperChat(ButterflyEnvironment.GetLanguageManager().TryGetValue(string.Format("cmd.authorized.langue.user", clientByUsername.Langue), Session.Langue));
+                    return;
+                }
+
                 string BadgeCode = Params[2];
                 clientByUsername.GetHabbo().GetBadgeComponent().GiveBadge(BadgeCode, true);
                 clientByUsername.SendPacket(new ReceiveBadgeComposer(BadgeCode));

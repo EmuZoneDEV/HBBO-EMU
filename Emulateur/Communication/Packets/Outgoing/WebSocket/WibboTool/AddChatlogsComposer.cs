@@ -5,9 +5,9 @@
         public AddChatlogsComposer(int UserId, string Pseudo, string Message)
           : base(7)
         {
-            base.WriteInteger(UserId);
-            base.WriteString(Pseudo);
-            base.WriteString(Message);
+            WriteInteger(UserId);
+            WriteString(Pseudo);
+            WriteString(Message);
         }
     }
 }

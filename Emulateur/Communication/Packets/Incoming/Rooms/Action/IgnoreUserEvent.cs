@@ -20,6 +20,7 @@ namespace Butterfly.Communication.Packets.Incoming.Structure
             if (habbo == null || Session.GetHabbo().MutedUsers.Contains(habbo.Id))
                 return;
             Session.GetHabbo().MutedUsers.Add(habbo.Id);
+
             ServerPacket Response = new ServerPacket(ServerPacketHeader.IgnoreStatusMessageComposer);
             Response.WriteInteger(1);
             Response.WriteString(str);

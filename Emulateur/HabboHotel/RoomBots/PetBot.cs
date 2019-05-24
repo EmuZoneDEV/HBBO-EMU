@@ -89,6 +89,7 @@ namespace Butterfly.HabboHotel.RoomBots
                             this.RemovePetStatus();
                             roomUser.PetData.AddExpirience(10);
                             roomUser.SetStatus("sit", TextHandling.GetString(roomUser.Z));
+                            roomUser.IsSit = true;
                             roomUser.UpdateNeeded = true;
                             this.ActionTimer = 25;
                             this.EnergyTimer = 10;
@@ -96,6 +97,7 @@ namespace Butterfly.HabboHotel.RoomBots
                         case 2: //Couché
                             this.RemovePetStatus();
                             roomUser.SetStatus("lay", TextHandling.GetString(roomUser.Z));
+                            roomUser.IsLay = true;
                             roomUser.UpdateNeeded = true;
                             roomUser.PetData.AddExpirience(10);
                             this.ActionTimer = 30;
@@ -179,6 +181,7 @@ namespace Butterfly.HabboHotel.RoomBots
                             this.RemovePetStatus();
                             roomUser.OnChat("ZzzZZZzzzzZzz", 0, false);
                             roomUser.SetStatus("lay", TextHandling.GetString(roomUser.Z));
+                            roomUser.IsLay = true;
                             roomUser.UpdateNeeded = true;
                             roomUser.PetData.AddExpirience(10);
                             this.EnergyTimer = 5;
@@ -219,6 +222,7 @@ namespace Butterfly.HabboHotel.RoomBots
                             Random random = new Random();
                             roomUser.OnChat(strArray[random.Next(0, strArray.Length - 1)], 0, false);
                             roomUser.SetStatus("lay", TextHandling.GetString(roomUser.Z));
+                            roomUser.IsLay = true;
                             this.SpeechTimer = 50;
                             this.ActionTimer = 45;
                             this.EnergyTimer = 5;

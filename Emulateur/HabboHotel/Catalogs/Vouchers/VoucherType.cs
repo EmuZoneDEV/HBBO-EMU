@@ -4,5 +4,7 @@
     {
         CREDIT,
         DUCKET,
+        BADGE,
+        WINWIN,
     }
 }

@@ -7,10 +7,10 @@ namespace Butterfly.Communication.Packets.Outgoing.WebSocket
         public NotifTopInitComposer(List<string> Messages)
          : base(19)
         {
-            base.WriteInteger(Messages.Count);
+            WriteInteger(Messages.Count);
 
             foreach(string Message in Messages)
-                base.WriteString(Message);
+                WriteString(Message);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Butterfly.Communication.Packets.Outgoing.WebSocket;
+using Butterfly.Core;
 using Butterfly.Database.Interfaces;
 using Butterfly.HabboHotel.Rooms;
 using System;
@@ -80,7 +81,7 @@ namespace Butterfly.HabboHotel.Animations
                 return;
             }
 
-            if (this._timerStart > (60 * 30) * 2)
+            if (this._timerStart > (60 * 15) * 2)
             {
                 if (this.CycleId >= this._roomId.Count)
                 {
@@ -102,13 +103,12 @@ namespace Butterfly.HabboHotel.Animations
                 room.RoomData.State = 0;
                 room.CloseFullRoom = true;
 
-                string AlertMessage = "<i>Beep beep, c'est l'heure de l'animation auto !</i>" + "\r" +
-                "\r" +
-                "Rejoins-nous chez <b>WibboGame</b> pour un jeu qui s'intitule <b>" + Encoding.UTF8.GetString(Encoding.GetEncoding("Windows-1252").GetBytes(room.RoomData.Name)) + "</b>" + "\r" +
-                "\r" +
+                string AlertMessage = "<i>Beep beep, c'est l'heure de l'animation auto !</i>" +
+                "\r\r" +
+                "Rejoins-nous chez <b>WibboGame</b> pour un jeu qui s'intitule <b>" + Encoding.UTF8.GetString(Encoding.GetEncoding("Windows-1252").GetBytes(room.RoomData.Name)) + "</b>" +
+                "\r\r" +
                 "Rends-toi dans l'appartement et tente de remporter un lot composé de <i> un ou plusieurs Extrabox(s) ainsi qu'un point au TOP Gamer ! </i>" +
-                "\r" +
-                "\n" +
+                "\r\n" +
                 "\r\n- Jack et Daisy\r\n";
 
                 ButterflyEnvironment.GetGame().GetModerationTool().LogStaffEntry(1953042, "WibboGame", room.Id, string.Empty, "eventha", string.Format("JeuAuto EventHa: {0}", AlertMessage));
@@ -124,8 +124,16 @@ namespace Butterfly.HabboHotel.Animations
 
         private void HandleFunctionReset(Stopwatch watch, string methodName)
         {
-            if (watch.ElapsedMilliseconds > 500)
-                Console.WriteLine("High latency in {0}: {1}ms", methodName, watch.ElapsedMilliseconds);
+            try
+            {
+                if (watch.ElapsedMilliseconds > 500)
+                    Console.WriteLine("High latency in {0}: {1}ms", methodName, watch.ElapsedMilliseconds);
+            }
+            catch (OperationCanceledException e)
+            {
+                Console.WriteLine("Canceled operation {0}", e);
+
+            }
             watch.Restart();
         }
 

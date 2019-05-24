@@ -1,4 +1,5 @@
-﻿using Butterfly.HabboHotel.GameClients;
+﻿using Butterfly.Database.Interfaces;
+using Butterfly.HabboHotel.GameClients;
 
 namespace Butterfly.HabboHotel.Rooms.Chat.Commands.Cmd
 {
@@ -18,6 +19,9 @@ namespace Butterfly.HabboHotel.Rooms.Chat.Commands.Cmd
                 UserRoom.SendWhisperChat("IgnoreAll activé");
             else
                 UserRoom.SendWhisperChat("IgnoreAll désactivé");
+
+            using (IQueryAdapter queryreactor = ButterflyEnvironment.GetDatabaseManager().GetQueryReactor())
+                queryreactor.RunQuery("UPDATE users SET ignoreall = '" + ButterflyEnvironment.BoolToEnum(clientByUsername.GetHabbo().IgnoreAll) + "' WHERE id = " + clientByUsername.GetHabbo().Id);
         }
     }
 }

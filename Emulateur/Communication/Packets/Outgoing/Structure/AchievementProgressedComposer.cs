@@ -7,19 +7,19 @@ namespace Butterfly.Communication.Packets.Outgoing.Structure
         public AchievementProgressedComposer(Achievement Achievement, int TargetLevel, AchievementLevel TargetLevelData, int TotalLevels, UserAchievement UserData)
             : base(ServerPacketHeader.AchievementProgressedMessageComposer)
         {
-            base.WriteInteger(Achievement.Id);
-            base.WriteInteger(TargetLevel);
-            base.WriteString(Achievement.GroupName + TargetLevel);
-            base.WriteInteger(0);
-            base.WriteInteger(TargetLevelData.Requirement);
-            base.WriteInteger(TargetLevelData.RewardPixels);
-            base.WriteInteger(0);
-            base.WriteInteger(UserData != null ? UserData.Progress : 0);
-            base.WriteBoolean(UserData != null && UserData.Level >= TotalLevels);
-            base.WriteString(Achievement.Category);
-            base.WriteString(string.Empty);
-            base.WriteInteger(TotalLevels);
-            base.WriteInteger(0);
+            WriteInteger(Achievement.Id);
+            WriteInteger(TargetLevel);
+            WriteString(Achievement.GroupName + TargetLevel);
+            WriteInteger(0);
+            WriteInteger(TargetLevelData.Requirement);
+            WriteInteger(TargetLevelData.RewardPixels);
+            WriteInteger(0);
+            WriteInteger(UserData != null ? UserData.Progress : 0);
+            WriteBoolean(UserData != null && UserData.Level >= TotalLevels);
+            WriteString(Achievement.Category);
+            WriteString(string.Empty);
+            WriteInteger(TotalLevels);
+            WriteInteger(0);
         }
     }
 }

@@ -9,55 +9,55 @@ namespace Butterfly.Communication.Packets.Outgoing.Structure
         public GetGuestRoomResultComposer(GameClient Session, RoomData Data, Boolean isLoading, Boolean checkEntry)
             : base(ServerPacketHeader.GetGuestRoomResultMessageComposer)
         {
-            base.WriteBoolean(isLoading);
-            base.WriteInteger(Data.Id);
-            base.WriteString(Data.Name);
-            base.WriteInteger(Data.OwnerId);
-            base.WriteString(Data.OwnerName);
-            base.WriteInteger((Session.GetHabbo().IsTeleporting) ? 0 : Data.State);
-            base.WriteInteger(Data.UsersNow);
-            base.WriteInteger(Data.UsersMax);
-            base.WriteString(Data.Description);
-            base.WriteInteger(Data.TrocStatus);
-            base.WriteInteger(Data.Score);
-            base.WriteInteger(0);//Top rated room rank.
-            base.WriteInteger(Data.Category);
+            WriteBoolean(isLoading);
+            WriteInteger(Data.Id);
+            WriteString(Data.Name);
+            WriteInteger(Data.OwnerId);
+            WriteString(Data.OwnerName);
+            WriteInteger((Session.GetHabbo().IsTeleporting) ? 0 : Data.State);
+            WriteInteger(Data.UsersNow);
+            WriteInteger(Data.UsersMax);
+            WriteString(Data.Description);
+            WriteInteger(Data.TrocStatus);
+            WriteInteger(Data.Score);
+            WriteInteger(0);//Top rated room rank.
+            WriteInteger(Data.Category);
 
-            base.WriteInteger(Data.Tags.Count);
+            WriteInteger(Data.Tags.Count);
             foreach (string Tag in Data.Tags)
             {
-                base.WriteString(Tag);
+                WriteString(Tag);
             }
 
            
             if (Data.Group != null)
             {
-                base.WriteInteger(58);//What?
-                base.WriteInteger(Data.Group == null ? 0 : Data.Group.Id);
-                base.WriteString(Data.Group == null ? "" : Data.Group.Name);
-                base.WriteString(Data.Group == null ? "" : Data.Group.Badge);
+                WriteInteger(58);//What?
+                WriteInteger(Data.Group == null ? 0 : Data.Group.Id);
+                WriteString(Data.Group == null ? "" : Data.Group.Name);
+                WriteString(Data.Group == null ? "" : Data.Group.Badge);
             }
             else
             {
-                base.WriteInteger(56);//What?
+                WriteInteger(56);//What?
             }
 
 
-            base.WriteBoolean(checkEntry);
-            base.WriteBoolean(false);
-            base.WriteBoolean(false);
-            base.WriteBoolean(false);
+            WriteBoolean(checkEntry);
+            WriteBoolean(false);
+            WriteBoolean(false);
+            WriteBoolean(false);
 
-            base.WriteInteger(Data.MuteFuse); // who can mute
-            base.WriteInteger(Data.WhoCanKick); // who can kick
-            base.WriteInteger(Data.BanFuse); // who can ban
+            WriteInteger(Data.MuteFuse); // who can mute
+            WriteInteger(Data.WhoCanKick); // who can kick
+            WriteInteger(Data.BanFuse); // who can ban
 
-            base.WriteBoolean((Session != null) ? Data.OwnerName.ToLower() != Session.GetHabbo().Username.ToLower() : false);
-            base.WriteInteger(Data.ChatType);  //ChatMode, ChatSize, ChatSpeed, HearingDistance, ExtraFlood is the order.
-            base.WriteInteger(Data.ChatBalloon);
-            base.WriteInteger(Data.ChatSpeed);
-            base.WriteInteger(Data.ChatMaxDistance);
-            base.WriteInteger(Data.ChatFloodProtection);
+            WriteBoolean((Session != null) ? Data.OwnerName.ToLower() != Session.GetHabbo().Username.ToLower() : false);
+            WriteInteger(Data.ChatType);  //ChatMode, ChatSize, ChatSpeed, HearingDistance, ExtraFlood is the order.
+            WriteInteger(Data.ChatBalloon);
+            WriteInteger(Data.ChatSpeed);
+            WriteInteger(Data.ChatMaxDistance);
+            WriteInteger(Data.ChatFloodProtection);
         }
     }
 }

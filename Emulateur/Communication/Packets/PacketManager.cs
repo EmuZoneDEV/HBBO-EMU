@@ -124,7 +124,7 @@ namespace Butterfly.Communication.Packets
         private void RegisterHandshake()
         {
             _incomingPackets.Add(ClientPacketHeader.GetClientVersionMessageEvent, new GetClientVersionEvent());
-            _incomingPackets.Add(ClientPacketHeader.InitCryptoMessageEvent, new InitCryptoEvent());
+            //_incomingPackets.Add(ClientPacketHeader.InitCryptoMessageEvent, new InitCryptoEvent());
             _incomingPackets.Add(ClientPacketHeader.GenerateSecretKeyMessageEvent, new GenerateSecretKeyEvent());
             _incomingPackets.Add(ClientPacketHeader.UniqueIDMessageEvent, new UniqueIDEvent());
             _incomingPackets.Add(ClientPacketHeader.SSOTicketMessageEvent, new SSOTicketEvent());
@@ -140,7 +140,7 @@ namespace Butterfly.Communication.Packets
 
         private void RegisterNux()
         {
-            this._incomingPackets.Add(ClientPacketHeader.RoomNuxAlert, new RoomNuxAlert());
+            this._incomingPackets.Add(ClientPacketHeader.UserNuxEvent, new RoomNuxAlert());
         }
 
         private void RegisterCatalog()
@@ -155,9 +155,10 @@ namespace Butterfly.Communication.Packets
             _incomingPackets.Add(ClientPacketHeader.RedeemVoucherMessageEvent, new RedeemVoucherEvent());
             _incomingPackets.Add(ClientPacketHeader.GetSellablePetBreedsMessageEvent, new GetSellablePetBreedsEvent());
             _incomingPackets.Add(ClientPacketHeader.GetGroupFurniConfigMessageEvent, new GetGroupFurniConfigEvent());
-            _incomingPackets.Add(ClientPacketHeader.BuyPhotoMessageEvent, new BuyPhotoEvent());
             _incomingPackets.Add(ClientPacketHeader.GetMarketplaceConfigurationMessageEvent, new GetMarketplaceConfigurationEvent());
 
+            _incomingPackets.Add(ClientPacketHeader.CameraPurchaseMessageEvent, new CameraPurchaseEvent());
+            _incomingPackets.Add(ClientPacketHeader.RequestCameraConfigurationEvent, new RequestCameraConfiguration());
 
         }
 
@@ -372,7 +373,7 @@ namespace Butterfly.Communication.Packets
             _incomingPackets.Add(ClientPacketHeader.ToggleMoodlightMessageEvent, new ToggleMoodlightEvent());
             _incomingPackets.Add(ClientPacketHeader.UseOneWayGateMessageEvent, new UseFurnitureEvent());
             _incomingPackets.Add(ClientPacketHeader.UseHabboWheelMessageEvent, new UseFurnitureEvent());
-            _incomingPackets.Add(ClientPacketHeader.ChangeFootGate, new ChangeFootGate());
+            _incomingPackets.Add(ClientPacketHeader.FootballGateSaveLookEvent, new ChangeFootGate());
             _incomingPackets.Add(ClientPacketHeader.OpenGiftMessageEvent, new OpenGiftEvent());
             _incomingPackets.Add(ClientPacketHeader.GetGroupFurniSettingsMessageEvent, new GetGroupFurniSettingsEvent());
 
@@ -458,13 +459,13 @@ namespace Butterfly.Communication.Packets
 
         private void RegisterGuide()
         {
-            _incomingPackets.Add(ClientPacketHeader.GetHelperToolConfiguration, new GetHelperToolConfiguration());
+            _incomingPackets.Add(ClientPacketHeader.RequestGuideToolEvent, new GetHelperToolConfiguration());
             _incomingPackets.Add(ClientPacketHeader.OnGuideSessionDetached, new OnGuideSessionDetached());
             _incomingPackets.Add(ClientPacketHeader.OnGuide, new OnGuide());
-            _incomingPackets.Add(ClientPacketHeader.RecomendHelpers, new RecomendHelpers());
+            _incomingPackets.Add(ClientPacketHeader.GuideRecommendHelperEvent, new RecomendHelpers());
             _incomingPackets.Add(ClientPacketHeader.GuideToolMessageNew, new GuideToolMessageNew());
-            _incomingPackets.Add(ClientPacketHeader.GuideInviteToRoom, new GuideInviteToRoom());
-            _incomingPackets.Add(ClientPacketHeader.VisitRoomGuides, new VisitRoomGuides());
+            //_incomingPackets.Add(ClientPacketHeader.GuideInviteToRoom, new GuideInviteToRoom());
+            _incomingPackets.Add(ClientPacketHeader.GuideVisitUserEvent, new VisitRoomGuides());
             _incomingPackets.Add(ClientPacketHeader.GuideEndSession, new GuideEndSession());
             _incomingPackets.Add(ClientPacketHeader.CancellInviteGuide, new CancellInviteGuide());
         }

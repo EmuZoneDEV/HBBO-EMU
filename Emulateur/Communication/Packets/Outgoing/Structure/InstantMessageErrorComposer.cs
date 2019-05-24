@@ -5,9 +5,9 @@ namespace Butterfly.Communication.Packets.Outgoing.Structure
         public InstantMessageErrorComposer(int Error, int Target)
             : base(ServerPacketHeader.InstantMessageErrorMessageComposer)
         {
-            base.WriteInteger(Error);
-            base.WriteInteger(Target);
-            base.WriteString("");
+            WriteInteger(Error);
+            WriteInteger(Target);
+            WriteString("");
         }
     }
 }

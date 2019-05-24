@@ -6,10 +6,10 @@ namespace Enclosure
   public class PointField
   {
     private static readonly Point badPoint = new Point(-1, -1);
-    private Point mostLeft = PointField.badPoint;
-    private Point mostTop = PointField.badPoint;
-    private Point mostRight = PointField.badPoint;
-    private Point mostDown = PointField.badPoint;
+    private Point mostLeft = badPoint;
+    private Point mostTop = badPoint;
+    private Point mostRight = badPoint;
+    private Point mostDown = badPoint;
     private readonly List<Point> PointList;
 
     public byte forValue { get; private set; }
@@ -31,13 +31,13 @@ namespace Enclosure
 
     public void add(Point p)
     {
-      if (this.mostLeft == PointField.badPoint)
+      if (this.mostLeft == badPoint)
         this.mostLeft = p;
-      if (this.mostRight == PointField.badPoint)
+      if (this.mostRight == badPoint)
         this.mostRight = p;
-      if (this.mostTop == PointField.badPoint)
+      if (this.mostTop == badPoint)
         this.mostTop = p;
-      if (this.mostDown == PointField.badPoint)
+      if (this.mostDown == badPoint)
         this.mostDown = p;
       if (p.X < this.mostLeft.X)
         this.mostLeft = p;

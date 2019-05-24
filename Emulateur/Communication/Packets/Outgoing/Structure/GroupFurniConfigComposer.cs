@@ -8,17 +8,17 @@ namespace Butterfly.Communication.Packets.Outgoing.Structure
         public GroupFurniConfigComposer(ICollection<Group> groups)
             : base(ServerPacketHeader.GroupFurniConfigMessageComposer)
         {
-            base.WriteInteger(groups.Count);
+            WriteInteger(groups.Count);
             foreach (Group group in groups)
             {
-                base.WriteInteger(group.Id);
-                base.WriteString(group.Name);
-                base.WriteString(group.Badge);
-                base.WriteString(ButterflyEnvironment.GetGame().GetGroupManager().GetColourCode(group.Colour1, true));
-                base.WriteString(ButterflyEnvironment.GetGame().GetGroupManager().GetColourCode(group.Colour2, false));
-                base.WriteBoolean(false);
-                base.WriteInteger(group.CreatorId);
-                base.WriteBoolean(group.ForumEnabled);
+                WriteInteger(group.Id);
+                WriteString(group.Name);
+                WriteString(group.Badge);
+                WriteString(ButterflyEnvironment.GetGame().GetGroupManager().GetColourCode(group.Colour1, true));
+                WriteString(ButterflyEnvironment.GetGame().GetGroupManager().GetColourCode(group.Colour2, false));
+                WriteBoolean(false);
+                WriteInteger(group.CreatorId);
+                WriteBoolean(group.ForumEnabled);
             }
         }
     }

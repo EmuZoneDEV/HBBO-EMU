@@ -11,7 +11,7 @@ namespace Butterfly.HabboHotel.Rooms.Chat.Commands.Cmd
             if (string.IsNullOrEmpty(Message))
                 return;
             
-            ButterflyEnvironment.GetGame().GetClientWebManager().SendMessage(new NotifTopComposer(Message));
+            ButterflyEnvironment.GetGame().GetClientWebManager().SendMessage(new NotifTopComposer(Message), Session.Langue);
         }
     }
 }

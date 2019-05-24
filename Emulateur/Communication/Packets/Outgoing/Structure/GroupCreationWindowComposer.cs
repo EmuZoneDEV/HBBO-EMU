@@ -8,36 +8,36 @@ namespace Butterfly.Communication.Packets.Outgoing.Structure
         public GroupCreationWindowComposer(ICollection<RoomData> Rooms)
             : base(ServerPacketHeader.GroupCreationWindowMessageComposer)
         {
-            base.WriteInteger(20);//Price
+            WriteInteger(20);//Price
 
-            base.WriteInteger(Rooms.Count);//Room count that the user has.
+            WriteInteger(Rooms.Count);//Room count that the user has.
             foreach (RoomData Room in Rooms)
             {
-                base.WriteInteger(Room.Id);//Room Id
-                base.WriteString(Room.Name);//Room Name
-                base.WriteBoolean(false);//What?
+                WriteInteger(Room.Id);//Room Id
+                WriteString(Room.Name);//Room Name
+                WriteBoolean(false);//What?
             }
 
-            base.WriteInteger(5);
-            base.WriteInteger(5);
-            base.WriteInteger(11);
-            base.WriteInteger(4);
+            WriteInteger(5);
+            WriteInteger(5);
+            WriteInteger(11);
+            WriteInteger(4);
 
-            base.WriteInteger(6);
-            base.WriteInteger(11);
-            base.WriteInteger(4);
+            WriteInteger(6);
+            WriteInteger(11);
+            WriteInteger(4);
 
-            base.WriteInteger(0);
-            base.WriteInteger(0);
-            base.WriteInteger(0);
+            WriteInteger(0);
+            WriteInteger(0);
+            WriteInteger(0);
 
-            base.WriteInteger(0);
-            base.WriteInteger(0);
-            base.WriteInteger(0);
+            WriteInteger(0);
+            WriteInteger(0);
+            WriteInteger(0);
 
-            base.WriteInteger(0);
-            base.WriteInteger(0);
-            base.WriteInteger(0);
+            WriteInteger(0);
+            WriteInteger(0);
+            WriteInteger(0);
         }
     }
 }

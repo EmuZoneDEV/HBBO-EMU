@@ -8,22 +8,22 @@ namespace Butterfly.Communication.Packets.Outgoing.Structure
         public GetRoomBannedUsersComposer(Room instance)
             : base(ServerPacketHeader.GetRoomBannedUsersMessageComposer)
         {
-            base.WriteInteger(instance.Id);
+            WriteInteger(instance.Id);
 
-            base.WriteInteger(instance.getBans().Count);//Count
+            WriteInteger(instance.getBans().Count);//Count
             foreach (int Id in instance.getBans().Keys)
             {
                 Habbo Data = ButterflyEnvironment.GetHabboById(Id);
 
                 if (Data == null)
                 {
-                    base.WriteInteger(0);
-                    base.WriteString("Unknown Error");
+                    WriteInteger(0);
+                    WriteString("Unknown Error");
                 }
                 else
                 {
-                    base.WriteInteger(Data.Id);
-                    base.WriteString(Data.Username);
+                    WriteInteger(Data.Id);
+                    WriteString(Data.Username);
                 }
             }
         }

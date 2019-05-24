@@ -22,7 +22,7 @@ namespace Butterfly.Communication.RCON.Commands.User
             string Message = parameters[2];
 
             ButterflyEnvironment.GetGame().GetModerationTool().LogStaffEntry(Client.GetHabbo().Id, Client.GetHabbo().Username, 0, string.Empty, "eventha", string.Format("WbTool eventha: {0}", Message));
-            if (Client.Antipub(Message, "<eventalert>"))
+            if (Client.Antipub(Message, "<eventalert>", Client.GetHabbo().CurrentRoom.Id))
                 return false;
 
             if (!ButterflyEnvironment.GetGame().GetAnimationManager().AllowAnimation())

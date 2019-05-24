@@ -9,13 +9,13 @@ namespace Butterfly.Database.Adapter
         public NormalQueryReactor(IDatabaseClient Client)
             : base(Client)
         {
-            base.command = Client.createNewCommand();
+            command = Client.createNewCommand();
         }
 
         public void Dispose()
         {
-            base.command.Dispose();
-            base.client.reportDone();
+            command.Dispose();
+            client.reportDone();
             GC.SuppressFinalize(this);
         }
     }

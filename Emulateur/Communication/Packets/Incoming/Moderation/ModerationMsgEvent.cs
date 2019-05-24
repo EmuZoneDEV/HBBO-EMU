@@ -7,7 +7,7 @@ namespace Butterfly.Communication.Packets.Incoming.Structure
     {
         public void Parse(GameClient Session, ClientPacket Packet)
         {
-   if (!Session.GetHabbo().HasFuse("fuse_alert"))
+            if (!Session.GetHabbo().HasFuse("fuse_alert"))
                 return;
             ModerationManager.AlertUser(Session, Packet.PopInt(), Packet.PopString(), true);
 

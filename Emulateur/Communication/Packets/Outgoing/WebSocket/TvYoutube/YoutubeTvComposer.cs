@@ -5,8 +5,8 @@
         public YoutubeTvComposer(int ItemId, string VideoId)
             : base(3)
         {
-            base.WriteInteger(ItemId);
-            base.WriteString(VideoId);
+            WriteInteger(ItemId);
+            WriteString(VideoId);
         }
     }
 }

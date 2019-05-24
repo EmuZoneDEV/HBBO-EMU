@@ -5,9 +5,9 @@ namespace Butterfly.Communication.Packets.Outgoing.Structure
         public UserNameChangeMessageComposer(string Name, int VirtualId)
             : base(ServerPacketHeader.UserNameChangeMessageComposer)
         {
-            base.WriteInteger(0);
-            base.WriteInteger(VirtualId);
-            base.WriteString(Name);
+            WriteInteger(0);
+            WriteInteger(VirtualId);
+            WriteString(Name);
         }
     }
 }

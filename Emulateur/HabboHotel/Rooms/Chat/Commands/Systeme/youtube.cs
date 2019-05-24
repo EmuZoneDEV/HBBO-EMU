@@ -16,7 +16,13 @@ namespace Butterfly.HabboHotel.Rooms.Chat.Commands.Cmd
             RoomUser roomUserByHabbo = Session.GetHabbo().CurrentRoom.GetRoomUserManager().GetRoomUserByHabbo(username);
             if (roomUserByHabbo == null || roomUserByHabbo.GetClient() == null || roomUserByHabbo.GetClient().GetHabbo() == null)
                 return;
-            
+
+            if (Session.Langue != roomUserByHabbo.GetClient().Langue)
+            {
+                UserRoom.SendWhisperChat(ButterflyEnvironment.GetLanguageManager().TryGetValue(string.Format("cmd.authorized.langue.user", roomUserByHabbo.GetClient().Langue), Session.Langue));
+                return;
+            }
+
             roomUserByHabbo.GetClient().GetHabbo().SendWebPacket(new YoutubeTvComposer(0, Videoid));
         }
     }

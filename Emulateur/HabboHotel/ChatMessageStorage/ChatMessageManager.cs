@@ -1,6 +1,8 @@
 ﻿using Butterfly.Communication.Packets.Outgoing;
 using System.Collections.Generic;
 using System;
+using System.Data;
+using Butterfly.Database.Interfaces;
 
 namespace Butterfly.HabboHotel.ChatMessageStorage
 {
@@ -20,7 +22,39 @@ namespace Butterfly.HabboHotel.ChatMessageStorage
         {
             this.listOfMessages = new List<ChatMessage>();
         }
-        
+
+        public void LoadUserChatlogs(int UserId)
+        {
+            DataTable table;
+            using (IQueryAdapter queryreactor = ButterflyEnvironment.GetDatabaseManager().GetQueryReactor())
+            {
+                queryreactor.SetQuery("SELECT * FROM chatlogs WHERE user_id = " + UserId + " ORDER BY timestamp ASC LIMIT 100");
+                table = queryreactor.GetTable();
+                if (table == null)
+                    return;
+                foreach (DataRow Row in table.Rows)
+                {
+                    this.AddMessage((int)Row["user_id"], Row["user_name"].ToString(), (int)Row["room_id"], Row["type"].ToString() + Row["message"].ToString());
+                }
+            }
+        }
+
+        public void LoadRoomChatlogs(int RoomId)
+        {
+            DataTable table;
+            using (IQueryAdapter queryreactor = ButterflyEnvironment.GetDatabaseManager().GetQueryReactor())
+            {
+                queryreactor.SetQuery("SELECT * FROM chatlogs WHERE room_id = " + RoomId + " ORDER BY timestamp ASC LIMIT 100");
+                table = queryreactor.GetTable();
+                if (table == null)
+                    return;
+                foreach (DataRow Row in table.Rows)
+                {
+                    this.AddMessage((int)Row["user_id"], Row["user_name"].ToString(), (int)Row["room_id"], Row["type"].ToString() + Row["message"].ToString());
+                }
+            }
+        }
+
         public void AddMessage(int UserId, string Username, int RoomId, string MessageText)
         {
             ChatMessage message = new ChatMessage(UserId, Username, RoomId, MessageText, DateTime.Now);

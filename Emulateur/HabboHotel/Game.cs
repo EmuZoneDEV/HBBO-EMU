@@ -106,7 +106,7 @@ namespace Butterfly.HabboHotel
             this._notiftopManager = new NotifTopManager();
             this._notiftopManager.Init();
 
-            Game.DatabaseCleanup();
+            DatabaseCleanup();
             LowPriorityWorker.Init();
 
             this.moduleWatch = new Stopwatch();
@@ -234,25 +234,34 @@ namespace Butterfly.HabboHotel
 
         private void MainGameLoop()
         {
+
             while (this.gameLoopActive)
             {
-                if (Game.gameLoopEnabled)
+                try
                 {
-                    moduleWatch.Restart();
+                    if (gameLoopEnabled)
+                    {
+                        moduleWatch.Restart();
 
-                    LowPriorityWorker.Process();
+                        LowPriorityWorker.Process();
 
-                    if (moduleWatch.ElapsedMilliseconds > 500)
-                        Console.WriteLine("High latency in LowPriorityWorker.Process ({0} ms)", moduleWatch.ElapsedMilliseconds);
-                    moduleWatch.Restart();
+                        if (moduleWatch.ElapsedMilliseconds > 500)
+                            Console.WriteLine("High latency in LowPriorityWorker.Process ({0} ms)", moduleWatch.ElapsedMilliseconds);
+                        moduleWatch.Restart();
 
-                    this._roomManager.OnCycle(moduleWatch);
-                    this._clientManager.OnCycle(moduleWatch);
-                    this._animationManager.OnCycle(moduleWatch);
+                        this._roomManager.OnCycle(moduleWatch);
+                        this._animationManager.OnCycle(moduleWatch);
 
-                    if (moduleWatch.ElapsedMilliseconds > 500)
-                        Console.WriteLine("High latency in RoomManager ({0} ms)", moduleWatch.ElapsedMilliseconds);
+                        if (moduleWatch.ElapsedMilliseconds > 500)
+                            Console.WriteLine("High latency in RoomManager ({0} ms)", moduleWatch.ElapsedMilliseconds);
+                    }
                 }
+                catch (OperationCanceledException e)
+                {
+                    Console.WriteLine("Canceled operation {0}", e);
+
+                }
+
                 Thread.Sleep(500);
             }
             this.gameLoopEnded = true;
@@ -272,7 +281,7 @@ namespace Butterfly.HabboHotel
 
         public void Destroy()
         {
-            Game.DatabaseCleanup();
+            DatabaseCleanup();
             this.GetClientManager();
             Console.WriteLine("Destroyed Habbo Hotel.");
         }

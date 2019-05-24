@@ -36,12 +36,9 @@ namespace Butterfly.Communication.Packets.Incoming.Structure
             else
             {
                 Session.SendPacket(new NuxAlertComposer("nux/lobbyoffer/show"));
-                habbo._nuxenable = false;
-
-                using (IQueryAdapter dbClient = ButterflyEnvironment.GetDatabaseManager().GetQueryReactor())
-                    dbClient.RunQuery("UPDATE users SET nux_enable = '0' WHERE id = " + Session.GetHabbo().Id + ";");
-
-                ServerPacket nuxStatus = new ServerPacket(ServerPacketHeader.NuxUserStatusMessageComposer);
+                habbo.Nuxenable = false;
+                
+                ServerPacket nuxStatus = new ServerPacket(ServerPacketHeader.NuxAlertComposer);
                 nuxStatus.WriteInteger(0);
                 Session.SendPacket(nuxStatus);
             }

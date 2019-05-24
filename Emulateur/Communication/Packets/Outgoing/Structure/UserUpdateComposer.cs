@@ -11,15 +11,15 @@ namespace Butterfly.Communication.Packets.Outgoing.Structure
         public UserUpdateComposer(ICollection<RoomUser> RoomUsers)
             : base(ServerPacketHeader.UserUpdateMessageComposer)
         {
-            base.WriteInteger(RoomUsers.Count);
+            WriteInteger(RoomUsers.Count);
             foreach (RoomUser User in RoomUsers.ToList())
             {
-                base.WriteInteger(User.VirtualId);
-                base.WriteInteger(User.X);
-                base.WriteInteger(User.Y);
-                base.WriteString(User.Z.ToString("0.00"));
-                base.WriteInteger(User.RotHead);
-                base.WriteInteger(User.RotBody);
+                WriteInteger(User.VirtualId);
+                WriteInteger(User.X);
+                WriteInteger(User.Y);
+                WriteString(User.Z.ToString("0.00"));
+                WriteInteger(User.RotHead);
+                WriteInteger(User.RotBody);
 
                 StringBuilder StatusComposer = new StringBuilder();
                 StatusComposer.Append("/");
@@ -38,7 +38,7 @@ namespace Butterfly.Communication.Packets.Outgoing.Structure
                 }
 
                 StatusComposer.Append("/");
-                base.WriteString(StatusComposer.ToString());
+                WriteString(StatusComposer.ToString());
             }
         }
     }

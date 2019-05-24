@@ -46,7 +46,7 @@ namespace Butterfly.HabboHotel.Items
       if ( linkedTele == 0)
         return false;
       Item roomItem = pRoom.GetRoomItemHandler().GetItem(linkedTele);
-      return roomItem != null && (roomItem.GetBaseItem().InteractionType == InteractionType.TELEPORT || roomItem.GetBaseItem().InteractionType == InteractionType.ARROW) || ItemTeleporterFinder.GetTeleRoomId(linkedTele, pRoom) != 0;
+      return roomItem != null && (roomItem.GetBaseItem().InteractionType == InteractionType.TELEPORT || roomItem.GetBaseItem().InteractionType == InteractionType.ARROW) || GetTeleRoomId(linkedTele, pRoom) != 0;
     }
   }
 }

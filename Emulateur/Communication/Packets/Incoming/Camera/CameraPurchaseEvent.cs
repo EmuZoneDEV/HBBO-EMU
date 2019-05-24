@@ -1,10 +1,10 @@
-﻿using Butterfly.Database.Interfaces;
+﻿using Butterfly.Communication.Packets.Outgoing.Structure;
 using Butterfly.HabboHotel.GameClients;
 using Butterfly.HabboHotel.Items;
 
 namespace Butterfly.Communication.Packets.Incoming.Structure
 {
-    class BuyPhotoEvent : IPacketEvent
+    class CameraPurchaseEvent : IPacketEvent
     {
         public void Parse(GameClient Session, ClientPacket Packet)
         {
@@ -15,13 +15,11 @@ namespace Butterfly.Communication.Packets.Incoming.Structure
                 Session.SendNotification(ButterflyEnvironment.GetLanguageManager().TryGetValue("notif.buyphoto.error", Session.Langue) + " ( " + PhotoId + " ) ");
                 return;
             }
-            
-            ItemData ItemData = null;
-            if (!ButterflyEnvironment.GetGame().GetItemManager().GetItem(4581, out ItemData))
+
+            if (!ButterflyEnvironment.GetGame().GetItemManager().GetItem(4581, out ItemData ItemData))
                 return;
 
-            ItemData ItemDataSmall = null;
-            if (!ButterflyEnvironment.GetGame().GetItemManager().GetItem(4597, out ItemDataSmall))
+            if (!ButterflyEnvironment.GetGame().GetItemManager().GetItem(4597, out ItemData ItemDataSmall))
                 return;
 
             int Time = ButterflyEnvironment.GetUnixTimestamp();
@@ -33,16 +31,17 @@ namespace Butterfly.Communication.Packets.Incoming.Structure
 
             Item Item = ItemFactory.CreateSingleItemNullable(ItemData, Session.GetHabbo(), ExtraData);
             Session.GetHabbo().GetInventoryComponent().TryAddItem(Item);
-            //Session.SendPacket(new FurniListUpdateComposer());
 
-            using (IQueryAdapter queryreactor = ButterflyEnvironment.GetDatabaseManager().GetQueryReactor())
+            Session.SendPacket(new CameraPurchaseSuccesfullComposer());
+
+            /*using (IQueryAdapter queryreactor = ButterflyEnvironment.GetDatabaseManager().GetQueryReactor())
             {
                 queryreactor.SetQuery("INSERT INTO user_photos (user_id,photo,time) VALUES ('" + Session.GetHabbo().Id + "', @photoid, '" + Time + "');");
                 queryreactor.AddParameter("photoid", PhotoId);
                 queryreactor.RunQuery();
-            }
-            
-            Session.SendNotification(ButterflyEnvironment.GetLanguageManager().TryGetValue("notif.buyphoto.valide", Session.Langue));
+            }*/
+
+            //Session.SendNotification(ButterflyEnvironment.GetLanguageManager().TryGetValue("notif.buyphoto.valide", Session.Langue));
         }
     }
 }

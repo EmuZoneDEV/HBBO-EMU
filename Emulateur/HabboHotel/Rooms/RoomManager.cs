@@ -50,7 +50,7 @@ namespace Butterfly.HabboHotel.Rooms
         public RoomModel GetModel(string Model, int RoomID)
         {
             if (Model == "model_custom")
-                return RoomManager.GetCustomData(RoomID);
+                return GetCustomData(RoomID);
             if (this._roomModels.ContainsKey(Model))
                 return (RoomModel)this._roomModels[Model];
             else
@@ -203,8 +203,16 @@ namespace Butterfly.HabboHotel.Rooms
 
         private void HandleFunctionReset(Stopwatch watch, string methodName)
         {
-            if (watch.ElapsedMilliseconds > 500)
-                Console.WriteLine("High latency in {0}: {1}ms", methodName, watch.ElapsedMilliseconds);
+            try
+            {
+                if (watch.ElapsedMilliseconds > 500)
+                    Console.WriteLine("High latency in {0}: {1}ms", methodName, watch.ElapsedMilliseconds);
+            }
+            catch (OperationCanceledException e)
+            {
+                Console.WriteLine("Canceled operation {0}", e);
+
+            }
             watch.Restart();
         }
 
@@ -242,7 +250,7 @@ namespace Butterfly.HabboHotel.Rooms
                  where RoomInstance.Value != null && RoomInstance.Value.RoomData != null &&
                  RoomInstance.Value.RoomData.UsersNow > 0 &&
                  (category == -1 || RoomInstance.Value.RoomData.Category == category) &&
-                 RoomInstance.Value.RoomData.State != 3 && RoomInstance.Value.RoomData.Langue == Langue
+                 RoomInstance.Value.RoomData.State != 3// && RoomInstance.Value.RoomData.Langue == Langue
                  orderby RoomInstance.Value.RoomData.Score descending
                  orderby RoomInstance.Value.RoomData.UsersNow descending
                  select RoomInstance.Value.RoomData).Take(Amount);

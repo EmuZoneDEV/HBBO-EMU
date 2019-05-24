@@ -9,7 +9,7 @@ namespace Butterfly.Communication.Packets.Outgoing.Structure
         public AchievementsMessageComposer(GameClient Session, List<Achievement> Achievements)
             : base(ServerPacketHeader.AchievementsMessageComposer)
         {
-            base.WriteInteger(Achievements.Count);
+            WriteInteger(Achievements.Count);
             foreach (Achievement achievement in Achievements)
             {
                 UserAchievement achievementData = Session.GetHabbo().GetAchievementData(achievement.GroupName);
@@ -18,21 +18,21 @@ namespace Butterfly.Communication.Packets.Outgoing.Structure
                 if (TargetLevel > count)
                     TargetLevel = count;
                 AchievementLevel achievementLevel = achievement.Levels[TargetLevel];
-                base.WriteInteger(achievement.Id);
-                base.WriteInteger(TargetLevel);
-                base.WriteString(achievement.GroupName + TargetLevel);
-                base.WriteInteger(0);
-                base.WriteInteger(achievementLevel.Requirement); //?
-                base.WriteInteger(achievementLevel.RewardPixels);
-                base.WriteInteger(0); //-1 = rien, 5 = PointWinwin?
-                base.WriteInteger(achievementData != null ? achievementData.Progress : 0);
-                base.WriteBoolean(achievementData != null && achievementData.Level >= count);
-                base.WriteString(achievement.Category);
-                base.WriteString(string.Empty);
-                base.WriteInteger(count);
-                base.WriteInteger(0);
+                WriteInteger(achievement.Id);
+                WriteInteger(TargetLevel);
+                WriteString(achievement.GroupName + TargetLevel);
+                WriteInteger(0);
+                WriteInteger(achievementLevel.Requirement); //?
+                WriteInteger(achievementLevel.RewardPixels);
+                WriteInteger(0); //-1 = rien, 5 = PointWinwin?
+                WriteInteger(achievementData != null ? achievementData.Progress : 0);
+                WriteBoolean(achievementData != null && achievementData.Level >= count);
+                WriteString(achievement.Category);
+                WriteString(string.Empty);
+                WriteInteger(count);
+                WriteInteger(0);
             }
-            base.WriteString(string.Empty);
+            WriteString(string.Empty);
         }
     }
 }

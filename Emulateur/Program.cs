@@ -10,7 +10,7 @@ namespace Butterfly
         [SecurityPermission(SecurityAction.Demand, Flags = SecurityPermissionFlag.ControlAppDomain)]
         public static void Main()
         {
-            Program.InitEnvironment();
+            InitEnvironment();
             while (true)
             {
                 if (Console.ReadKey(true).Key == ConsoleKey.Enter)
@@ -32,7 +32,7 @@ namespace Butterfly
         public static void InitEnvironment()
         {
             Console.ForegroundColor = ConsoleColor.White;
-            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(Program.MyHandler);
+            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(MyHandler);
             ButterflyEnvironment.Initialize();
         }
 

@@ -5,8 +5,8 @@
         public RpTrocStartComposer(int UserId, string Username)
           : base(13)
         {
-            base.WriteInteger(UserId);
-            base.WriteString(Username);
+            WriteInteger(UserId);
+            WriteString(Username);
         }
     }
 }

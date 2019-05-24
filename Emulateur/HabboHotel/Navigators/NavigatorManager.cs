@@ -142,7 +142,7 @@ namespace Butterfly.HabboHotel.Navigators
 
         public ICollection<FeaturedRoom> GetFeaturedRooms(Language Langue)
         {
-            return this._featuredRooms.Values.Where(F => F.Langue == Langue).ToList();
+            return this._featuredRooms.Values;//.Where(F => F.Langue == Langue).ToList();
         }
     }
 }

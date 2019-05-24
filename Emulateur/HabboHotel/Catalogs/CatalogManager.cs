@@ -54,7 +54,7 @@ namespace Butterfly.HabboHotel.Catalog
 
             using (IQueryAdapter dbClient = ButterflyEnvironment.GetDatabaseManager().GetQueryReactor())
             {
-                dbClient.SetQuery("SELECT `id`,`item_id`,`catalog_name`,`cost_credits`,`cost_pixels`,`cost_diamonds`,`amount`,`page_id`,`limited_sells`,`limited_stack`,`offer_active`,`badge` FROM `catalog_items`");
+                dbClient.SetQuery("SELECT `id`,`item_id`,`catalog_name`,`cost_credits`,`cost_pixels`,`cost_diamonds`,`amount`,`page_id`,`limited_sells`,`limited_stack`,`offer_active`,`badge` FROM `catalog_items` ORDER by ID DESC");
                 DataTable CatalogueItems = dbClient.GetTable();
 
                 if (CatalogueItems != null)
@@ -125,7 +125,7 @@ namespace Butterfly.HabboHotel.Catalog
                     foreach (DataRow Row in GetPromotions.Rows)
                     {
                         if (!this._promotions.ContainsKey(Convert.ToInt32(Row["id"])))
-                            this._promotions.Add(Convert.ToInt32(Row["id"]), new CatalogPromotion(Convert.ToInt32(Row["id"]), Convert.ToString(Row["title"]), Convert.ToString(Row["image"]), Convert.ToInt32(Row["unknown"]), Convert.ToString(Row["page_link"]), Convert.ToInt32(Row["parent_id"])));
+                            this._promotions.Add(Convert.ToInt32(Row["id"]), new CatalogPromotion(Convert.ToInt32(Row["id"]), Convert.ToString(Row["title"]), Convert.ToString(Row["title_en"]), Convert.ToString(Row["title_br"]), Convert.ToString(Row["image"]), Convert.ToInt32(Row["unknown"]), Convert.ToString(Row["page_link"]), Convert.ToInt32(Row["parent_id"])));
                     }
                 }
 

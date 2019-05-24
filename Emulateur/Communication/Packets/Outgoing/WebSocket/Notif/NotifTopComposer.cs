@@ -5,7 +5,7 @@
         public NotifTopComposer(string Message)
          : base(18)
         {
-            base.WriteString(Message);
+            WriteString(Message);
         }
     }
 }

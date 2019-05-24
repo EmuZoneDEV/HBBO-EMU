@@ -8,7 +8,11 @@ namespace Butterfly.Communication.Packets.Incoming.WebSocket
     class SendHotelAlertEvent : IPacketWebEvent
     {
         public void Parse(WebClient Session, ClientPacket Packet)
-        {            if (Session == null)                return;            GameClient Client = ButterflyEnvironment.GetGame().GetClientManager().GetClientByUserID(Session.UserId);
+        {
+            if (Session == null)
+                return;
+
+            GameClient Client = ButterflyEnvironment.GetGame().GetClientManager().GetClientByUserID(Session.UserId);
             if (Client == null || Client.GetHabbo() == null)
                 return;
 

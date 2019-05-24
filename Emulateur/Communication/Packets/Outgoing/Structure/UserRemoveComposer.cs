@@ -5,7 +5,7 @@ namespace Butterfly.Communication.Packets.Outgoing.Structure
         public UserRemoveComposer(int Id)
             : base(ServerPacketHeader.UserRemoveMessageComposer)
         {
-            base.WriteString(Id.ToString());
+            WriteString(Id.ToString());
         }
     }
 }

@@ -278,7 +278,7 @@ namespace Butterfly.HabboHotel.Pets
             if (this.Expirience <= this.ExpirienceGoal)
                 return;
 
-            ServerPacket LevelNotify = new ServerPacket(ServerPacketHeader.NotifyNewPetLevelMessageComposer);
+            ServerPacket LevelNotify = new ServerPacket(ServerPacketHeader.PetLevelUpComposer);
             LevelNotify.WriteInteger(PetId);
             LevelNotify.WriteString(Name);
             LevelNotify.WriteInteger(Level);

@@ -5,7 +5,7 @@ namespace Butterfly.Communication.Packets.Outgoing.Structure
         public GenericErrorComposer(int errorId)
             : base(ServerPacketHeader.GenericErrorMessageComposer)
         {
-            base.WriteInteger(errorId);
+            WriteInteger(errorId);
         }
     }
 }

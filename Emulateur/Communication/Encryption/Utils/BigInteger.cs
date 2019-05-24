@@ -2221,7 +2221,7 @@ namespace Buttefly.Utilities
 
             while (!done)
             {
-                int Jresult = BigInteger.Jacobi(D, thisVal);
+                int Jresult = Jacobi(D, thisVal);
 
                 if (Jresult == -1)
                     done = true;    // J(D, this) = 1
@@ -2325,7 +2325,7 @@ namespace Buttefly.Utilities
                     if ((lucas[2].data[maxLength - 1] & 0x80000000) != 0)
                         lucas[2] += thisVal;
 
-                    BigInteger temp = (Q * BigInteger.Jacobi(Q, thisVal)) % thisVal;
+                    BigInteger temp = (Q * Jacobi(Q, thisVal)) % thisVal;
                     if ((temp.data[maxLength - 1] & 0x80000000) != 0)
                         temp += thisVal;
 

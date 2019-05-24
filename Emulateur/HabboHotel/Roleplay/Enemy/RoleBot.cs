@@ -244,7 +244,10 @@ namespace Butterfly.HabboHotel.Roleplay.Enemy
         }
 
         private void Cac(RoomUser Bot, Room Room, RoomUser User)
-        {            int Dmg = ButterflyEnvironment.GetRandomNumber(this.WeaponCac.DmgMin, this.WeaponCac.DmgMax);            if (!User.IsBot)
+        {
+            int Dmg = ButterflyEnvironment.GetRandomNumber(this.WeaponCac.DmgMin, this.WeaponCac.DmgMax);
+
+            if (!User.IsBot)
             {
                 RolePlayer Rp = User.Roleplayer;
                 if (Rp != null)
@@ -258,7 +261,8 @@ namespace Butterfly.HabboHotel.Roleplay.Enemy
 
             int WeaponEanble = this.WeaponCac.Enable;
 
-            Bot.ApplyEffect(WeaponEanble, true);            Bot.TimerResetEffect = this.WeaponCac.FreezeTime + 1;
+            Bot.ApplyEffect(WeaponEanble, true);
+            Bot.TimerResetEffect = this.WeaponCac.FreezeTime + 1;
 
             if (Bot.FreezeEndCounter <= this.WeaponCac.FreezeTime + 1)
             {
@@ -677,7 +681,7 @@ namespace Butterfly.HabboHotel.Roleplay.Enemy
                 if (User == Bot)
                     continue;
 
-                int RotationDistance = Math.Abs(Pathfinding.Rotation.Calculate(BotX, BotY, User.X, User.Y) - Bot.RotBody);
+                int RotationDistance = Math.Abs(Rotation.Calculate(BotX, BotY, User.X, User.Y) - Bot.RotBody);
                 if (RotationDistance >= 2 && !(User.X == BotX && User.Y == BotY))
                     continue;
 

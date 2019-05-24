@@ -5,8 +5,8 @@ namespace Butterfly.Communication.Packets.Outgoing.Structure
         public NewGroupInfoComposer(int RoomId, int GroupId)
             : base(ServerPacketHeader.NewGroupInfoMessageComposer)
         {
-            base.WriteInteger(RoomId);
-            base.WriteInteger(GroupId);
+            WriteInteger(RoomId);
+            WriteInteger(GroupId);
         }
     }
 }

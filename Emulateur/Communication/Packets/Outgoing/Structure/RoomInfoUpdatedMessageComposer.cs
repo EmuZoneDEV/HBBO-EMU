@@ -5,7 +5,7 @@ namespace Butterfly.Communication.Packets.Outgoing.Structure
         public RoomInfoUpdatedMessageComposer(int RoomId)
             : base(ServerPacketHeader.RoomInfoUpdatedMessageComposer)
         {
-            base.WriteInteger(RoomId);
+            WriteInteger(RoomId);
         }
     }
 }

@@ -61,9 +61,9 @@ namespace Butterfly.Core
             else if (Language == Language.ANGLAIS)
                 return this._valuesEn.ContainsKey(value) ? this._valuesEn[value] : "Pas de language locale trouver pour [" + value + "] (en)";
             else if (Language == Language.PORTUGAIS)
-                return this._valuesEn.ContainsKey(value) ? this._valuesEn[value] : "Pas de language locale trouver pour [" + value + "] (br)";
+                return this._valuesBr.ContainsKey(value) ? this._valuesBr[value] : "Pas de language locale trouver pour [" + value + "] (br)";
             else
-                return "";
+                return this._valuesFr.ContainsKey(value) ? this._valuesFr[value] : "Pas de language locale trouver pour [" + value + "] (def)";
         }
 
         public static Language ParseLanguage(string v)

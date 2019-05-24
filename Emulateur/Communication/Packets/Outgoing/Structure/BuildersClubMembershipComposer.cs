@@ -5,10 +5,10 @@ namespace Butterfly.Communication.Packets.Outgoing.Structure
         public BuildersClubMembershipComposer()
             : base(ServerPacketHeader.BuildersClubMembershipMessageComposer)
         {
-            base.WriteInteger(99999999);
-            base.WriteInteger(100);
-            base.WriteInteger(2);
-            base.WriteInteger(99999999);
+            WriteInteger(99999999);
+            WriteInteger(100);
+            WriteInteger(2);
+            WriteInteger(99999999);
         }
     }
 }

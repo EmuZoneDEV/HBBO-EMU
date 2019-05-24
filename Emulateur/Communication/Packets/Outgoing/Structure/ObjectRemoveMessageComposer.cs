@@ -5,10 +5,10 @@ namespace Butterfly.Communication.Packets.Outgoing.Structure
         public ObjectRemoveMessageComposer(int ItemId, int OwnerId)
             : base(ServerPacketHeader.ObjectRemoveMessageComposer)
         {
-            base.WriteString(ItemId.ToString());
-            base.WriteBoolean(false); //isExpired
-            base.WriteInteger(OwnerId);
-            base.WriteInteger(0);
+            WriteString(ItemId.ToString());
+            WriteBoolean(false); //isExpired
+            WriteInteger(OwnerId);
+            WriteInteger(0);
         }
     }
 }

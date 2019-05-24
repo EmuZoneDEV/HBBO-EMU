@@ -5,24 +5,24 @@ namespace Butterfly.Communication.Packets.Outgoing.Structure
         public RoomNotificationComposer(string Type, string Key, string Value)
            : base(ServerPacketHeader.RoomNotificationMessageComposer)
         {
-            base.WriteString(Type);
-            base.WriteInteger((Type == "furni_placement_error") ? 2 : 1);//Count
+            WriteString(Type);
+            WriteInteger((Type == "furni_placement_error") ? 2 : 1);//Count
             {
                 if(Type == "furni_placement_error")
                 {
-                    base.WriteString("display");
-                    base.WriteString("BUBBLE");
+                    WriteString("display");
+                    WriteString("BUBBLE");
                 }
-                base.WriteString(Key);//Type of message
-                base.WriteString(Value);
+                WriteString(Key);//Type of message
+                WriteString(Value);
             }
         }
 
         public RoomNotificationComposer(string Type)
             : base(ServerPacketHeader.RoomNotificationMessageComposer)
         {
-            base.WriteString(Type);
-            base.WriteInteger(0);//Count
+            WriteString(Type);
+            WriteInteger(0);//Count
         }
 
         public RoomNotificationComposer(string Title, string Message, string Image, string HotelName, string HotelURL)
@@ -32,19 +32,19 @@ namespace Butterfly.Communication.Packets.Outgoing.Structure
             if (!string.IsNullOrEmpty(HotelName))
                 CountMessage = CountMessage + 2;
 
-            base.WriteString(Image);
-            base.WriteInteger(CountMessage);
-            base.WriteString("title");
-            base.WriteString(Title);
-            base.WriteString("message");
-            base.WriteString(Message);
+            WriteString(Image);
+            WriteInteger(CountMessage);
+            WriteString("title");
+            WriteString(Title);
+            WriteString("message");
+            WriteString(Message);
 
             if (!string.IsNullOrEmpty(HotelName))
             {
-                base.WriteString("linkUrl");
-                base.WriteString(HotelURL);
-                base.WriteString("linkTitle");
-                base.WriteString(HotelName);
+                WriteString("linkUrl");
+                WriteString(HotelURL);
+                WriteString("linkTitle");
+                WriteString(HotelName);
             }
         }
     }

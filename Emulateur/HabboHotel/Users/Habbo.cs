@@ -98,7 +98,8 @@ namespace Butterfly.HabboHotel.Users
         public int Mazo;
         public int MazoHighScore;
 
-        public bool _nuxenable;
+        public bool NewUser;
+        public bool Nuxenable;
         public int PassedNuxCount;
 
         public bool AllowDoorBell;
@@ -158,7 +159,7 @@ namespace Butterfly.HabboHotel.Users
             int WPoint, int ActivityPoints, double LastActivityPointsUpdate, int HomeRoom, int Respect, int DailyRespectPoints,
             int DailyPetRespectPoints, bool HasFriendRequestsDisabled, int currentQuestID, int achievementPoints,
             int LastOnline, int FavoriteGroup, int accountCreated, bool accepttrading, string ip, bool HideInroom,
-            bool HideOnline, int MazoHighScore, int Mazo, string clientVolume, bool nuxenable, string MachineId, bool ChangeName, Language Langue)
+            bool HideOnline, int MazoHighScore, int Mazo, string clientVolume, bool nuxenable, string MachineId, bool ChangeName, Language Langue, bool IgnoreAll)
         {
             this.Id = Id;
             this.Username = Username;
@@ -189,6 +190,7 @@ namespace Butterfly.HabboHotel.Users
             this._clientVolume = new List<int>();
             this.CanChangeName = ChangeName;
             this.Langue = Langue;
+            this.IgnoreAll = IgnoreAll;
 
             if (clientVolume.Contains(','))
             {
@@ -228,11 +230,11 @@ namespace Butterfly.HabboHotel.Users
             this.HideOnline = HideOnline;
             this.MazoHighScore = MazoHighScore;
             this.Mazo = Mazo;
-            this.IgnoreAll = false;
 
             this.LastGiftPurchaseTime = DateTime.Now;
 
-            this._nuxenable = nuxenable;
+            this.Nuxenable = nuxenable;
+            this.NewUser = nuxenable;
         }
 
         public void Init(GameClient client, UserData.UserData data)
@@ -243,6 +245,7 @@ namespace Butterfly.HabboHotel.Users
             this.InventoryComponent.SetActiveState(client);
             this.quests = data.quests;
             this.chatMessageManager = new ChatMessageManager();
+            this.chatMessageManager.LoadUserChatlogs(this.Id);
             this.Messenger = new HabboMessenger(this.Id);
             this.Messenger.AppearOffline = this.HideOnline;
             this.Messenger.Init(data.friends, data.requests, data.Relationships);

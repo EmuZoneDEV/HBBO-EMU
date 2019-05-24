@@ -8,11 +8,11 @@ namespace Butterfly.Communication.Packets.Outgoing.Structure
         public ItemsComposer(Item[] Objects, Room Room)
             : base(ServerPacketHeader.ItemsMessageComposer)
         {
-            base.WriteInteger(1);
-            base.WriteInteger(Room.RoomData.OwnerId);
-            base.WriteString(Room.RoomData.OwnerName);
+            WriteInteger(1);
+            WriteInteger(Room.RoomData.OwnerId);
+            WriteString(Room.RoomData.OwnerName);
 
-            base.WriteInteger(Objects.Length);
+            WriteInteger(Objects.Length);
 
             foreach (Item Item in Objects)
             {
@@ -22,23 +22,23 @@ namespace Butterfly.Communication.Packets.Outgoing.Structure
 
         private void WriteWallItem(Item Item, int UserId)
         {
-            base.WriteString(Item.Id.ToString());
-            base.WriteInteger(Item.GetBaseItem().SpriteId);
+            WriteString(Item.Id.ToString());
+            WriteInteger(Item.GetBaseItem().SpriteId);
 
             try
             {
-                base.WriteString(Item.wallCoord);
+                WriteString(Item.wallCoord);
             }
             catch
             {
-                base.WriteString("");
+                WriteString("");
             }
 
             ItemBehaviourUtility.GenerateWallExtradata(Item, this);
 
-            base.WriteInteger(-1);
-            base.WriteInteger((Item.GetBaseItem().Modes > 1) ? 1 : 0);
-            base.WriteInteger(UserId);
+            WriteInteger(-1);
+            WriteInteger((Item.GetBaseItem().Modes > 1) ? 1 : 0);
+            WriteInteger(UserId);
         }
     }
 }

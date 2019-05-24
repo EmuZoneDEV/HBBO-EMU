@@ -158,14 +158,14 @@ namespace Butterfly.HabboHotel.Rooms
 
             if (Bot.Status == 1)
             {
-                roomUser.IsSit = true;
                 roomUser.SetStatus("sit", "0.5");
+                roomUser.IsSit = true;
             }
 
             if (Bot.Status == 2)
             {
-                roomUser.IsLay = true;
                 roomUser.SetStatus("lay", "0.7");
+                roomUser.IsLay = true;
             }
 
             this.UpdateUserStatus(roomUser, false);
@@ -831,45 +831,13 @@ namespace Butterfly.HabboHotel.Rooms
                 User.UpdateNeeded = true;
             }
 
-            List<Item> roomItemForSquare = this.room.GetGameMap().GetCoordinatedItems(new Point(User.X, User.Y)).ToList();
+            List<Item> roomItemForSquare = this.room.GetGameMap().GetCoordinatedItems(new Point(User.X, User.Y)).OrderBy(p => p.GetZ).ToList();
 
             double newZ = !User.RidingHorse || User.IsPet ? this.room.GetGameMap().SqAbsoluteHeight(User.X, User.Y, roomItemForSquare) : this.room.GetGameMap().SqAbsoluteHeight(User.X, User.Y, roomItemForSquare) + 1.0;
             if (newZ != User.Z)
             {
                 User.Z = newZ;
                 User.UpdateNeeded = true;
-            }
-
-            if (User.IsSit || User.IsLay)
-            {
-                if (User.IsSit)
-                {
-                    if (!User._statusses.ContainsKey("sit"))
-                        if (User.transformation)
-                            User.SetStatus("sit", "");
-                        else
-                            User.SetStatus("sit", "0.5");
-                    //User.Z = (double)model.SqFloorHeight[User.X, User.Y];
-                    User.UpdateNeeded = true;
-                }
-                else if (User.IsLay)
-                {
-
-                    if (!User._statusses.ContainsKey("lay"))
-                        if (User.transformation)
-                            User.SetStatus("lay", "");
-                        else
-                            User.SetStatus("lay", "0.7");
-                    //User.Z = (double)model.SqFloorHeight[User.X, User.Y];
-                    User.UpdateNeeded = true;
-                }
-                else
-                {
-                    if (!User._statusses.ContainsKey("sit"))
-                        User.SetStatus("sit", "0.1");
-                    //User.Z = (double)model.SqFloorHeight[User.X, User.Y];
-                    User.UpdateNeeded = true;
-                }
             }
 
             foreach (Item roomItem in roomItemForSquare)
@@ -887,6 +855,7 @@ namespace Butterfly.HabboHotel.Rooms
                     if (!User._statusses.ContainsKey("sit"))
                     {
                         User.SetStatus("sit", TextHandling.GetString(roomItem.Height));
+                        User.IsSit = true;
                     }
                     User.Z = roomItem.GetZ;
                     User.RotHead = roomItem.Rotation;
@@ -896,6 +865,17 @@ namespace Butterfly.HabboHotel.Rooms
 
                 switch (roomItem.GetBaseItem().InteractionType)
                 {
+                    case InteractionType.bed:
+                        if (!User._statusses.ContainsKey("lay"))
+                        {
+                            User.SetStatus("lay", TextHandling.GetString(roomItem.Height) + " null");
+                            User.IsLay = true;
+                        }
+                        User.Z = roomItem.GetZ;
+                        User.RotHead = roomItem.Rotation;
+                        User.RotBody = roomItem.Rotation;
+                        User.UpdateNeeded = true;
+                        break;
                     case InteractionType.pressurepad:
                     case InteractionType.TRAMPOLINE:
                     case InteractionType.TREADMILL:
@@ -926,8 +906,6 @@ namespace Butterfly.HabboHotel.Rooms
                             TeamManager managerForBanzai = this.room.GetTeamManager();
                             if (User.team != roomItem.team)
                             {
-                                //if (managerForBanzai.CanEnterOnTeam(roomItem.team))
-                                //{
                                 if (User.team != Team.none)
                                 {
                                     managerForBanzai.OnUserLeave(User);
@@ -936,13 +914,7 @@ namespace Butterfly.HabboHotel.Rooms
                                 managerForBanzai.AddUser(User);
                                 this.room.GetGameManager().UpdateGatesTeamCounts();
                                 if (User.CurrentEffect != EffectId)
-                                {
                                     User.ApplyEffect(EffectId);
-                                    continue;
-                                }
-                                else
-                                    continue;
-                                //}
                             }
                             else
                             {
@@ -954,24 +926,23 @@ namespace Butterfly.HabboHotel.Rooms
                                 continue;
                             }
                         }
-                        else
-                            continue;
+                        break;
                     case InteractionType.banzaiblo:
                         if (cyclegameitems && User.team != Team.none && !User.IsBot)
                         {
                             this.room.GetGameItemHandler().OnWalkableBanzaiBlo(User, roomItem);
                         }
-                        continue;
+                        break;
                     case InteractionType.banzaiblob:
                         if (cyclegameitems && User.team != Team.none && !User.IsBot)
                         {
                             this.room.GetGameItemHandler().OnWalkableBanzaiBlob(User, roomItem);
                         }
-                        continue;
+                        break;
                     case InteractionType.banzaitele:
                         if (cyclegameitems)
                             this.room.GetGameItemHandler().onTeleportRoomUserEnter(User, roomItem);
-                        continue;
+                        break;
                     case InteractionType.freezeyellowgate:
                     case InteractionType.freezeredgate:
                     case InteractionType.freezegreengate:
@@ -982,8 +953,6 @@ namespace Butterfly.HabboHotel.Rooms
                             TeamManager managerForFreeze = this.room.GetTeamManager();
                             if (User.team != roomItem.team)
                             {
-                                //if (managerForFreeze.CanEnterOnTeam(roomItem.team))
-                                //{
                                     if (User.team != Team.none)
                                     {
                                         managerForFreeze.OnUserLeave(User);
@@ -1002,20 +971,8 @@ namespace Butterfly.HabboHotel.Rooms
                                     User.ApplyEffect(0);
                                 User.team = Team.none;
                             }
-                            continue;
                         }
-                        else
-                            continue;
-                    case InteractionType.bed:
-                        if (!User._statusses.ContainsKey("lay"))
-                        {
-                            User.SetStatus("lay", TextHandling.GetString(roomItem.Height) + " null");
-                        }
-                        User.Z = roomItem.GetZ;
-                        User.RotHead = roomItem.Rotation;
-                        User.RotBody = roomItem.Rotation;
-                        User.UpdateNeeded = true;
-                        continue;
+                            break;
                     case InteractionType.fbgate:
                         if (cyclegameitems || string.IsNullOrEmpty(roomItem.ExtraData) || !roomItem.ExtraData.Contains(',') || User == null || User.IsBot || User.transformation || User.IsSpectator)
                             break;
@@ -1070,12 +1027,43 @@ namespace Butterfly.HabboHotel.Rooms
                         this.room.GetFreeze().OnWalkFreezeBlock(roomItem, User);
                         break;
                     default:
-                        continue;
+                        break;
                 }
             }
             if (cyclegameitems)
             {
                 this.room.GetBanzai().HandleBanzaiTiles(User.Coordinate, User.team, User);
+            }
+
+            if (User.IsSit || User.IsLay)
+            {
+                if (User.IsSit)
+                {
+                    if (!User._statusses.ContainsKey("sit"))
+                    {
+                        if (User.transformation)
+                            User.SetStatus("sit", "");
+                        else
+                            User.SetStatus("sit", "0.5");
+
+                        User.UpdateNeeded = true;
+                    }
+
+                }
+                else if (User.IsLay)
+                {
+
+                    if (!User._statusses.ContainsKey("lay"))
+                    {
+                        if (User.transformation)
+                            User.SetStatus("lay", "");
+                        else
+                            User.SetStatus("lay", "0.7");
+
+                        User.UpdateNeeded = true;
+                    }
+
+                }
             }
         }
 

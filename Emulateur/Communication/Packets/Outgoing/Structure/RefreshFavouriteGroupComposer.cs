@@ -5,7 +5,7 @@ namespace Butterfly.Communication.Packets.Outgoing.Structure
         public RefreshFavouriteGroupComposer(int Id)
             : base(ServerPacketHeader.RefreshFavouriteGroupMessageComposer)
         {
-            base.WriteInteger(Id);
+            WriteInteger(Id);
         }
     }
 }

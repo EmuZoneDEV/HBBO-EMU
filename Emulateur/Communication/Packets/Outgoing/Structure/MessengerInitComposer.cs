@@ -5,10 +5,10 @@ namespace Butterfly.Communication.Packets.Outgoing.Structure
         public MessengerInitComposer()
             : base(ServerPacketHeader.MessengerInitMessageComposer)
         {
-            base.WriteInteger(2000);
-            base.WriteInteger(300);
-            base.WriteInteger(800);
-            base.WriteInteger(0);
+            WriteInteger(2000);
+            WriteInteger(300);
+            WriteInteger(800);
+            WriteInteger(0);
         }
     }
 }

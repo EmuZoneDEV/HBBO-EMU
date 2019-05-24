@@ -36,10 +36,10 @@ namespace Butterfly.Core
                 {
                     int UsersOnline = ButterflyEnvironment.GetGame().GetClientManager().Count;
 
-                    if(ButterflyEnvironment.GetGame().GetAnimationManager().Start && UsersOnline < 200)
+                    if(ButterflyEnvironment.GetGame().GetAnimationManager().Start && UsersOnline < 150)
                     {
                         ButterflyEnvironment.GetGame().GetAnimationManager().Start = false;
-                    } else if (!ButterflyEnvironment.GetGame().GetAnimationManager().Start && UsersOnline >= 200)
+                    } else if (!ButterflyEnvironment.GetGame().GetAnimationManager().Start && UsersOnline >= 150)
                     {
                         ButterflyEnvironment.GetGame().GetAnimationManager().Start = true;
                     }
@@ -58,7 +58,6 @@ namespace Butterfly.Core
 
                     using (IQueryAdapter dbClient = ButterflyEnvironment.GetDatabaseManager().GetQueryReactor())
                     {
-                        //dbClient.runQuery("UPDATE server_status SET users_online = " + UsersOnline + ", rooms_loaded = " + RoomsLoaded + ", userpeak = " + UserPeak + ";INSERT INTO cms_connecter (connecter, date, appart) SELECT users_online, UNIX_TIMESTAMP(), rooms_loaded FROM server_status WHERE stamp+(5*60) < UNIX_TIMESTAMP(); UPDATE server_status SET stamp = UNIX_TIMESTAMP() WHERE stamp+(5*60) < UNIX_TIMESTAMP();");
                         dbClient.RunQuery("UPDATE server_status SET users_online = " + UsersOnline + ", rooms_loaded = " + RoomsLoaded + ", userpeak = " + UserPeak + ", stamp = UNIX_TIMESTAMP();INSERT INTO cms_connecter (connecter, date, appart) VALUES (" + UsersOnline + ", UNIX_TIMESTAMP(), " + RoomsLoaded + ");");
                     }
                 }

@@ -6,44 +6,44 @@ namespace Butterfly.Communication.WebSocket
 {
     static class EncodeDecode
     {
-        internal static Byte[] EncodeMessage(Byte[] message)
+        internal static byte[] EncodeMessage(byte[] message)
         {
-            Byte[] response;
-            Byte[] bytesRaw = message;
-            Byte[] frame = new Byte[10];
+            byte[] response;
+            byte[] bytesRaw = message;
+            byte[] frame = new byte[10];
 
-            Int32 indexStartRawData = -1;
-            Int32 length = bytesRaw.Length;
+            int indexStartRawData = -1;
+            int length = bytesRaw.Length;
 
-            frame[0] = (Byte)130;
+            frame[0] = (byte)130;
             if (length <= 125)
             {
-                frame[1] = (Byte)length;
+                frame[1] = (byte)length;
                 indexStartRawData = 2;
             }
             else if (length >= 126 && length <= 65535)
             {
-                frame[1] = (Byte)126;
-                frame[2] = (Byte)((length >> 8) & 255);
-                frame[3] = (Byte)(length & 255);
+                frame[1] = (byte)126;
+                frame[2] = (byte)((length >> 8) & 255);
+                frame[3] = (byte)(length & 255);
                 indexStartRawData = 4;
             }
             else
             {
-                frame[1] = (Byte)127;
-                frame[2] = (Byte)((length >> 56) & 255);
-                frame[3] = (Byte)((length >> 48) & 255);
-                frame[4] = (Byte)((length >> 40) & 255);
-                frame[5] = (Byte)((length >> 32) & 255);
-                frame[6] = (Byte)((length >> 24) & 255);
-                frame[7] = (Byte)((length >> 16) & 255);
-                frame[8] = (Byte)((length >> 8) & 255);
-                frame[9] = (Byte)(length & 255);
+                frame[1] = (byte)127;
+                frame[2] = (byte)((length >> 56) & 255);
+                frame[3] = (byte)((length >> 48) & 255);
+                frame[4] = (byte)((length >> 40) & 255);
+                frame[5] = (byte)((length >> 32) & 255);
+                frame[6] = (byte)((length >> 24) & 255);
+                frame[7] = (byte)((length >> 16) & 255);
+                frame[8] = (byte)((length >> 8) & 255);
+                frame[9] = (byte)(length & 255);
 
                 indexStartRawData = 10;
             }
 
-            response = new Byte[indexStartRawData + length];
+            response = new byte[indexStartRawData + length];
 
             Int32 i, reponseIdx = 0;
 
@@ -64,23 +64,23 @@ namespace Butterfly.Communication.WebSocket
             return response;
         }
 
-        internal static byte[] DecodeMessage(Byte[] bytes)
+        internal static byte[] DecodeMessage(byte[] bytes)
         {
-            Byte secondByte = bytes[1];
-            Int32 dataLength = secondByte & 127;
-            Int32 indexFirstMask = 2;
+            byte secondByte = bytes[1];
+            int dataLength = secondByte & 127;
+            int indexFirstMask = 2;
             if (dataLength == 126)
                 indexFirstMask = 4;
             else if (dataLength == 127)
                 indexFirstMask = 10;
 
-            IEnumerable<Byte> keys = bytes.Skip(indexFirstMask).Take(4);
-            Int32 indexFirstDataByte = indexFirstMask + 4;
+            IEnumerable<byte> keys = bytes.Skip(indexFirstMask).Take(4);
+            int indexFirstDataByte = indexFirstMask + 4;
 
-            Byte[] decoded = new Byte[bytes.Length - indexFirstDataByte];
-            for (Int32 i = indexFirstDataByte, j = 0; i < bytes.Length; i++, j++)
+            byte[] decoded = new byte[bytes.Length - indexFirstDataByte];
+            for (int i = indexFirstDataByte, j = 0; i < bytes.Length; i++, j++)
             {
-                decoded[j] = (Byte)(bytes[i] ^ keys.ElementAt(j % 4));
+                decoded[j] = (byte)(bytes[i] ^ keys.ElementAt(j % 4));
             }
 
             return decoded;

@@ -5,8 +5,8 @@ namespace Butterfly.Communication.Packets.Outgoing.Structure
         public CanCreateRoomComposer(bool Error, int MaxRoomsPerUser)
             : base(ServerPacketHeader.CanCreateRoomMessageComposer)
         {
-            base.WriteInteger(Error ? 1 : 0);
-            base.WriteInteger(MaxRoomsPerUser);
+            WriteInteger(Error ? 1 : 0);
+            WriteInteger(MaxRoomsPerUser);
         }
     }
 }

@@ -5,7 +5,7 @@ namespace Butterfly.Communication.Packets.Outgoing.Structure
         public FurniListRemoveComposer(int Id)
             : base(ServerPacketHeader.FurniListRemoveMessageComposer)
         {
-            base.WriteInteger(Id);
+            WriteInteger(Id);
         }
     }
 }

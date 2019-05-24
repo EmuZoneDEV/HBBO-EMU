@@ -5,7 +5,7 @@
         public RpTrocConfirmeComposer(int UserId)
           : base(16)
         {
-            base.WriteInteger(UserId);
+            WriteInteger(UserId);
         }
     }
 }

@@ -8,16 +8,16 @@ namespace Butterfly.Communication.Packets.Outgoing.Structure
         public UserFlatCatsComposer(ICollection<SearchResultList> Categories, int Rank)
             : base(ServerPacketHeader.UserFlatCatsMessageComposer)
         {
-            base.WriteInteger(Categories.Count);
+            WriteInteger(Categories.Count);
             foreach (SearchResultList Cat in Categories)
             {
-                base.WriteInteger(Cat.Id);
-                base.WriteString(Cat.PublicName);
-                base.WriteBoolean(Cat.RequiredRank <= Rank);
-                base.WriteBoolean(false);
-                base.WriteString("");
-                base.WriteString("");
-                base.WriteBoolean(false);
+                WriteInteger(Cat.Id);
+                WriteString(Cat.PublicName);
+                WriteBoolean(Cat.RequiredRank <= Rank);
+                WriteBoolean(false);
+                WriteString("");
+                WriteString("");
+                WriteBoolean(false);
             }
         }
     }

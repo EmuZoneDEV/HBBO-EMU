@@ -5,12 +5,12 @@
         public NotifAlertComposer(string Image, string Title, string Message, string TextButton, int RoomId, string Url)
          : base(12)
         {
-            base.WriteString(Image);
-            base.WriteString(Title);
-            base.WriteString(Message);
-            base.WriteString(TextButton);
-            base.WriteInteger(RoomId);
-            base.WriteString(Url);
+            WriteString(Image);
+            WriteString(Title);
+            WriteString(Message);
+            WriteString(TextButton);
+            WriteInteger(RoomId);
+            WriteString(Url);
         }
     }
 }

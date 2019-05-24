@@ -5,8 +5,8 @@ using Butterfly.HabboHotel.Rooms.Wired.WiredHandlers.Effects;
 using Butterfly.HabboHotel.Rooms.Wired.WiredHandlers.Interfaces;
 using Butterfly.HabboHotel.Rooms.Wired.WiredHandlers.Triggers;
 using Butterfly.Database.Interfaces;
-using System.Collections.Generic;
 using Butterfly.HabboHotel.Rooms.Map.Movement;
+using System.Collections.Generic;
 
 namespace Butterfly.HabboHotel.Rooms.Wired
 {
@@ -31,10 +31,10 @@ namespace Butterfly.HabboHotel.Rooms.Wired
                   handler.LoadFromDatabase(dbClient, room);
                   break;
               case InteractionType.triggergameend:
-                  WiredLoader.HandleItemLoad(new GameEnds(item, room.GetWiredHandler(), room.GetGameManager()), item);
+                    HandleItemLoad(new GameEnds(item, room.GetWiredHandler(), room.GetGameManager()), item);
                   break;
               case InteractionType.triggergamestart:
-                  WiredLoader.HandleItemLoad(new GameStarts(item, room.GetWiredHandler(), room.GetGameManager()), item);
+                    HandleItemLoad(new GameStarts(item, room.GetWiredHandler(), room.GetGameManager()), item);
                   break;
               case InteractionType.triggerrepeater:
                   handler = new Repeater(room.GetWiredHandler(), item, 0);
@@ -51,14 +51,17 @@ namespace Butterfly.HabboHotel.Rooms.Wired
               case InteractionType.triggercommand:
                   handler = new UserCommand(item, room.GetWiredHandler(), room);
                   handler.LoadFromDatabase(dbClient, room);
+
                   break;
                 case InteractionType.wf_trg_bot_reached_avtr:
                     handler = new BotReadchedAvatar(item, room.GetWiredHandler(), "");
                     handler.LoadFromDatabase(dbClient, room);
+
                     break;
                 case InteractionType.triggercollisionuser:
                   handler = new UserCollision(item, room.GetWiredHandler(), room);
                   handler.LoadFromDatabase(dbClient, room);
+
                   break;
               case InteractionType.triggerscoreachieved:
                   handler = new ScoreAchieved(item, room.GetWiredHandler(), 0, room.GetGameManager());
@@ -167,6 +170,11 @@ namespace Butterfly.HabboHotel.Rooms.Wired
                   handler.LoadFromDatabase(dbClient, room);
 
                   break;
+                case InteractionType.collisionteam:
+                    handler = new CollisionTeam(1, room, room.GetWiredHandler(), item.Id);
+                    handler.LoadFromDatabase(dbClient, room);
+
+                    break;
                 case InteractionType.collisioncase:
                     handler = new CollisionCase(new List<Item>(), room, room.GetWiredHandler(), item.Id);
                     handler.LoadFromDatabase(dbClient, room);
@@ -325,7 +333,7 @@ namespace Butterfly.HabboHotel.Rooms.Wired
               #endregion
           }
           if (handler != null)
-            WiredLoader.HandleItemLoad(handler, item);
+                HandleItemLoad(handler, item);
       }
 
     private static void HandleItemLoad(IWired handler, Item item)

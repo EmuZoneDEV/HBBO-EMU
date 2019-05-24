@@ -7,7 +7,7 @@
     <ProjectGuid>{6C37DB6F-DA4A-4078-9B8C-2F2F5C10AC09}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AssemblyName>ButterflyEmulator</AssemblyName>
-    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <RootNamespace>Butterfly</RootNamespace>
     <TargetFrameworkProfile />
@@ -65,6 +65,7 @@
     <FileAlignment>512</FileAlignment>
     <DocumentationFile>
     </DocumentationFile>
+    <WarningLevel>2</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>..\Release\</OutputPath>
@@ -129,7 +130,8 @@
     <Compile Include="Communication\Encryption\Keys\RSAKeys.cs" />
     <Compile Include="Communication\Packets\Incoming\Avatar\GetWardrobeEvent.cs" />
     <Compile Include="Communication\Packets\Incoming\Avatar\SaveWardrobeOutfitEvent.cs" />
-    <Compile Include="Communication\Packets\Incoming\Catalog\BuyPhotoEvent.cs" />
+    <Compile Include="Communication\Packets\Incoming\Camera\CameraPurchaseEvent.cs" />
+    <Compile Include="Communication\Packets\Incoming\Camera\RequestCameraConfiguration.cs" />
     <Compile Include="Communication\Packets\Incoming\Catalog\CheckPetNameEvent.cs" />
     <Compile Include="Communication\Packets\Incoming\Catalog\GetCatalogIndexEvent.cs" />
     <Compile Include="Communication\Packets\Incoming\Catalog\GetCatalogOfferEvent.cs" />
@@ -212,6 +214,9 @@
     <Compile Include="Communication\Packets\Incoming\WebSocket\HandShake\MoveUserEvent.cs" />
     <Compile Include="Communication\Packets\Incoming\WebSocket\RolePlay\RpUseItemsEvent.cs" />
     <Compile Include="Communication\Packets\Incoming\WebSocket\RolePlay\RpBuyItemsEvent.cs" />
+    <Compile Include="Communication\Packets\Outgoing\Structure\CameraPurchaseSuccesfullComposer.cs" />
+    <Compile Include="Communication\Packets\Outgoing\Structure\CameraPriceComposer.cs" />
+    <Compile Include="Communication\Packets\Outgoing\Structure\CameraURLComposer.cs" />
     <Compile Include="Communication\Packets\Outgoing\Structure\MarketPlaceOwnOffersComposer.cs" />
     <Compile Include="Communication\Packets\Incoming\Marketplace\RedeemOfferCreditsEvent.cs" />
     <Compile Include="Communication\Packets\Incoming\Messenger\AcceptBuddyEvent.cs" />
@@ -415,7 +420,6 @@
     <Compile Include="Communication\Packets\Outgoing\Structure\GetRelationshipsMessageComposer.cs" />
     <Compile Include="Communication\Packets\Outgoing\Structure\GetRoomBannedUsersComposer.cs" />
     <Compile Include="Communication\Packets\Outgoing\Structure\GiftWrappingConfigurationMessageComposer.cs" />
-    <Compile Include="Communication\Packets\Outgoing\Structure\GroupAreYouSureMessageComposer.cs" />
     <Compile Include="Communication\Packets\Outgoing\Structure\GroupFurniSettingsComposer.cs" />
     <Compile Include="Communication\Packets\Outgoing\Structure\GroupMembersComposer.cs" />
     <Compile Include="Communication\Packets\Outgoing\Structure\GroupMembershipRequestedComposer.cs" />
@@ -490,7 +494,6 @@
     <Compile Include="Communication\Packets\Outgoing\Structure\PetTrainingPanelComposer.cs" />
     <Compile Include="Communication\Packets\Outgoing\Structure\ProfileInformationComposer.cs" />
     <Compile Include="Communication\Packets\Outgoing\Structure\PromoArticlesMessageComposer.cs" />
-    <Compile Include="Communication\Packets\Outgoing\Structure\PublicCategories.cs" />
     <Compile Include="Communication\Packets\Outgoing\Structure\PurchaseOKComposer.cs" />
     <Compile Include="Communication\Packets\Outgoing\Structure\QuestAbortedMessageComposer.cs" />
     <Compile Include="Communication\Packets\Outgoing\Structure\QuestCompletedMessageComposer.cs" />
@@ -642,6 +645,7 @@
     <Compile Include="HabboHotel\Rooms\Chat\Commands\Systeme\ChutAll.cs" />
     <Compile Include="HabboHotel\Rooms\Chat\Commands\Systeme\Flagme.cs" />
     <Compile Include="HabboHotel\Rooms\Chat\Commands\Systeme\IgnoreAll.cs" />
+    <Compile Include="HabboHotel\Rooms\Chat\Commands\Systeme\LoadRoomItems.cs" />
     <Compile Include="HabboHotel\Rooms\Chat\Commands\Systeme\PushNotif.cs" />
     <Compile Include="HabboHotel\Rooms\Chat\Commands\Systeme\Refresh.cs" />
     <Compile Include="HabboHotel\Rooms\Chat\Commands\Systeme\SummonAll.cs" />
@@ -666,6 +670,7 @@
     <Compile Include="HabboHotel\Rooms\Chat\Commands\Utilisateur\RoomRemoveSell.cs" />
     <Compile Include="HabboHotel\Rooms\Chat\Commands\Utilisateur\RoomSell.cs" />
     <Compile Include="HabboHotel\Rooms\Wired\WiredCycle.cs" />
+    <Compile Include="HabboHotel\Rooms\Wired\WiredHandlers\Effects\CollisionTeam.cs" />
     <Compile Include="HabboHotel\Rooms\Wired\WiredHandlers\Effects\UserMove.cs" />
     <Compile Include="HabboHotel\Rooms\Wired\WiredHandlers\Triggers\BotReadchedAvatar.cs" />
     <Compile Include="HabboHotel\Users\Inventory\Bots\Bot.cs" />
@@ -766,7 +771,7 @@
     <Compile Include="HabboHotel\Rooms\Chat\Commands\Systeme\setcopylook.cs" />
     <Compile Include="HabboHotel\Rooms\Chat\Commands\Systeme\seteffect.cs" />
     <Compile Include="HabboHotel\Rooms\Chat\Commands\Systeme\setenable.cs" />
-    <Compile Include="HabboHotel\Rooms\Chat\Commands\Utilisateur\setmax.cs" />
+    <Compile Include="HabboHotel\Rooms\Chat\Commands\Utilisateur\Setmax.cs" />
     <Compile Include="HabboHotel\Rooms\Chat\Commands\Utilisateur\setspeed.cs" />
     <Compile Include="HabboHotel\Rooms\Chat\Commands\Systeme\settransf.cs" />
     <Compile Include="HabboHotel\Rooms\Chat\Commands\Systeme\settransfbot.cs" />
@@ -1028,8 +1033,6 @@
     <Compile Include="HabboHotel\Rooms\Wired\WiredHandlers\Triggers\WalksOnFurni.cs" />
     <Compile Include="HabboHotel\Support\HelpCategory.cs" />
     <Compile Include="HabboHotel\Support\HelpTopic.cs" />
-    <Compile Include="HabboHotel\Support\ModerationBanType.cs" />
-    <Compile Include="HabboHotel\Support\ModerationBan.cs" />
     <Compile Include="HabboHotel\Support\ModerationBanException.cs" />
     <Compile Include="HabboHotel\Support\ModerationBanManager.cs" />
     <Compile Include="HabboHotel\Support\ModerationManager.cs" />

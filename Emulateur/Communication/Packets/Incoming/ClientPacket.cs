@@ -89,7 +89,7 @@ namespace Butterfly.Communication.Packets.Incoming
 
         public override string ToString()
         {
-            return "[" + Header + "]";// BODY: " + (Encoding.GetString(Body).Replace(Convert.ToChar(0).ToString(), "[0]"));
+            return "[" + Header + "] BODY: " + (Encoding.GetString(Body).Replace(Convert.ToChar(0).ToString(), "[0]"));
         }
 
     }
