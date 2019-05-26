@@ -99,7 +99,7 @@ namespace Butterfly.HabboHotel.GameClients
                     this.SendPacket(new BuildersClubMembershipComposer());
                     this.SendPacket(new ActivityPointsComposer(Habbo.Duckets, Habbo.WibboPoints));
                     this.SendPacket(new CfhTopicsInitComposer(ButterflyEnvironment.GetGame().GetModerationTool().UserActionPresets));
-                    this.SendPacket(new SoundSettingsComposer(this.Habbo._clientVolume, false, false, false, 1));
+                    this.SendPacket(new SoundSettingsComposer(this.Habbo.ClientVolume, false, false, false, 1));
                     this.SendPacket(new AvatarEffectsComposer(ButterflyEnvironment.GetGame().GetEffectsInventoryManager().GetEffects()));
 
                     this.Habbo.UpdateActivityPointsBalance();

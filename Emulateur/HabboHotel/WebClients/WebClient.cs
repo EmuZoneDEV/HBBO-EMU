@@ -39,9 +39,6 @@ namespace Butterfly.HabboHotel.WebClients
 
             string ip = this.GetConnection().getIp();
 
-
-            DataRow dUserInfo;
-
             using (IQueryAdapter queryreactor = ButterflyEnvironment.GetDatabaseManager().GetQueryReactor())
             {
                 queryreactor.SetQuery("SELECT id FROM bans WHERE expire > @nowtime AND (bantype = 'ip' AND value = @IP1) LIMIT 1");
@@ -54,9 +51,8 @@ namespace Butterfly.HabboHotel.WebClients
 
                 queryreactor.SetQuery("SELECT user_id, is_staff, langue FROM user_websocket WHERE auth_ticket = @sso");
                 queryreactor.AddParameter("sso", AuthTicket);
-                
 
-                dUserInfo = queryreactor.GetRow();
+                DataRow dUserInfo = queryreactor.GetRow();
                 if (dUserInfo == null)
                     return;
 
@@ -64,6 +60,8 @@ namespace Butterfly.HabboHotel.WebClients
                 this._isStaff = ButterflyEnvironment.EnumToBool((string)dUserInfo["is_staff"]);
                 this.Langue = LanguageManager.ParseLanguage(Convert.ToString(dUserInfo["langue"]));
                 queryreactor.RunQuery("UPDATE user_websocket SET auth_ticket = '' WHERE user_id = '" + UserId + "'");
+
+                this._sendSettingSound(queryreactor);
             }
 
             ButterflyEnvironment.GetGame().GetClientWebManager().LogClonesOut(UserId);
@@ -72,7 +70,30 @@ namespace Butterfly.HabboHotel.WebClients
             this.SendPacket(new AuthOkComposer());
             this.SendPacket(new UserIsStaffComposer(this._isStaff));
             //this.SendPacket(new NotifTopInitComposer(ButterflyEnvironment.GetGame().GetNotifTopManager().GetAllMessages()));
+        }
 
+        private void _sendSettingSound(IQueryAdapter queryreactor)
+        {
+            queryreactor.SetQuery("SELECT volume FROM users WHERE id = '" + this.UserId + "'");
+
+            DataRow dUserVolume = queryreactor.GetRow();
+            if (dUserVolume == null)
+                return;
+
+            string clientVolume = dUserVolume["volume"].ToString();
+
+            if (clientVolume.Contains(","))
+            {
+                string[] Str = clientVolume.Split(',');
+                if (Str.Length != 3)
+                    return;
+
+                int.TryParse(Str[0], out int systemSound);
+                int.TryParse(Str[1], out int furniSound);
+                int.TryParse(Str[2], out int traxSound);
+
+                this.SendPacket(new SettingVolumeComposer(traxSound, furniSound, systemSound));
+            }
         }
 
         private void SwitchParserRequest()

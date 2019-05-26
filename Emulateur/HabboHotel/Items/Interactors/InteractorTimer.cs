@@ -11,7 +11,7 @@ namespace Butterfly.HabboHotel.Items.Interactors
     {
         public override void OnPlace(GameClient Session, Item Item)
         {
-            Item.ExtraData = "0";
+            //Item.ExtraData = "0";
         }
 
         public override void OnRemove(GameClient Session, Item Item)

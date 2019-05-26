@@ -12,6 +12,7 @@ namespace Butterfly.Communication.Packets.Incoming.WebSocket
             GameClient Client = ButterflyEnvironment.GetGame().GetClientManager().GetClientByUserID(Session.UserId);
             if (Client == null || Client.GetHabbo() == null)
                 return;
+
             int UserId = Packet.PopInt();
             GameClient clientByUserId = ButterflyEnvironment.GetGame().GetClientManager().GetClientByUserID(UserId);
             if (clientByUserId == null || clientByUserId.GetHabbo() == null || !clientByUserId.GetHabbo().InRoom || (clientByUserId.GetHabbo().HideInRoom && !Client.GetHabbo().HasFuse("fuse_mod")))
@@ -19,6 +20,7 @@ namespace Butterfly.Communication.Packets.Incoming.WebSocket
             Room room = ButterflyEnvironment.GetGame().GetRoomManager().GetRoom(clientByUserId.GetHabbo().CurrentRoomId);
             if (room == null)
                 return;
+
             ServerPacket Response = new ServerPacket(ServerPacketHeader.RoomForwardMessageComposer);
             Response.WriteInteger(clientByUserId.GetHabbo().CurrentRoomId);
             Client.SendPacket(Response);

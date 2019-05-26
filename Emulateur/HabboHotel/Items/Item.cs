@@ -646,7 +646,7 @@ namespace Butterfly.HabboHotel.Items
 
                     Point NewPoint = this.GetMoveCoord(OldX, OldY, 1);
                     
-                    if ((!this.mRoom.OldFoot && this.interactionCountHelper > 3) || (this.mRoom.OldFoot && this.interactionCountHelper > 4))
+                    if (this.interactionCountHelper > 3)
                     {
                         Length = 3;
 

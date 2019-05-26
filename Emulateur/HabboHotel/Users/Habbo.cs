@@ -51,7 +51,7 @@ namespace Butterfly.HabboHotel.Users
         public int TeleporterId;
         public int FloodCount;
         public DateTime FloodTime;
-        public List<int> _clientVolume;
+        public List<int> ClientVolume;
         public string MachineId;
         public Language Langue;
 
@@ -187,7 +187,7 @@ namespace Butterfly.HabboHotel.Users
             this.TeleporterId = 0;
             this.UsersRooms = new List<RoomData>();
             this.HasFriendRequestsDisabled = HasFriendRequestsDisabled;
-            this._clientVolume = new List<int>();
+            this.ClientVolume = new List<int>(3);
             this.CanChangeName = ChangeName;
             this.Langue = Langue;
             this.IgnoreAll = IgnoreAll;
@@ -198,16 +198,16 @@ namespace Butterfly.HabboHotel.Users
                 {
                     int Val = 0;
                     if (int.TryParse(Str, out Val))
-                        this._clientVolume.Add(int.Parse(Str));
+                        this.ClientVolume.Add(int.Parse(Str));
                     else
-                        this._clientVolume.Add(100);
+                        this.ClientVolume.Add(100);
                 }
             }
             else
             {
-                this._clientVolume.Add(100);
-                this._clientVolume.Add(100);
-                this._clientVolume.Add(100);
+                this.ClientVolume.Add(100);
+                this.ClientVolume.Add(100);
+                this.ClientVolume.Add(100);
             }
 
             this.LastOnline = LastOnline;

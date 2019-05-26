@@ -565,6 +565,7 @@
     <Compile Include="Communication\Packets\Outgoing\Structure\YouAreControllerComposer.cs" />
     <Compile Include="Communication\Packets\Outgoing\Structure\YouAreNotControllerComposer.cs" />
     <Compile Include="Communication\Packets\Outgoing\Structure\YouAreOwnerComposer.cs" />
+    <Compile Include="Communication\Packets\Outgoing\WebSocket\HandShake\SettingVolumeComposer.cs" />
     <Compile Include="Communication\Packets\Outgoing\WebSocket\Notif\NotifTopComposer.cs" />
     <Compile Include="Communication\Packets\Outgoing\WebSocket\Notif\NotifTopInitComposer.cs" />
     <Compile Include="Communication\Packets\Outgoing\WebSocket\Troc\RpTrocAccepteComposer.cs" />

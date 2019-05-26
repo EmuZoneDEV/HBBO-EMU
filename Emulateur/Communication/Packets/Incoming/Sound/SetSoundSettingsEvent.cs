@@ -1,3 +1,4 @@
+using Butterfly.Communication.Packets.Outgoing.WebSocket;
 using Butterfly.Database.Interfaces;
 using Butterfly.HabboHotel.GameClients;
 
@@ -15,11 +16,18 @@ namespace Butterfly.Communication.Packets.Incoming.Structure
             int Volume3 = Packet.PopInt();
 
 
-            using (IQueryAdapter dbClient = ButterflyEnvironment.GetDatabaseManager().GetQueryReactor())
-            {
-                dbClient.RunQuery("UPDATE users SET volume = '" + Volume1 + "," + Volume2 + "," + Volume3 + "' WHERE id = '" + Session.GetHabbo().Id + "' LIMIT 1");
-            }
+            if (Session.GetHabbo().ClientVolume[0] == Volume1 && Session.GetHabbo().ClientVolume[1] == Volume2 && Session.GetHabbo().ClientVolume[2] == Volume3)
+                return;
 
+            using (IQueryAdapter dbClient = ButterflyEnvironment.GetDatabaseManager().GetQueryReactor())
+                dbClient.RunQuery("UPDATE users SET volume = '" + Volume1 + "," + Volume2 + "," + Volume3 + "' WHERE id = '" + Session.GetHabbo().Id + "' LIMIT 1");
+
+            Session.GetHabbo().ClientVolume.Clear();
+            Session.GetHabbo().ClientVolume.Add(Volume1);
+            Session.GetHabbo().ClientVolume.Add(Volume2);
+            Session.GetHabbo().ClientVolume.Add(Volume3);
+
+            Session.GetHabbo().SendWebPacket(new SettingVolumeComposer(Volume3, Volume2, Volume1));
         }
     }
 }
