@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using Butterfly.HabboHotel.Roleplay;
 using Butterfly.HabboHotel.Roleplay.Player;
 using Butterfly.HabboHotel.Roleplay.Enemy;
+using Butterfly.Communication.Packets.Outgoing.WebSocket;
 
 namespace Butterfly.HabboHotel.Rooms.Wired.WiredHandlers.Effects
 {
@@ -81,6 +82,8 @@ namespace Butterfly.HabboHotel.Rooms.Wired.WiredHandlers.Effects
                 case "roomingamechat":
                 case "jackanddaisy":
                 case "openpage":
+                case "playsounduser":
+                case "playsoundroom":
                     if (StaffPermission)
                         this.message = message;
                     else
@@ -856,6 +859,11 @@ namespace Butterfly.HabboHotel.Rooms.Wired.WiredHandlers.Effects
 
             switch (Cmd)
             {
+                case "playsoundroom":
+                    {
+                        Room.SendPacketWeb(new PlaySoundComposer(Value, 2)); //Type = Trax
+                        break;
+                    }
                 case "configbot":
                     {
                         string[] Params = Value.Split(';');
@@ -1184,6 +1192,11 @@ namespace Butterfly.HabboHotel.Rooms.Wired.WiredHandlers.Effects
 
             switch (Cmd)
             {
+                case "playsounduser":
+                    {
+                        User.GetClient().GetHabbo().SendWebPacket(new PlaySoundComposer(Value, 2)); //Type = Trax
+                        break;
+                    }
                 case "moveto":
                     {
                         if (Value == "true")
