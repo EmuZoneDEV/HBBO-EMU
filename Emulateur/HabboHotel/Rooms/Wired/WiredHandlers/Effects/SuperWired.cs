@@ -84,6 +84,10 @@ namespace Butterfly.HabboHotel.Rooms.Wired.WiredHandlers.Effects
                 case "openpage":
                 case "playsounduser":
                 case "playsoundroom":
+                case "playmusicroom":
+                case "playmusicuser":
+                case "stopsounduser":
+                case "stopsoundroom":
                     if (StaffPermission)
                         this.message = message;
                     else
@@ -859,9 +863,19 @@ namespace Butterfly.HabboHotel.Rooms.Wired.WiredHandlers.Effects
 
             switch (Cmd)
             {
+                case "stopsoundroom":
+                    {
+                        Room.SendPacketWeb(new StopSoundComposer(Value));
+                        break;
+                    }
                 case "playsoundroom":
                     {
-                        Room.SendPacketWeb(new PlaySoundComposer(Value, 2)); //Type = Trax
+                        Room.SendPacketWeb(new PlaySoundComposer(Value, 1)); //Type = Trax
+                        break;
+                    }
+                case "playmusicroom":
+                    {
+                        Room.SendPacketWeb(new PlaySoundComposer(Value, 2, true)); //Type = Trax
                         break;
                     }
                 case "configbot":
@@ -1192,9 +1206,19 @@ namespace Butterfly.HabboHotel.Rooms.Wired.WiredHandlers.Effects
 
             switch (Cmd)
             {
+                case "stopsounduser":
+                {
+                    User.GetClient().GetHabbo().SendWebPacket(new StopSoundComposer(Value)); //Type = Trax
+                    break;
+                }
                 case "playsounduser":
                     {
-                        User.GetClient().GetHabbo().SendWebPacket(new PlaySoundComposer(Value, 2)); //Type = Trax
+                        User.GetClient().GetHabbo().SendWebPacket(new PlaySoundComposer(Value, 1)); //Type = furni
+                        break;
+                    }
+                case "playmusicuser":
+                    {
+                        User.GetClient().GetHabbo().SendWebPacket(new PlaySoundComposer(Value, 2, true)); //Type = Trax
                         break;
                     }
                 case "moveto":
