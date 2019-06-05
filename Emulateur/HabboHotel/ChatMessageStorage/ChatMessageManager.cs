@@ -44,7 +44,7 @@ namespace Butterfly.HabboHotel.ChatMessageStorage
             DataTable table;
             using (IQueryAdapter queryreactor = ButterflyEnvironment.GetDatabaseManager().GetQueryReactor())
             {
-                queryreactor.SetQuery("SELECT * FROM chatlogs WHERE room_id = " + RoomId + " ORDER BY timestamp ASC LIMIT 100");
+                queryreactor.SetQuery("SELECT * FROM chatlogs WHERE room_id = '" + RoomId + "' ORDER BY timestamp DESC LIMIT 100");
                 table = queryreactor.GetTable();
                 if (table == null)
                     return;

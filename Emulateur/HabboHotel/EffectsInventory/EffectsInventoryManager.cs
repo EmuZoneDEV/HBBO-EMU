@@ -6,24 +6,24 @@ namespace Butterfly.HabboHotel.EffectsInventory
 {
     public class EffectsInventoryManager
     {
-        private readonly List<int> Effects;
-        private readonly List<int> EffectsStaff;
+        private readonly List<int> _effects;
+        private readonly List<int> _effectsStaff;
 
         public List<int> GetEffects()
         {
-            return this.Effects;
+            return this._effects;
         }
 
         public EffectsInventoryManager()
         {
-            this.Effects = new List<int>();
-            this.EffectsStaff = new List<int>();
+            this._effects = new List<int>();
+            this._effectsStaff = new List<int>();
         }
 
         public void Init()
         {
-            this.Effects.Clear();
-            this.EffectsStaff.Clear();
+            this._effects.Clear();
+            this._effectsStaff.Clear();
 
             using (IQueryAdapter dbClient = ButterflyEnvironment.GetDatabaseManager().GetQueryReactor())
             {
@@ -39,13 +39,13 @@ namespace Butterfly.HabboHotel.EffectsInventory
 
                     if (OnlyStaff)
                     {
-                        if (!this.EffectsStaff.Contains(EffectId))
-                            this.EffectsStaff.Add(EffectId);
+                        if (!this._effectsStaff.Contains(EffectId))
+                            this._effectsStaff.Add(EffectId);
                     }
                     else
                     {
-                        if (!this.Effects.Contains(EffectId))
-                            this.Effects.Add(EffectId);
+                        if (!this._effects.Contains(EffectId))
+                            this._effects.Add(EffectId);
                     }
                 }
             }
@@ -53,9 +53,9 @@ namespace Butterfly.HabboHotel.EffectsInventory
 
         public bool EffectExist(int EffectId, bool Staff = false)
         {
-            if (this.Effects.Contains(EffectId))
+            if (this._effects.Contains(EffectId))
                 return true;
-            if (Staff && this.EffectsStaff.Contains(EffectId))
+            if (Staff && this._effectsStaff.Contains(EffectId))
                 return true;
 
             return false;

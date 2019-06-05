@@ -24,12 +24,12 @@ namespace Butterfly
 {
     public static class ButterflyEnvironment
     {
-        private static ConfigurationData Configuration;
-        private static ConnectionHandeling ConnectionManager;
-        private static WebSocketManager WebSocketManager;
-        private static Game Game;
-        private static DatabaseManager datebasemanager;
-        public static RCONSocket _rcon;
+        private static ConfigurationData _configuration;
+        private static ConnectionHandeling _connectionManager;
+        private static WebSocketManager _webSocketManager;
+        private static Game _game;
+        private static DatabaseManager _datebasemanager;
+        private static RCONSocket _rcon;
         private static FigureDataManager _figureManager;
         private static LanguageManager _languageManager;
 
@@ -69,12 +69,12 @@ namespace Butterfly
 
             try
             {
-                Configuration = new ConfigurationData(PatchDir + "Settings/configuration.ini", false);
-                datebasemanager = new DatabaseManager(uint.Parse(GetConfig().data["db.pool.maxsize"]), uint.Parse(GetConfig().data["db.pool.minsize"]), GetConfig().data["db.hostname"], uint.Parse(GetConfig().data["db.port"]), GetConfig().data["db.username"], GetConfig().data["db.password"], GetConfig().data["db.name"]);
+                _configuration = new ConfigurationData(PatchDir + "Settings/configuration.ini", false);
+                _datebasemanager = new DatabaseManager(uint.Parse(GetConfig().data["db.pool.maxsize"]), uint.Parse(GetConfig().data["db.pool.minsize"]), GetConfig().data["db.hostname"], uint.Parse(GetConfig().data["db.port"]), GetConfig().data["db.username"], GetConfig().data["db.password"], GetConfig().data["db.name"]);
 
 
                 int TryCount = 0;
-                while(!datebasemanager.IsConnected())
+                while(!_datebasemanager.IsConnected())
                 {
                     TryCount++;
                     Thread.Sleep(5000); //sleep 5sec
@@ -93,21 +93,21 @@ namespace Butterfly
                 _languageManager = new LanguageManager();
                 _languageManager.Init();
 
-                Game = new Game();
-                Game.StartGameLoop();
+                _game = new Game();
+                _game.StartGameLoop();
 
                 _figureManager = new FigureDataManager();
                 _figureManager.Init();
 
-                if(Configuration.data["Websocketenable"] == "true")
-                    WebSocketManager = new WebSocketManager(527, int.Parse(GetConfig().data["game.tcp.conlimit"]), int.Parse(GetConfig().data["game.tcp.conlimit"]));
+                if(_configuration.data["Websocketenable"] == "true")
+                    _webSocketManager = new WebSocketManager(527, int.Parse(GetConfig().data["game.tcp.conlimit"]), int.Parse(GetConfig().data["game.tcp.conlimit"]));
 
-                ConnectionManager = new ConnectionHandeling(int.Parse(GetConfig().data["game.tcp.port"]), int.Parse(GetConfig().data["game.tcp.conlimit"]), int.Parse(GetConfig().data["game.tcp.conperip"]));
+                _connectionManager = new ConnectionHandeling(int.Parse(GetConfig().data["game.tcp.port"]), int.Parse(GetConfig().data["game.tcp.conlimit"]), int.Parse(GetConfig().data["game.tcp.conperip"]));
 
-                if (Configuration.data["Musenable"] == "true")
+                if (_configuration.data["Musenable"] == "true")
                     _rcon = new RCONSocket(int.Parse(GetConfig().data["mus.tcp.port"]), GetConfig().data["mus.tcp.allowedaddr"].Split(new char[1] { ';' }));
 
-                StaticEvents = Configuration.data["static.events"] == "true";
+                StaticEvents = _configuration.data["static.events"] == "true";
                 
                 Logging.WriteLine("ENVIRONMENT -> READY!");
 
@@ -297,12 +297,12 @@ namespace Butterfly
 
         public static ConfigurationData GetConfig()
         {
-            return Configuration;
+            return _configuration;
         }
 
         public static ConnectionHandeling GetConnectionManager()
         {
-            return ConnectionManager;
+            return _connectionManager;
         }
 
         public static RCONSocket GetRCONSocket()
@@ -312,12 +312,12 @@ namespace Butterfly
 
         public static Game GetGame()
         {
-            return Game;
+            return _game;
         }
 
         public static DatabaseManager GetDatabaseManager()
         {
-            return datebasemanager;
+            return _datebasemanager;
         }
 
         public static void PreformShutDown()
@@ -341,7 +341,7 @@ namespace Butterfly
 
             AppendTimeStampWithComment(ref builder, now2, "Hotel pre-warning");
 
-            Game.StopGameLoop();
+            _game.StopGameLoop();
             Console.Write("Game loop stopped");
 
             DateTime now3 = DateTime.Now;
@@ -353,7 +353,7 @@ namespace Butterfly
 
             DateTime now5 = DateTime.Now;
             Console.WriteLine("<<- SERVER SHUTDOWN ->> ROOM SAVE");
-            Game.GetRoomManager().RemoveAllRooms();
+            _game.GetRoomManager().RemoveAllRooms();
             AppendTimeStampWithComment(ref builder, now5, "Room destructor");
 
             DateTime now4 = DateTime.Now;
@@ -363,15 +363,15 @@ namespace Butterfly
             //ButterflyEnvironment.Game.GetPromotedRooms().executeUpdates();
 
             DateTime now7 = DateTime.Now;
-            if(ConnectionManager != null)
-                ConnectionManager.Destroy();
-            if(WebSocketManager != null)
-                WebSocketManager.Destroy();
+            if(_connectionManager != null)
+                _connectionManager.Destroy();
+            if(_webSocketManager != null)
+                _webSocketManager.Destroy();
 
             AppendTimeStampWithComment(ref builder, now7, "Connection shutdown");
 
             DateTime now8 = DateTime.Now;
-            Game.Destroy();
+            _game.Destroy();
             AppendTimeStampWithComment(ref builder, now8, "Game destroy");
 
             DateTime now9 = DateTime.Now;

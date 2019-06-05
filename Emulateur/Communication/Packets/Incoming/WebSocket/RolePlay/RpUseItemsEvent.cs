@@ -179,9 +179,9 @@ namespace Butterfly.Communication.Packets.Incoming.WebSocket
                     }
                 case "weapon_far":
                     {
-                        if (Rp.WeaponFar.Id == RpItem.Value)
+                        if (Rp.WeaponGun.Id == RpItem.Value)
                             break;
-                        Rp.WeaponFar = ButterflyEnvironment.GetGame().GetRoleplayManager().GetWeaponManager().GetWeaponFar(RpItem.Value);
+                        Rp.WeaponGun = ButterflyEnvironment.GetGame().GetRoleplayManager().GetWeaponManager().GetWeaponGun(RpItem.Value);
                         User.SendWhisperChat(ButterflyEnvironment.GetLanguageManager().TryGetValue("rp.changearmefar", Client.Langue));
                         break;
                     }

@@ -24,7 +24,7 @@ namespace Butterfly.HabboHotel.Rooms.Chat.Commands.Cmd
                 return;
             }
 
-            if (Rp.FarCharger <= 0)
+            if (Rp.GunLoad <= 0)
             {
                 UserRoom.SendWhisperChat(ButterflyEnvironment.GetLanguageManager().TryGetValue("rp.reloadweapon", Session.Langue));
                 return;
@@ -32,29 +32,29 @@ namespace Butterfly.HabboHotel.Rooms.Chat.Commands.Cmd
 
             MovementDirection movement = MovementManagement.GetMovementByDirection(UserRoom.RotBody);
 
-            int WeaponEanble = Rp.WeaponFar.Enable;
+            int WeaponEanble = Rp.WeaponGun.Enable;
 
             UserRoom.ApplyEffect(WeaponEanble, true);
-            UserRoom.TimerResetEffect = Rp.WeaponFar.FreezeTime + 1;
+            UserRoom.TimerResetEffect = Rp.WeaponGun.FreezeTime + 1;
 
             Rp.AggroTimer = 30;
 
-            if (UserRoom.FreezeEndCounter <= Rp.WeaponFar.FreezeTime)
+            if (UserRoom.FreezeEndCounter <= Rp.WeaponGun.FreezeTime)
             {
                 UserRoom.Freeze = true;
-                UserRoom.FreezeEndCounter = Rp.WeaponFar.FreezeTime;
+                UserRoom.FreezeEndCounter = Rp.WeaponGun.FreezeTime;
             }
 
-            for (int i = 0; i < Rp.WeaponFar.FreezeTime; i++)
+            for (int i = 0; i < Rp.WeaponGun.FreezeTime; i++)
             {
-                if (Rp.Munition <= 0 || Rp.FarCharger <= 0)
+                if (Rp.Munition <= 0 || Rp.GunLoad <= 0)
                     break;
                 
                 Rp.Munition--;
-                Rp.FarCharger--;
+                Rp.GunLoad--;
 
-                int Dmg = ButterflyEnvironment.GetRandomNumber(Rp.WeaponFar.DmgMin, Rp.WeaponFar.DmgMax);
-                Room.GetProjectileManager().AddProjectile(UserRoom.VirtualId, UserRoom.SetX, UserRoom.SetY, UserRoom.SetZ, movement, Dmg, Rp.WeaponFar.Distance);
+                int Dmg = ButterflyEnvironment.GetRandomNumber(Rp.WeaponGun.DmgMin, Rp.WeaponGun.DmgMax);
+                Room.GetProjectileManager().AddProjectile(UserRoom.VirtualId, UserRoom.SetX, UserRoom.SetY, UserRoom.SetZ, movement, Dmg, Rp.WeaponGun.Distance);
             }
 
             Rp.SendUpdate();

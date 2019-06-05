@@ -1,0 +1,280 @@
+
+Error in query: 
+SELECT * FROM _quests
+MySql.Data.MySqlClient.MySqlException (0x80004005): Table 'trypoling._quests' doesn't exist
+   ? MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   ? MySql.Data.MySqlClient.NativeDriver.GetResult(Int32& affectedRow, Int32& insertedId)
+   ? MySql.Data.MySqlClient.Driver.NextResult(Int32 statementId, Boolean force)
+   ? MySql.Data.MySqlClient.MySqlDataReader.NextResult()
+   ? MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   ? System.Data.Common.DbDataAdapter.FillInternal(DataSet dataset, DataTable[] datatables, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)
+   ? System.Data.Common.DbDataAdapter.Fill(DataTable[] dataTables, Int32 startRecord, Int32 maxRecords, IDbCommand command, CommandBehavior behavior)
+   ? System.Data.Common.DbDataAdapter.Fill(DataTable dataTable)
+   ? Butterfly.Database.Adapter.QueryAdapter.GetTable() dans C:\Users\Wibbo\Desktop\WibboEmulateur\Emulateur\Database\Adapter\QueryAdapter.cs:ligne 121
+
+
+Error in query: 
+SELECT * FROM _quests
+MySql.Data.MySqlClient.MySqlException (0x80004005): Table 'trypoling._quests' doesn't exist
+   ? MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   ? MySql.Data.MySqlClient.NativeDriver.GetResult(Int32& affectedRow, Int32& insertedId)
+   ? MySql.Data.MySqlClient.Driver.NextResult(Int32 statementId, Boolean force)
+   ? MySql.Data.MySqlClient.MySqlDataReader.NextResult()
+   ? MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   ? System.Data.Common.DbDataAdapter.FillInternal(DataSet dataset, DataTable[] datatables, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)
+   ? System.Data.Common.DbDataAdapter.Fill(DataTable[] dataTables, Int32 startRecord, Int32 maxRecords, IDbCommand command, CommandBehavior behavior)
+   ? System.Data.Common.DbDataAdapter.Fill(DataTable dataTable)
+   ? Butterfly.Database.Adapter.QueryAdapter.GetTable() dans C:\Users\Wibbo\Desktop\WibboEmulateur\Emulateur\Database\Adapter\QueryAdapter.cs:ligne 121
+
+
+Error in query: 
+SELECT trigger_data, trigger_data_2, triggers_item FROM wired__items WHERE trigger_id = @id
+MySql.Data.MySqlClient.MySqlException (0x80004005): Table 'trypoling.wired__items' doesn't exist
+   ? MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   ? MySql.Data.MySqlClient.NativeDriver.GetResult(Int32& affectedRow, Int32& insertedId)
+   ? MySql.Data.MySqlClient.Driver.NextResult(Int32 statementId, Boolean force)
+   ? MySql.Data.MySqlClient.MySqlDataReader.NextResult()
+   ? MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   ? System.Data.Common.DbDataAdapter.FillInternal(DataSet dataset, DataTable[] datatables, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)
+   ? System.Data.Common.DbDataAdapter.Fill(DataSet dataSet, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)
+   ? System.Data.Common.DbDataAdapter.Fill(DataSet dataSet)
+   ? Butterfly.Database.Adapter.QueryAdapter.GetRow() dans C:\Users\Wibbo\Desktop\WibboEmulateur\Emulateur\Database\Adapter\QueryAdapter.cs:ligne 77
+
+
+Error in query: 
+SELECT triggers__item FROM wired__items WHERE trigger_id = 505
+MySql.Data.MySqlClient.MySqlException (0x80004005): Table 'trypoling.wired__items' doesn't exist
+   ? MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   ? MySql.Data.MySqlClient.NativeDriver.GetResult(Int32& affectedRow, Int32& insertedId)
+   ? MySql.Data.MySqlClient.Driver.NextResult(Int32 statementId, Boolean force)
+   ? MySql.Data.MySqlClient.MySqlDataReader.NextResult()
+   ? MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   ? System.Data.Common.DbDataAdapter.FillInternal(DataSet dataset, DataTable[] datatables, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)
+   ? System.Data.Common.DbDataAdapter.Fill(DataSet dataSet, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)
+   ? System.Data.Common.DbDataAdapter.Fill(DataSet dataSet)
+   ? Butterfly.Database.Adapter.QueryAdapter.GetRow() dans C:\Users\Wibbo\Desktop\WibboEmulateur\Emulateur\Database\Adapter\QueryAdapter.cs:ligne 77
+
+
+Error in query: 
+SELECT trigger_data, triggers_item FROM wired__items WHERE trigger_id = @id
+MySql.Data.MySqlClient.MySqlException (0x80004005): Table 'trypoling.wired__items' doesn't exist
+   ? MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   ? MySql.Data.MySqlClient.NativeDriver.GetResult(Int32& affectedRow, Int32& insertedId)
+   ? MySql.Data.MySqlClient.Driver.NextResult(Int32 statementId, Boolean force)
+   ? MySql.Data.MySqlClient.MySqlDataReader.NextResult()
+   ? MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   ? System.Data.Common.DbDataAdapter.FillInternal(DataSet dataset, DataTable[] datatables, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)
+   ? System.Data.Common.DbDataAdapter.Fill(DataSet dataSet, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)
+   ? System.Data.Common.DbDataAdapter.Fill(DataSet dataSet)
+   ? Butterfly.Database.Adapter.QueryAdapter.GetRow() dans C:\Users\Wibbo\Desktop\WibboEmulateur\Emulateur\Database\Adapter\QueryAdapter.cs:ligne 77
+
+
+Error in query: 
+SELECT * FROM _quests
+MySql.Data.MySqlClient.MySqlException (0x80004005): Table 'trypoling._quests' doesn't exist
+   ? MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   ? MySql.Data.MySqlClient.NativeDriver.GetResult(Int32& affectedRow, Int32& insertedId)
+   ? MySql.Data.MySqlClient.Driver.NextResult(Int32 statementId, Boolean force)
+   ? MySql.Data.MySqlClient.MySqlDataReader.NextResult()
+   ? MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   ? System.Data.Common.DbDataAdapter.FillInternal(DataSet dataset, DataTable[] datatables, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)
+   ? System.Data.Common.DbDataAdapter.Fill(DataTable[] dataTables, Int32 startRecord, Int32 maxRecords, IDbCommand command, CommandBehavior behavior)
+   ? System.Data.Common.DbDataAdapter.Fill(DataTable dataTable)
+   ? Butterfly.Database.Adapter.QueryAdapter.GetTable() dans C:\Users\Wibbo\Desktop\WibboEmulateur\Emulateur\Database\Adapter\QueryAdapter.cs:ligne 121
+
+
+Error in query: 
+SELECT * FROM _quests
+MySql.Data.MySqlClient.MySqlException (0x80004005): Table 'trypoling._quests' doesn't exist
+   ? MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   ? MySql.Data.MySqlClient.NativeDriver.GetResult(Int32& affectedRow, Int32& insertedId)
+   ? MySql.Data.MySqlClient.Driver.NextResult(Int32 statementId, Boolean force)
+   ? MySql.Data.MySqlClient.MySqlDataReader.NextResult()
+   ? MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   ? System.Data.Common.DbDataAdapter.FillInternal(DataSet dataset, DataTable[] datatables, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)
+   ? System.Data.Common.DbDataAdapter.Fill(DataTable[] dataTables, Int32 startRecord, Int32 maxRecords, IDbCommand command, CommandBehavior behavior)
+   ? System.Data.Common.DbDataAdapter.Fill(DataTable dataTable)
+   ? Butterfly.Database.Adapter.QueryAdapter.GetTable() dans C:\Users\Wibbo\Desktop\WibboEmulateur\Emulateur\Database\Adapter\QueryAdapter.cs:ligne 121
+
+
+Error in query: 
+SELECT trigger_data, trigger_data_2, triggers_item FROM wired__items WHERE trigger_id = @id
+MySql.Data.MySqlClient.MySqlException (0x80004005): Table 'trypoling.wired__items' doesn't exist
+   ? MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   ? MySql.Data.MySqlClient.NativeDriver.GetResult(Int32& affectedRow, Int32& insertedId)
+   ? MySql.Data.MySqlClient.Driver.NextResult(Int32 statementId, Boolean force)
+   ? MySql.Data.MySqlClient.MySqlDataReader.NextResult()
+   ? MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   ? System.Data.Common.DbDataAdapter.FillInternal(DataSet dataset, DataTable[] datatables, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)
+   ? System.Data.Common.DbDataAdapter.Fill(DataSet dataSet, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)
+   ? System.Data.Common.DbDataAdapter.Fill(DataSet dataSet)
+   ? Butterfly.Database.Adapter.QueryAdapter.GetRow() dans C:\Users\Wibbo\Desktop\WibboEmulateur\Emulateur\Database\Adapter\QueryAdapter.cs:ligne 77
+
+
+Error in query: 
+SELECT triggers__item FROM wired__items WHERE trigger_id = 505
+MySql.Data.MySqlClient.MySqlException (0x80004005): Table 'trypoling.wired__items' doesn't exist
+   ? MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   ? MySql.Data.MySqlClient.NativeDriver.GetResult(Int32& affectedRow, Int32& insertedId)
+   ? MySql.Data.MySqlClient.Driver.NextResult(Int32 statementId, Boolean force)
+   ? MySql.Data.MySqlClient.MySqlDataReader.NextResult()
+   ? MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   ? System.Data.Common.DbDataAdapter.FillInternal(DataSet dataset, DataTable[] datatables, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)
+   ? System.Data.Common.DbDataAdapter.Fill(DataSet dataSet, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)
+   ? System.Data.Common.DbDataAdapter.Fill(DataSet dataSet)
+   ? Butterfly.Database.Adapter.QueryAdapter.GetRow() dans C:\Users\Wibbo\Desktop\WibboEmulateur\Emulateur\Database\Adapter\QueryAdapter.cs:ligne 77
+
+
+Error in query: 
+SELECT trigger_data, triggers_item FROM wired__items WHERE trigger_id = @id
+MySql.Data.MySqlClient.MySqlException (0x80004005): Table 'trypoling.wired__items' doesn't exist
+   ? MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   ? MySql.Data.MySqlClient.NativeDriver.GetResult(Int32& affectedRow, Int32& insertedId)
+   ? MySql.Data.MySqlClient.Driver.NextResult(Int32 statementId, Boolean force)
+   ? MySql.Data.MySqlClient.MySqlDataReader.NextResult()
+   ? MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   ? System.Data.Common.DbDataAdapter.FillInternal(DataSet dataset, DataTable[] datatables, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)
+   ? System.Data.Common.DbDataAdapter.Fill(DataSet dataSet, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)
+   ? System.Data.Common.DbDataAdapter.Fill(DataSet dataSet)
+   ? Butterfly.Database.Adapter.QueryAdapter.GetRow() dans C:\Users\Wibbo\Desktop\WibboEmulateur\Emulateur\Database\Adapter\QueryAdapter.cs:ligne 77
+
+
+Error in query: 
+SELECT trigger_data, trigger_data_2, triggers_item FROM wired__items WHERE trigger_id = @id
+MySql.Data.MySqlClient.MySqlException (0x80004005): Table 'trypoling.wired__items' doesn't exist
+   ? MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   ? MySql.Data.MySqlClient.NativeDriver.GetResult(Int32& affectedRow, Int32& insertedId)
+   ? MySql.Data.MySqlClient.Driver.NextResult(Int32 statementId, Boolean force)
+   ? MySql.Data.MySqlClient.MySqlDataReader.NextResult()
+   ? MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   ? System.Data.Common.DbDataAdapter.FillInternal(DataSet dataset, DataTable[] datatables, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)
+   ? System.Data.Common.DbDataAdapter.Fill(DataSet dataSet, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)
+   ? System.Data.Common.DbDataAdapter.Fill(DataSet dataSet)
+   ? Butterfly.Database.Adapter.QueryAdapter.GetRow() dans C:\Users\Wibbo\Desktop\WibboEmulateur\Emulateur\Database\Adapter\QueryAdapter.cs:ligne 77
+
+
+Error in query: 
+SELECT triggers__item FROM wired__items WHERE trigger_id = 505
+MySql.Data.MySqlClient.MySqlException (0x80004005): Table 'trypoling.wired__items' doesn't exist
+   ? MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   ? MySql.Data.MySqlClient.NativeDriver.GetResult(Int32& affectedRow, Int32& insertedId)
+   ? MySql.Data.MySqlClient.Driver.NextResult(Int32 statementId, Boolean force)
+   ? MySql.Data.MySqlClient.MySqlDataReader.NextResult()
+   ? MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   ? System.Data.Common.DbDataAdapter.FillInternal(DataSet dataset, DataTable[] datatables, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)
+   ? System.Data.Common.DbDataAdapter.Fill(DataSet dataSet, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)
+   ? System.Data.Common.DbDataAdapter.Fill(DataSet dataSet)
+   ? Butterfly.Database.Adapter.QueryAdapter.GetRow() dans C:\Users\Wibbo\Desktop\WibboEmulateur\Emulateur\Database\Adapter\QueryAdapter.cs:ligne 77
+
+
+Error in query: 
+SELECT trigger_data, triggers_item FROM wired__items WHERE trigger_id = @id
+MySql.Data.MySqlClient.MySqlException (0x80004005): Table 'trypoling.wired__items' doesn't exist
+   ? MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   ? MySql.Data.MySqlClient.NativeDriver.GetResult(Int32& affectedRow, Int32& insertedId)
+   ? MySql.Data.MySqlClient.Driver.NextResult(Int32 statementId, Boolean force)
+   ? MySql.Data.MySqlClient.MySqlDataReader.NextResult()
+   ? MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   ? System.Data.Common.DbDataAdapter.FillInternal(DataSet dataset, DataTable[] datatables, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)
+   ? System.Data.Common.DbDataAdapter.Fill(DataSet dataSet, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)
+   ? System.Data.Common.DbDataAdapter.Fill(DataSet dataSet)
+   ? Butterfly.Database.Adapter.QueryAdapter.GetRow() dans C:\Users\Wibbo\Desktop\WibboEmulateur\Emulateur\Database\Adapter\QueryAdapter.cs:ligne 77
+
+
+Error in query: 
+SELECT trigger_data, trigger_data_2, triggers_item FROM wired__items WHERE trigger_id = @id
+MySql.Data.MySqlClient.MySqlException (0x80004005): Table 'trypoling.wired__items' doesn't exist
+   ? MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   ? MySql.Data.MySqlClient.NativeDriver.GetResult(Int32& affectedRow, Int32& insertedId)
+   ? MySql.Data.MySqlClient.Driver.NextResult(Int32 statementId, Boolean force)
+   ? MySql.Data.MySqlClient.MySqlDataReader.NextResult()
+   ? MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   ? System.Data.Common.DbDataAdapter.FillInternal(DataSet dataset, DataTable[] datatables, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)
+   ? System.Data.Common.DbDataAdapter.Fill(DataSet dataSet, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)
+   ? System.Data.Common.DbDataAdapter.Fill(DataSet dataSet)
+   ? Butterfly.Database.Adapter.QueryAdapter.GetRow() dans C:\Users\Wibbo\Desktop\WibboEmulateur\Emulateur\Database\Adapter\QueryAdapter.cs:ligne 77
+
+
+Error in query: 
+SELECT triggers__item FROM wired__items WHERE trigger_id = 505
+MySql.Data.MySqlClient.MySqlException (0x80004005): Table 'trypoling.wired__items' doesn't exist
+   ? MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   ? MySql.Data.MySqlClient.NativeDriver.GetResult(Int32& affectedRow, Int32& insertedId)
+   ? MySql.Data.MySqlClient.Driver.NextResult(Int32 statementId, Boolean force)
+   ? MySql.Data.MySqlClient.MySqlDataReader.NextResult()
+   ? MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   ? System.Data.Common.DbDataAdapter.FillInternal(DataSet dataset, DataTable[] datatables, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)
+   ? System.Data.Common.DbDataAdapter.Fill(DataSet dataSet, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)
+   ? System.Data.Common.DbDataAdapter.Fill(DataSet dataSet)
+   ? Butterfly.Database.Adapter.QueryAdapter.GetRow() dans C:\Users\Wibbo\Desktop\WibboEmulateur\Emulateur\Database\Adapter\QueryAdapter.cs:ligne 77
+
+
+Error in query: 
+SELECT trigger_data, triggers_item FROM wired__items WHERE trigger_id = @id
+MySql.Data.MySqlClient.MySqlException (0x80004005): Table 'trypoling.wired__items' doesn't exist
+   ? MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   ? MySql.Data.MySqlClient.NativeDriver.GetResult(Int32& affectedRow, Int32& insertedId)
+   ? MySql.Data.MySqlClient.Driver.NextResult(Int32 statementId, Boolean force)
+   ? MySql.Data.MySqlClient.MySqlDataReader.NextResult()
+   ? MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   ? System.Data.Common.DbDataAdapter.FillInternal(DataSet dataset, DataTable[] datatables, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)
+   ? System.Data.Common.DbDataAdapter.Fill(DataSet dataSet, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)
+   ? System.Data.Common.DbDataAdapter.Fill(DataSet dataSet)
+   ? Butterfly.Database.Adapter.QueryAdapter.GetRow() dans C:\Users\Wibbo\Desktop\WibboEmulateur\Emulateur\Database\Adapter\QueryAdapter.cs:ligne 77
+
+
+Error in query: 
+SELECT trigger_data, trigger_data_2, triggers_item FROM wired__items WHERE trigger_id = @id
+MySql.Data.MySqlClient.MySqlException (0x80004005): Table 'trypoling.wired__items' doesn't exist
+   ? MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   ? MySql.Data.MySqlClient.NativeDriver.GetResult(Int32& affectedRow, Int32& insertedId)
+   ? MySql.Data.MySqlClient.Driver.NextResult(Int32 statementId, Boolean force)
+   ? MySql.Data.MySqlClient.MySqlDataReader.NextResult()
+   ? MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   ? System.Data.Common.DbDataAdapter.FillInternal(DataSet dataset, DataTable[] datatables, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)
+   ? System.Data.Common.DbDataAdapter.Fill(DataSet dataSet, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)
+   ? System.Data.Common.DbDataAdapter.Fill(DataSet dataSet)
+   ? Butterfly.Database.Adapter.QueryAdapter.GetRow() dans C:\Users\Wibbo\Desktop\WibboEmulateur\Emulateur\Database\Adapter\QueryAdapter.cs:ligne 77
+
+
+Error in query: 
+SELECT triggers__item FROM wired__items WHERE trigger_id = 505
+MySql.Data.MySqlClient.MySqlException (0x80004005): Table 'trypoling.wired__items' doesn't exist
+   ? MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   ? MySql.Data.MySqlClient.NativeDriver.GetResult(Int32& affectedRow, Int32& insertedId)
+   ? MySql.Data.MySqlClient.Driver.NextResult(Int32 statementId, Boolean force)
+   ? MySql.Data.MySqlClient.MySqlDataReader.NextResult()
+   ? MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   ? System.Data.Common.DbDataAdapter.FillInternal(DataSet dataset, DataTable[] datatables, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)
+   ? System.Data.Common.DbDataAdapter.Fill(DataSet dataSet, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)
+   ? System.Data.Common.DbDataAdapter.Fill(DataSet dataSet)
+   ? Butterfly.Database.Adapter.QueryAdapter.GetRow() dans C:\Users\Wibbo\Desktop\WibboEmulateur\Emulateur\Database\Adapter\QueryAdapter.cs:ligne 77
+
+
+Error in query: 
+SELECT trigger_data, triggers_item FROM wired__items WHERE trigger_id = @id
+MySql.Data.MySqlClient.MySqlException (0x80004005): Table 'trypoling.wired__items' doesn't exist
+   ? MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   ? MySql.Data.MySqlClient.NativeDriver.GetResult(Int32& affectedRow, Int32& insertedId)
+   ? MySql.Data.MySqlClient.Driver.NextResult(Int32 statementId, Boolean force)
+   ? MySql.Data.MySqlClient.MySqlDataReader.NextResult()
+   ? MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   ? System.Data.Common.DbDataAdapter.FillInternal(DataSet dataset, DataTable[] datatables, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)
+   ? System.Data.Common.DbDataAdapter.Fill(DataSet dataSet, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)
+   ? System.Data.Common.DbDataAdapter.Fill(DataSet dataSet)
+   ? Butterfly.Database.Adapter.QueryAdapter.GetRow() dans C:\Users\Wibbo\Desktop\WibboEmulateur\Emulateur\Database\Adapter\QueryAdapter.cs:ligne 77
+
+
+Error in query: 
+SELECT trigger_data, triggers__item FROM wired__items WHERE trigger_id = @id
+MySql.Data.MySqlClient.MySqlException (0x80004005): Table 'trypoling.wired__items' doesn't exist
+   ? MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   ? MySql.Data.MySqlClient.NativeDriver.GetResult(Int32& affectedRow, Int32& insertedId)
+   ? MySql.Data.MySqlClient.Driver.NextResult(Int32 statementId, Boolean force)
+   ? MySql.Data.MySqlClient.MySqlDataReader.NextResult()
+   ? MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   ? System.Data.Common.DbDataAdapter.FillInternal(DataSet dataset, DataTable[] datatables, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)
+   ? System.Data.Common.DbDataAdapter.Fill(DataSet dataSet, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)
+   ? System.Data.Common.DbDataAdapter.Fill(DataSet dataSet)
+   ? Butterfly.Database.Adapter.QueryAdapter.GetRow() dans C:\Users\Wibbo\Desktop\WibboEmulateur\Emulateur\Database\Adapter\QueryAdapter.cs:ligne 77
+

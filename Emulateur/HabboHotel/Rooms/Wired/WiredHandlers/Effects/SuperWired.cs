@@ -254,7 +254,7 @@ namespace Butterfly.HabboHotel.Rooms.Wired.WiredHandlers.Effects
                                     if (ParamInt > 9999)
                                         ParamInt = 9999;
 
-                                    RPEnemyConfig.WeaponFarId = ParamInt;
+                                    RPEnemyConfig.WeaponGunId = ParamInt;
                                     BotOrPet.BotData.RoleBot.SetConfig(RPEnemyConfig);
 
                                     using (IQueryAdapter queryreactor = ButterflyEnvironment.GetDatabaseManager().GetQueryReactor())
@@ -607,7 +607,7 @@ namespace Butterfly.HabboHotel.Rooms.Wired.WiredHandlers.Effects
                         if (Nb < 0 || Nb > 2)
                             Nb = 0;
 
-                        Rp.WeaponFar = ButterflyEnvironment.GetGame().GetRoleplayManager().GetWeaponManager().GetWeaponFar(Nb);
+                        Rp.WeaponGun = ButterflyEnvironment.GetGame().GetRoleplayManager().GetWeaponManager().GetWeaponGun(Nb);
 
                         break;
                     }

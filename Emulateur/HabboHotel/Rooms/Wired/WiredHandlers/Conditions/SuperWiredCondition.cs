@@ -439,7 +439,7 @@ namespace Butterfly.HabboHotel.Rooms.Wired.WiredHandlers.Conditions
                         int ValueInt = 0;
                         int.TryParse(this.Value, out ValueInt);
 
-                        if (Rp.WeaponFar.Id == ValueInt)
+                        if (Rp.WeaponGun.Id == ValueInt)
                             Result = true;
 
                         break;

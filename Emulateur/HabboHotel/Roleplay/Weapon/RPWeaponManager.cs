@@ -26,7 +26,7 @@ namespace Butterfly.HabboHotel.Roleplay.Weapon
             return weapon;
         }
 
-        public RPWeapon GetWeaponFar(int Id)
+        public RPWeapon GetWeaponGun(int Id)
         {
             RPWeapon weapon = new RPWeapon(0, 5, 10, RPWeaponInteraction.NONE, 164, 3, 10);
             if (!this._weaponFar.ContainsKey(Id))

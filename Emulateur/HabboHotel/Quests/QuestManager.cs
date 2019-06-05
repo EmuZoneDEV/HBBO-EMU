@@ -1,9 +1,4 @@
-﻿// Type: Butterfly.HabboHotel.Quests.QuestManager
-
-
-
-
-using Butterfly.HabboHotel.GameClients;
+﻿using Butterfly.HabboHotel.GameClients;
 using Butterfly.HabboHotel.Quests.Composer;
 using Butterfly.Communication.Packets.Incoming;
 using Butterfly.Database.Interfaces;

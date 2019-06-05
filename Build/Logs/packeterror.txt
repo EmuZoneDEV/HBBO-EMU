@@ -1,8 +1,0 @@
-
-Error in packet [248] BODY: [0][0]?[0][0][0][0][0][0][0][0][0]: 
-24-05-19 01:21:46 : System.NullReferenceException: La r?f?rence d'objet n'est pas d?finie ? une instance d'un objet.
-   ? Butterfly.HabboHotel.Rooms.RoomItemHandling.SetFloorItem(GameClient Session, Item Item, Int32 newX, Int32 newY, Int32 newRot, Boolean newItem, Boolean OnRoller, Boolean sendMessage) dans C:\Users\Wibbo\Desktop\WibboEmulateur\Emulateur\HabboHotel\Rooms\RoomItemHandling.cs:ligne 670
-   ? Butterfly.Communication.Packets.Incoming.Structure.MoveObjectEvent.Parse(GameClient Session, ClientPacket Packet) dans C:\Users\Wibbo\Desktop\WibboEmulateur\Emulateur\Communication\Packets\Incoming\Rooms\Engine\MoveObjectEvent.cs:ligne 42
-   ? Butterfly.Communication.Packets.PacketManager.TryExecutePacket(GameClient Session, ClientPacket Packet) dans C:\Users\Wibbo\Desktop\WibboEmulateur\Emulateur\Communication\Packets\PacketManager.cs:ligne 79
-   ? Butterfly.HabboHotel.GameClients.GameClient.parser_onNewPacket(ClientPacket Message) dans C:\Users\Wibbo\Desktop\WibboEmulateur\Emulateur\HabboHotel\GameClients\GameClient.cs:ligne 161
-

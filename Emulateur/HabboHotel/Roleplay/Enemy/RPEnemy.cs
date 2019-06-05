@@ -4,7 +4,7 @@
     {
         public int Id { get; set; }
         public int Health { get; set; }
-        public int WeaponFarId { get; set; }
+        public int WeaponGunId { get; set; }
         public int WeaponCacId { get; set; }
         public int DeadTimer { get; set; }
         public int MoneyDrop { get; set; }
@@ -17,12 +17,12 @@
         public int LostAggroDistance { get; set; }
         public bool ZombieMode { get; set; }
 
-        public RPEnemy(int pId, int pHealth, int pWeaponFarId, int pWeaponCacId, int pDeadTimer, int pLootItemId, int pMoneyDrop, int pDropScriptId, int pTeamId, int pAggroDistance, int pZoneDistance,
+        public RPEnemy(int pId, int pHealth, int pWeaponGunId, int pWeaponCacId, int pDeadTimer, int pLootItemId, int pMoneyDrop, int pDropScriptId, int pTeamId, int pAggroDistance, int pZoneDistance,
             bool pResetPosition, int pLostAggroDistance, bool pZombieMode)
         {
             this.Id = pId;
             this.Health = pHealth;
-            this.WeaponFarId = pWeaponFarId;
+            this.WeaponGunId = pWeaponGunId;
             this.WeaponCacId = pWeaponCacId;
             this.DeadTimer = pDeadTimer;
             this.MoneyDrop = pMoneyDrop;

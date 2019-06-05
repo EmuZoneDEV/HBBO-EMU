@@ -15,7 +15,7 @@ namespace Butterfly.HabboHotel.Roleplay.Enemy
     public class RoleBot
     {
         public int Health { get; set; }
-        public RPWeapon WeaponFar { get; set; }
+        public RPWeapon WeaponGun { get; set; }
         public RPWeapon WeaponCac { get; set; }
         public bool Dead { get; set; }
         public int DeadTimer { get; set; }
@@ -25,8 +25,8 @@ namespace Butterfly.HabboHotel.Roleplay.Enemy
         public int SlowTimer { get; set; }
         public bool Dodge { get; set; }
         public int DodgeTimer { get; set; }
-        public int FarCharger { get; set; }
-        public int FarChargerTimer { get; set; }
+        public int GunCharger { get; set; }
+        public int GunLoadTimer { get; set; }
         public int HitCount { get; set; }
         public int ActionTimer { get; set; }
         public int AggroTimer { get; set; }
@@ -45,8 +45,8 @@ namespace Butterfly.HabboHotel.Roleplay.Enemy
             this.HitCount = 0;
             this.Dodge = false;
             this.DodgeTimer = 0;
-            this.FarCharger = 6;
-            this.FarChargerTimer = 0;
+            this.GunCharger = 6;
+            this.GunLoadTimer = 0;
             this.DodgeStartCount = ButterflyEnvironment.GetRandomNumber(2, 4);
             this.ActionTimer = ButterflyEnvironment.GetRandomNumber(10, 30);
         }
@@ -56,7 +56,7 @@ namespace Butterfly.HabboHotel.Roleplay.Enemy
             this.Config = EnemyConfig;
 
             this.Health = this.Config.Health;
-            this.WeaponFar = ButterflyEnvironment.GetGame().GetRoleplayManager().GetWeaponManager().GetWeaponFar(this.Config.WeaponFarId);
+            this.WeaponGun = ButterflyEnvironment.GetGame().GetRoleplayManager().GetWeaponManager().GetWeaponGun(this.Config.WeaponGunId);
             this.WeaponCac = ButterflyEnvironment.GetGame().GetRoleplayManager().GetWeaponManager().GetWeaponCac(this.Config.WeaponCacId);
         }
 
@@ -71,21 +71,21 @@ namespace Butterfly.HabboHotel.Roleplay.Enemy
             return true;
         }
 
-        private void RechargerFarCycle(RoomUser Bot)
+        private void ReloadGunCycle(RoomUser Bot)
         {
-            if (this.FarChargerTimer > 0)
+            if (this.GunLoadTimer > 0)
             {
-                this.FarChargerTimer--;
-                if (this.FarChargerTimer == 0)
+                this.GunLoadTimer--;
+                if (this.GunLoadTimer == 0)
                 {
-                    this.FarCharger = 6;
+                    this.GunCharger = 6;
                 }
             }
             else
             {
-                if (this.FarCharger == 0)
+                if (this.GunCharger == 0)
                 {
-                    this.FarChargerTimer = 6;
+                    this.GunLoadTimer = 6;
                     Bot.OnChat("*Recharge mon arme*");
                 }
             }
@@ -107,7 +107,7 @@ namespace Butterfly.HabboHotel.Roleplay.Enemy
                     Bot.breakwalk = false;
             }
 
-            this.RechargerFarCycle(Bot);
+            this.ReloadGunCycle(Bot);
 
             if (this.AggroVirtuelId > 0)
                 this.AggroCycle(Bot, Room);
@@ -220,26 +220,26 @@ namespace Butterfly.HabboHotel.Roleplay.Enemy
         {
             MovementDirection movement = MovementManagement.GetMovementByDirection(Bot.RotBody);
 
-            int WeaponEanble = this.WeaponFar.Enable;
+            int WeaponEanble = this.WeaponGun.Enable;
 
             Bot.ApplyEffect(WeaponEanble, true);
-            Bot.TimerResetEffect = this.WeaponFar.FreezeTime + 1;
+            Bot.TimerResetEffect = this.WeaponGun.FreezeTime + 1;
 
-            if (Bot.FreezeEndCounter <= this.WeaponFar.FreezeTime)
+            if (Bot.FreezeEndCounter <= this.WeaponGun.FreezeTime)
             {
                 Bot.Freeze = true;
-                Bot.FreezeEndCounter = this.WeaponFar.FreezeTime;
+                Bot.FreezeEndCounter = this.WeaponGun.FreezeTime;
             }
 
-            for (int i = 0; i < this.WeaponFar.FreezeTime; i++)
+            for (int i = 0; i < this.WeaponGun.FreezeTime; i++)
             {
-                if (this.FarCharger <= 0)
+                if (this.GunCharger <= 0)
                     return;
 
-                this.FarCharger--;
-                int Dmg = ButterflyEnvironment.GetRandomNumber(this.WeaponFar.DmgMin, this.WeaponFar.DmgMax);
+                this.GunCharger--;
+                int Dmg = ButterflyEnvironment.GetRandomNumber(this.WeaponGun.DmgMin, this.WeaponGun.DmgMax);
 
-                Room.GetProjectileManager().AddProjectile(Bot.VirtualId, Bot.SetX, Bot.SetY, Bot.SetZ, movement, Dmg, this.WeaponFar.Distance, this.Config.TeamId);
+                Room.GetProjectileManager().AddProjectile(Bot.VirtualId, Bot.SetX, Bot.SetY, Bot.SetZ, movement, Dmg, this.WeaponGun.Distance, this.Config.TeamId);
             }
         }
 
@@ -369,7 +369,7 @@ namespace Butterfly.HabboHotel.Roleplay.Enemy
             {
                 this.Cac(Bot, Room, User);
             }
-            else if (this.WeaponFar.Id != 0)
+            else if (this.WeaponGun.Id != 0)
             {
                 this.Pan(Bot, Room);
             }
@@ -409,7 +409,7 @@ namespace Butterfly.HabboHotel.Roleplay.Enemy
                 return false;
             }
 
-            if (this.WeaponCac.Id == 0 && (this.WeaponFar.Id == 0 || this.FarCharger == 0)) //Fuite
+            if (this.WeaponCac.Id == 0 && (this.WeaponGun.Id == 0 || this.GunCharger == 0)) //Fuite
             {
                 if (Bot.IsWalking)
                     return false;
@@ -433,13 +433,13 @@ namespace Butterfly.HabboHotel.Roleplay.Enemy
 
             if ((DistanceX >= 2 || DistanceY >= 2) || this.WeaponCac.Id == 0) //Distance
             {
-                if ((this.WeaponFar.Id == 0 || this.FarCharger == 0) && this.WeaponCac.Id != 0) //Déplace le bot au cac si il est uniquement cac
+                if ((this.WeaponGun.Id == 0 || this.GunCharger == 0) && this.WeaponCac.Id != 0) //Déplace le bot au cac si il est uniquement cac
                 {
                     Bot.MoveTo(UserX + ((ButterflyEnvironment.GetRandomNumber(1, 2) == 2) ? -1 : 1), UserY + ((ButterflyEnvironment.GetRandomNumber(1, 2) == 2) ? -1 : 1), true);
                 }
-                else if (this.WeaponFar.Id != 0 && this.FarCharger != 0) //Si le bot a une arme distance
+                else if (this.WeaponGun.Id != 0 && this.GunCharger != 0) //Si le bot a une arme distance
                 {
-                    if ((this.WeaponCac.Id == 0 || this.FarCharger == 0) && ((BotX == User.X && BotY == User.Y) || (BotX == UserX && BotY == UserY))) //Eloigné le bot si l'utilisateur est sur sa case et que le bot n'a pas d'arme cac
+                    if ((this.WeaponCac.Id == 0 || this.GunCharger == 0) && ((BotX == User.X && BotY == User.Y) || (BotX == UserX && BotY == UserY))) //Eloigné le bot si l'utilisateur est sur sa case et que le bot n'a pas d'arme cac
                     {
                         Bot.MoveTo(UserX + ((ButterflyEnvironment.GetRandomNumber(1, 2) == 2) ? -5 : 5), UserY + ((ButterflyEnvironment.GetRandomNumber(1, 2) == 2) ? -5 : 5), true);
                         return false;
@@ -494,7 +494,7 @@ namespace Butterfly.HabboHotel.Roleplay.Enemy
             int BotY = (Bot.SetStep) ? Bot.SetY : Bot.Y;
             double BotZ = (Bot.SetStep) ? Bot.SetZ : Bot.Z;
 
-            if (this.WeaponFar.Distance < DistanceX || this.WeaponFar.Distance < DistanceY)
+            if (this.WeaponGun.Distance < DistanceX || this.WeaponGun.Distance < DistanceY)
                 return true;
 
             if (Rot == 2)
@@ -689,21 +689,15 @@ namespace Butterfly.HabboHotel.Roleplay.Enemy
                 {
                     RolePlayer Rp = User.Roleplayer;
                     if (Rp == null)
-                    {
                         continue;
-                    }
 
                     if (Rp.Dead || (!Rp.PvpEnable && Rp.AggroTimer <= 0) || Rp.SendPrison)
-                    {
                         continue;
-                    }
                 }
                 else
                 {
                     if (User.BotData.RoleBot == null || (User.BotData.RoleBot.Dead || this.Config.TeamId == User.BotData.RoleBot.Config.TeamId))
-                    {
                         continue;
-                    }
                 }
 
                 this.ResetBot = false;

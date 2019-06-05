@@ -1,9 +1,4 @@
-﻿// Type: Butterfly.HabboHotel.Quests.Quest
-
-
-
-
-namespace Butterfly.HabboHotel.Quests
+﻿namespace Butterfly.HabboHotel.Quests
 {
   public class Quest
   {

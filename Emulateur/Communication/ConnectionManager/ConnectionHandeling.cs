@@ -14,19 +14,19 @@ namespace ConnectionManager
             this.manager = new GameSocketManager();
             this.manager.init(port, maxConnections, connectionsPerIP, new InitialPacketParser());
 
-            this.manager.connectionEvent += new GameSocketManager.ConnectionEvent(this.manager_connectionEvent);
+            this.manager.connectionEvent += new GameSocketManager.ConnectionEvent(this._connectionEvent);
         }
 
-        private void manager_connectionEvent(ConnectionInformation connection)
+        private void _connectionEvent(ConnectionInformation connection)
         {
-            connection.connectionClose += new ConnectionInformation.ConnectionChange(this.connectionChanged);
+            connection.connectionClose += new ConnectionInformation.ConnectionChange(this._connectionChanged);
             ButterflyEnvironment.GetGame().GetClientManager().CreateAndStartClient(connection.getConnectionID(), connection);
         }
 
-        private void connectionChanged(ConnectionInformation information)
+        private void _connectionChanged(ConnectionInformation information)
         {
             this.CloseConnection(information);
-            information.connectionClose -= new ConnectionInformation.ConnectionChange(this.connectionChanged);
+            information.connectionClose -= new ConnectionInformation.ConnectionChange(this._connectionChanged);
         }
 
         public void CloseConnection(ConnectionInformation Connection)

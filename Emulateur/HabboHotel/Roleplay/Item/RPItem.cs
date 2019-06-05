@@ -20,16 +20,16 @@ namespace Butterfly.HabboHotel.Roleplay
             this.Id = pId;
             this.Name = pName;
             this.Title = pDesc;
-            this.Desc = GenerateDesc(pDesc, pType, pValue);
+            this.Desc = _generateDesc(pDesc, pType, pValue);
             this.Price = pPrice;
             this.Type = pType;
             this.Value = pValue;
             this.AllowStack = pAllowStack;
             this.Category = pCatagory;
-            this.UseType = GetUseType(Type);
+            this.UseType = _getUseType(Type);
         }
 
-        private int GetUseType(string Type)
+        private int _getUseType(string Type)
         {
             /*  UseType:
                 0: Non utilisable
@@ -97,7 +97,7 @@ namespace Butterfly.HabboHotel.Roleplay
             }
         }
 
-        private string GenerateDesc(string Desc, string Type, int Value)
+        private string _generateDesc(string Desc, string Type, int Value)
         {
             string Text = "<u>" + Desc + "</u></br />";
 

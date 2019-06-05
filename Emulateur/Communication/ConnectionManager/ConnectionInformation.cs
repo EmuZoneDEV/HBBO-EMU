@@ -6,12 +6,12 @@ namespace ConnectionManager
 {
     public class ConnectionInformation : IDisposable
     {
-        private readonly Socket dataSocket;
-        private readonly string ip;
-        private readonly int connectionID;
-        private bool isConnected;
-        private readonly byte[] buffer;
-        private readonly AsyncCallback sendCallback;
+        private readonly Socket _dataSocket;
+        private readonly string _ip;
+        private readonly int _connectionID;
+        private bool _isConnected;
+        private readonly byte[] _buffer;
+        private readonly AsyncCallback _sendCallback;
 
         public IDataParser parser { get; set; }
 
@@ -20,28 +20,28 @@ namespace ConnectionManager
         public ConnectionInformation(Socket dataStream, int connectionID, IDataParser parser, string ip)
         {
             this.parser = parser;
-            this.buffer = new byte[GameSocketManagerStatics.BUFFER_SIZE];
+            this._buffer = new byte[GameSocketManagerStatics.BUFFER_SIZE];
 
-            this.dataSocket = dataStream;
-            this.dataSocket.SendTimeout = 1000 * 30;
-            this.dataSocket.ReceiveTimeout = 1000 * 30;
-            this.dataSocket.SendBufferSize = GameSocketManagerStatics.BUFFER_SIZE;
-            this.dataSocket.ReceiveBufferSize = GameSocketManagerStatics.BUFFER_SIZE;
+            this._dataSocket = dataStream;
+            this._dataSocket.SendTimeout = 1000 * 30;
+            this._dataSocket.ReceiveTimeout = 1000 * 30;
+            this._dataSocket.SendBufferSize = GameSocketManagerStatics.BUFFER_SIZE;
+            this._dataSocket.ReceiveBufferSize = GameSocketManagerStatics.BUFFER_SIZE;
 
-            sendCallback = sentData;
+            _sendCallback = _sentData;
 
-            this.ip = ip;
-            this.connectionID = connectionID;
+            this._ip = ip;
+            this._connectionID = connectionID;
         }
 
         public void startPacketProcessing()
         {
-            if (this.isConnected)
+            if (this._isConnected)
                 return;
-            this.isConnected = true;
+            this._isConnected = true;
             try
             {
-                this.dataSocket.BeginReceive(this.buffer, 0, this.buffer.Length, SocketFlags.None, this.incomingDataPacket, (object)this.dataSocket);
+                this._dataSocket.BeginReceive(this._buffer, 0, this._buffer.Length, SocketFlags.None, this._incomingDataPacket, (object)this._dataSocket);
             }
             catch
             {
@@ -51,36 +51,36 @@ namespace ConnectionManager
 
         public string getIp()
         {
-            return this.ip;
+            return this._ip;
         }
 
         public int getConnectionID()
         {
-            return this.connectionID;
+            return this._connectionID;
         }
 
         public void disconnect()
         {
             try
             {
-                if (this.isConnected)
+                if (this._isConnected)
                 {
-                    this.isConnected = false;
-                    if (this.dataSocket != null)
+                    this._isConnected = false;
+                    if (this._dataSocket != null)
                     {
                         try
                         {
 
-                            if (this.dataSocket.Connected)
+                            if (this._dataSocket.Connected)
                             {
-                                this.dataSocket.Shutdown(SocketShutdown.Both);
-                                this.dataSocket.Close();
+                                this._dataSocket.Shutdown(SocketShutdown.Both);
+                                this._dataSocket.Close();
                             }
                         }
                         catch
                         {
                         }
-                        this.dataSocket.Dispose();
+                        this._dataSocket.Dispose();
                     }
                     if(this.parser != null)
                         this.parser.Dispose();
@@ -99,7 +99,7 @@ namespace ConnectionManager
 
         public void Dispose()
         {
-            if (this.isConnected)
+            if (this._isConnected)
             {
                 this.disconnect();
             }
@@ -107,14 +107,14 @@ namespace ConnectionManager
             GC.SuppressFinalize(this);
         }
 
-        private void incomingDataPacket(IAsyncResult iAr)
+        private void _incomingDataPacket(IAsyncResult iAr)
         {
-            if (!isConnected)
+            if (!_isConnected)
                 return;
             int length = 0;
             try
             {
-                length = this.dataSocket.EndReceive(iAr);
+                length = this._dataSocket.EndReceive(iAr);
             }
             catch
             {
@@ -137,7 +137,7 @@ namespace ConnectionManager
                     //else
                     //{
                         byte[] packet = new byte[length];
-                        Array.Copy(this.buffer, packet, length);
+                        Array.Copy(this._buffer, packet, length);
 
                         if (this.parser != null)
                         {
@@ -153,7 +153,7 @@ namespace ConnectionManager
                 {
                     try
                     {
-                        this.dataSocket.BeginReceive(this.buffer, 0, this.buffer.Length, SocketFlags.None, new AsyncCallback(this.incomingDataPacket), (object)this.dataSocket);
+                        this._dataSocket.BeginReceive(this._buffer, 0, this._buffer.Length, SocketFlags.None, new AsyncCallback(this._incomingDataPacket), (object)this._dataSocket);
                     }
                     catch
                     {
@@ -165,11 +165,11 @@ namespace ConnectionManager
 
         public void SendData(byte[] packet)
         {
-            if (!this.isConnected)
+            if (!this._isConnected)
                 return;
             try
             {
-                this.dataSocket.BeginSend(packet, 0, packet.Length, SocketFlags.None, sendCallback, null);
+                this._dataSocket.BeginSend(packet, 0, packet.Length, SocketFlags.None, _sendCallback, null);
             }
             catch
             {
@@ -177,11 +177,11 @@ namespace ConnectionManager
             }
         }
 
-        private void sentData(IAsyncResult iAr)
+        private void _sentData(IAsyncResult iAr)
         {
             try
             {
-                this.dataSocket.EndSend(iAr);
+                this._dataSocket.EndSend(iAr);
             }
             catch
             {

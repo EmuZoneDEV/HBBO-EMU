@@ -23,15 +23,15 @@ namespace Butterfly.HabboHotel.Roleplay.Player
         public int HealthMax { get; set; }
         public int Money { get; set; }
         public int Munition { get; set; }
-        public int FarCharger { get; set; }
+        public int GunLoad { get; set; }
         public int Exp { get; set; }
         public bool Dead { get; set; }
         public bool SendPrison { get; set; }
         public int Level { get; set; }
-        public RPWeapon WeaponFar { get; set; }
+        public RPWeapon WeaponGun { get; set; }
         public RPWeapon WeaponCac { get; set; }
         public int Energy { get; set; }
-        public int FarChargerTimer { get; set; }
+        public int GunLoadTimer { get; set; }
         public int PrisonTimer { get; set; }
         public int DeadTimer { get; set; }
         public int SlowTimer { get; private set; }
@@ -42,7 +42,7 @@ namespace Butterfly.HabboHotel.Roleplay.Player
         public bool NeedUpdate { get; private set; }
         public bool Dispose { get; private set; }
 
-        public RolePlayer(int pRpId, int pId, int pHealth, int pMoney, int pMunition, int pExp, int pEnergy, int pWeaponFar, int pWeaponCac)
+        public RolePlayer(int pRpId, int pId, int pHealth, int pMoney, int pMunition, int pExp, int pEnergy, int pWeaponGun, int pWeaponCac)
         {
             this._rpId = pRpId;
             this._id = pId;
@@ -53,10 +53,10 @@ namespace Butterfly.HabboHotel.Roleplay.Player
             this.Exp = pExp;
             this.PvpEnable = true;
             this.WeaponCac = ButterflyEnvironment.GetGame().GetRoleplayManager().GetWeaponManager().GetWeaponCac(pWeaponCac);
-            this.WeaponFar = ButterflyEnvironment.GetGame().GetRoleplayManager().GetWeaponManager().GetWeaponFar(pWeaponFar);
+            this.WeaponGun = ButterflyEnvironment.GetGame().GetRoleplayManager().GetWeaponManager().GetWeaponGun(pWeaponGun);
 
-            this.FarCharger = 6;
-            this.FarChargerTimer = 0;
+            this.GunLoad = 6;
+            this.GunLoadTimer = 0;
 
             int Level = 1;
             for (int i = 1; i < 100; i++)
@@ -376,18 +376,18 @@ namespace Butterfly.HabboHotel.Roleplay.Player
                 User.breakwalk = false;
             }
 
-            if(this.FarChargerTimer > 0)
+            if(this.GunLoadTimer > 0)
             {
-                this.FarChargerTimer--;
-                if(this.FarChargerTimer == 0)
+                this.GunLoadTimer--;
+                if(this.GunLoadTimer == 0)
                 {
-                    this.FarCharger = 6;
+                    this.GunLoad = 6;
                 }
             } else
             {
-                if(this.FarCharger == 0)
+                if(this.GunLoad == 0)
                 {
-                    this.FarChargerTimer = 6;
+                    this.GunLoadTimer = 6;
                     User.OnChat("*Recharge mon arme*");
                 }
             }
@@ -437,7 +437,7 @@ namespace Butterfly.HabboHotel.Roleplay.Player
             this.Dispose = true;
             using (IQueryAdapter queryreactor = ButterflyEnvironment.GetDatabaseManager().GetQueryReactor())
             {
-                queryreactor.RunQuery("UPDATE `user_rp` SET `health`='" + this.Health + "', `energy`='" + this.Energy + "' , `money`='" + this.Money + "', `munition`='" + this.Munition + "', `exp`='" + this.Exp + "', `weapon_far`='" + this.WeaponFar.Id + "', `weapon_cac`='" + this.WeaponCac.Id + "' WHERE `user_id`='" + this._id + "' AND roleplay_id = '" + this._rpId + "' LIMIT 1");
+                queryreactor.RunQuery("UPDATE `user_rp` SET `health`='" + this.Health + "', `energy`='" + this.Energy + "' , `money`='" + this.Money + "', `munition`='" + this.Munition + "', `exp`='" + this.Exp + "', `weapon_far`='" + this.WeaponGun.Id + "', `weapon_cac`='" + this.WeaponCac.Id + "' WHERE `user_id`='" + this._id + "' AND roleplay_id = '" + this._rpId + "' LIMIT 1");
             }
 
             this.SendWebPacket(new RpStatsComposer(0, 0, 0, 0, 0, 0, 0));
