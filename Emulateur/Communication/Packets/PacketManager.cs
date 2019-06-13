@@ -119,6 +119,7 @@ namespace Butterfly.Communication.Packets
             _incomingWebPackets.Add(13, new RpTrocAccepteEvent());
             _incomingWebPackets.Add(14, new RpTrocConfirmeEvent());
             _incomingWebPackets.Add(15, new RpTrocStopEvent());
+            _incomingWebPackets.Add(16, new RpBotChooseEvent());
         }
 
         private void RegisterHandshake()

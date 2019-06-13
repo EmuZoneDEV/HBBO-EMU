@@ -204,6 +204,7 @@
     <Compile Include="Communication\Packets\Incoming\Marketplace\GetOffersEvent.cs" />
     <Compile Include="Communication\Packets\Incoming\Marketplace\GetOwnOffersEvent.cs" />
     <Compile Include="Communication\Packets\Incoming\Marketplace\MakeOfferEvent.cs" />
+    <Compile Include="Communication\Packets\Incoming\WebSocket\RolePlay\RpBotChooseEvent.cs" />
     <Compile Include="Communication\Packets\Incoming\WebSocket\Troc\RpTrocAccepteEvent.cs" />
     <Compile Include="Communication\Packets\Incoming\WebSocket\Troc\RpTrocAddItemEvent.cs" />
     <Compile Include="Communication\Packets\Incoming\WebSocket\Troc\RpTrocConfirmeEvent.cs" />
@@ -565,6 +566,7 @@
     <Compile Include="Communication\Packets\Outgoing\Structure\YouAreControllerComposer.cs" />
     <Compile Include="Communication\Packets\Outgoing\Structure\YouAreNotControllerComposer.cs" />
     <Compile Include="Communication\Packets\Outgoing\Structure\YouAreOwnerComposer.cs" />
+    <Compile Include="Communication\Packets\Outgoing\WebSocket\RolePlay\BotChooseComposer.cs" />
     <Compile Include="Communication\Packets\Outgoing\WebSocket\Sound\PlaySoundComposer.cs" />
     <Compile Include="Communication\Packets\Outgoing\WebSocket\Sound\SettingVolumeComposer.cs" />
     <Compile Include="Communication\Packets\Outgoing\WebSocket\Notif\NotifTopComposer.cs" />

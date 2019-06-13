@@ -2,6 +2,8 @@
 {
     public static class ServerPacketHeader
     {
+        public const int ErrorLoginComposer = 4000;//Update
+        public const int WiredRewardAlertComposer = 178;//Update
         public const int CameraPurchaseSuccesfullComposer = 2783;//Update
         public const int CameraPriceComposer = 3878;//Update
         public const int CameraURLComposer = 3696;//Update

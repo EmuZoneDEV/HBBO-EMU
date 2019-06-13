@@ -10,6 +10,7 @@ using Butterfly.HabboHotel.Roleplay;
 using Butterfly.HabboHotel.Roleplay.Player;
 using Butterfly.HabboHotel.Roleplay.Enemy;
 using Butterfly.Communication.Packets.Outgoing.WebSocket;
+using System.Linq;
 
 namespace Butterfly.HabboHotel.Rooms.Wired.WiredHandlers.Effects
 {
@@ -69,6 +70,7 @@ namespace Butterfly.HabboHotel.Rooms.Wired.WiredHandlers.Effects
                 case "inventoryadd":
                 case "inventoryremove":
                 case "sendroomid":
+                case "botchoose":
                     if (this.handler.GetRoom().RpRoom)
                         this.message = message;
                     else
@@ -199,6 +201,49 @@ namespace Butterfly.HabboHotel.Rooms.Wired.WiredHandlers.Effects
 
             switch (Cmd)
             {
+                case "botchoose":
+                    {
+                        List<string[]> ChooseList = new List<string[]>();
+                        if (string.IsNullOrEmpty(Value))
+                        {
+                            Rp.SendWebPacket(new BotChooseComposer(ChooseList));
+                            break;
+                        }
+
+                        if (Value.Contains(","))
+                        {
+                            foreach (string pChoose in Value.Split(','))
+                            {
+                                List<string> list = pChoose.Split(';').ToList();
+                                if (list.Count == 3)
+                                {
+                                    RoomUser BotOrPet = Room.GetRoomUserManager().GetBotByName(list[0]);
+                                    if (BotOrPet != null && BotOrPet.BotData != null)
+                                        list.Add(BotOrPet.BotData.Look);
+                                    else
+                                        list.Add("");
+
+                                    ChooseList.Add(list.ToArray());
+                                }
+                            }
+                        }
+                        else
+                        {
+                            List<string> list = Value.Split(';').ToList();
+                            if (list.Count == 3)
+                            {
+                                RoomUser BotOrPet = Room.GetRoomUserManager().GetBotByName(list[0]);
+                                if (BotOrPet != null && BotOrPet.BotData != null)
+                                    list.Add(BotOrPet.BotData.Look);
+                                else
+                                    list.Add("");
+
+                                ChooseList.Add(list.ToArray());
+                            }
+                        }
+                        Rp.SendWebPacket(new BotChooseComposer(ChooseList));
+                        break;
+                    }
                 case "rpsendtimeuser":
                     {
                         User.SendWhisperChat("Il est " + Room.RpHour + " heures et " + Room.RpMinute + " minutes");

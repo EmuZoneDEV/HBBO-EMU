@@ -1,3 +1,4 @@
+using Butterfly.Communication.Packets.Outgoing;
 using Butterfly.Communication.Packets.Outgoing.Structure;
 using Butterfly.HabboHotel.GameClients;using Butterfly.HabboHotel.Rooms.Games;
 using System;

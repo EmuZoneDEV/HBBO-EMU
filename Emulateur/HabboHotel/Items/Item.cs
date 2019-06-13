@@ -28,7 +28,7 @@ namespace Butterfly.HabboHotel.Items
         public int LimitedNo;
         public int LimitedTot;
         public Team team;
-        public byte interactionCountHelper;
+        public int interactionCountHelper;
         public int value;
         public FreezePowerUp freezePowerUp;
         private int mX;
